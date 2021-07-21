@@ -1,34 +1,20 @@
 <template>
-  <div
-    class="
-      relative
-      flex
-      items-top
-      justify-center
-      min-h-screen
-      bg-gray-100
-      dark:bg-gray-900
-      sm:items-center
-      sm:pt-0
-    "
-  >
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-      <inertia-link :href="route('lets-do-it')"> Invite </inertia-link>
-      <div>{{ inviteUuid }}</div>
-      <div>{{ result }}</div>
-      <form>
-        <input v-model="inviteCode" placeholder="Invite code" type="text"/>
-        <inertia-link :href="route('flip-create')" :data="{invitationCode: inviteCode}" method="post" as="button" type="button">Flip</inertia-link>
-      </form>
-
-      <!--<vue-qr-code :value="inviteUuid" />
-      <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream>
-      -->
+  <app-layout>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label for="input1" class="form-label">Invite code</label>
+          <input type="text" v-model="code" class="form-control" id="code" placeholder="Insert code here...">
+          <button class="mt-1 btn btn-primary" @click="join">Join with code</button>
+        </div>
+      </div>
+      <!--<qrcode-stream v-if="!code" @decode="onDecode" @init="onInit"></qrcode-stream>-->
     </div>
-  </div>
+  </app-layout>
 </template>
 
 <script>
+import AppLayout from '@/Layouts/AppLayout'
 import VueQrCode from "vue3-qrcode";
 import {
   QrcodeStream,
@@ -36,22 +22,22 @@ import {
 
 export default {
   components: {
+    AppLayout,
     VueQrCode,
     QrcodeStream
   },
   data: function() {
       return {
-        result: ''
+        code: ''
     }
   },
   props: ["inviteUuid", 'inviteCode'],
   methods: {
-      submit() {
-          console.log('hehep');
+      join() {
+        this.$inertia.post('/join/' + this.code)
       },
     onDecode(decodeString) {
-      console.log("hii", decodeString);
-      this.result = decodeString
+      this.code = decodeString
     },
     async onInit(promise) {
         console.log('initializing')

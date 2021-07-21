@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlayersTable extends Migration
+class CreateGamePlayerMappingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreatePlayersTable extends Migration
      */
     public function up()
     {
-        Schema::create('players', function (Blueprint $table) {
+        Schema::create('game_player_mappings', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
             $table->foreignId('game_id')->constrained();
+            $table->foreignId('player_id')->constrained();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreatePlayersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('game_player_mappings');
     }
 }

@@ -1,51 +1,156 @@
 <template>
-  <div
-    class="
-      relative
-      flex
-      items-top
-      justify-center
-      min-h-screen
-      bg-gray-100
-      dark:bg-gray-900
-      sm:items-center
-      sm:pt-0
-    "
-  >
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-      Flippppiin
-      <div>stuff: {{ params }}</div>
-      <button @click="getStatus">Get status</button>
-      <div>Players: {{ players }}</div>
-      <div>Actions: {{ actions }}</div>
-      <div v-for="action in actions">{{action}}</div>
-    </div>
-  </div>
+    <app-layout>
+        <div class="container">
+            <div class="row">
+                <div class="col-6"><h3>{{ params.game.game_type }}</h3></div>
+                <div class="col-6">Inv. code: {{ params.invitationCode }}<br>
+                </div>
+                <!--<vue-qr-code :value="params.invitationCode" />-->
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3>Table</h3>
+                    <card v-for="cCard in communityCards" :card="cCard.placeholder? 'empty' : revealedCards[cCard.card_uuid]"
+                          :highlight="cCard && bestHand[cCard.card_uuid]" :downlightOthers="handResult"></card>
+                </div>
+            </div>
+            <hr>
+            <div class="row" >
+                <div class="col-12 text-center" v-for="seat in otherSeats">
+                    <h3>{{ 'Seat ' + seat}}</h3>
+                    <span v-for="pCard in cardsPerSeat[seat]">
+                      <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
+                    </span>
+                </div>
+                <div class="col-12 text-center">
+                    <h3>{{ 'Me'}}</h3>
+                    <span v-for="pCard in cardsPerSeat[mySeat]">
+                      <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center bottom-row">
+                    <div v-if="options && options.length">
+                        <div v-for="action in options">
+                            <action-button :action="action" v-on:action-made="acted"></action-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </app-layout>
 </template>
 
+<style scoped>
+.bottom-row {
+    overflow: hidden;
+    position: fixed;
+    bottom: 99px;
+    width: 100%;
+}
+</style>
+
 <script>
+import AppLayout from '@/Layouts/AppLayout'
+import VueQrCode from "vue3-qrcode";
+import ActionButton from '../Components/ActionButton'
+import Card from '../Components/Card'
+
 export default {
-  props: ["params"],
-  data: function () {
-    return {
-      status: "",
-      players: 0,
-      actions: []
-    };
-  },
-  methods: {
-    getStatus() {
-      axios
-        .post("/api/hand-status", {
-          gameUuid: this.params.game.uuid,
-          playerUuid: this.params.player.uuid,
-        })
-        .then((resp) => {
-          this.players = resp.data.players;
-          this.actions = resp.data.actions
-          console.log("response", resp.data);
-        });
+    components: {
+        AppLayout,
+        VueQrCode,
+        ActionButton,
+        Card
     },
-  },
+    props: ["params"],
+    data: function () {
+        return {
+            status: "",
+            players: 0,
+            actions: [],
+            options: [],
+            game: null,
+            hand: null,
+            player: null,
+            seats: [],
+            cardsPerSeat: {},
+            communityCards: [],
+            revealedCards: [],
+            bestHand: {},
+            mySeat: null,
+            handStatus: null,
+            handResult: null,
+            throttledStatus: _.throttle(this.getStatus, 0, {leading: false})
+        };
+    },
+    computed: {
+        playerCount() {
+            return this.players ? this.players.length : 0;
+        },
+        otherSeats() {
+            return _.filter(_.keys(this.cardsPerSeat), (s) => {return s !== this.mySeat})
+        }
+    },
+    mounted() {
+        Echo.channel('game.' + this.params.game.uuid)
+            .listen('GameStateChanged', (e) => {
+                console.log(e.action)
+                if (e.action === 'refresh') {
+                    this.throttledStatus()
+                }
+            });
+        this.getStatus();
+    },
+    unmounted() {
+        Echo.leave('game.' + this.params.game.uuid);
+    },
+    methods: {
+        getStatus() {
+            axios
+                .post("/api/hand-status", {
+                    gameUuid: this.params.game.uuid,
+                    playerUuid: this.params.playerUuid
+                })
+                .then(this.handleResponse)
+        },
+        handleResponse(resp) {
+            this.options = resp.data.options
+            this.revealedCards = resp.data.revealedCards
+            this.cardsPerSeat = resp.data.cardsPerSeat
+            this.mySeat = resp.data.mySeat
+            this.communityCards = resp.data.communityCards
+            this.handStatus = resp.data.handStatus
+            while(this.communityCards.length < 5){
+                this.communityCards.push({ placeholder: true })
+            }
+            var bestHand = null;
+            var winnerSeat = null;
+            _.each(resp.data.handValues, function(hand, seat) {
+                if(!winnerSeat || bestHand.value > hand.value) {
+                    bestHand = hand;
+                    winnerSeat = seat;
+                }
+            });
+            this.bestHand = {}
+            if(bestHand) {
+                var self = this
+                _.each(bestHand.cards, function (c) {
+                    self.bestHand[c.card_uuid] = true
+                })
+            }
+            this.handResult = resp.data.handResult
+        },
+        acted(action) {
+            axios.post('/api/hand-status/action', {
+                gameUuid: this.params.game.uuid,
+                playerUuid: this.params.playerUuid,
+                actionUuid: action.uuid,
+                action: action.key
+            }).then(() => this.options = [])
+        }
+    },
 };
 </script>

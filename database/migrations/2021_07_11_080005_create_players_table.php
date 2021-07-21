@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHandsTable extends Migration
+class CreatePlayersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateHandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hands', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
-            $table->boolean('ended')->default('false');
             $table->foreignId('game_id')->constrained();
-            $table->string('deck');     
+            $table->integer('seat_number');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateHandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hands');
+        Schema::dropIfExists('players');
     }
 }

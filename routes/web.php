@@ -26,17 +26,15 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/lets-do-it', function () {
-    return Inertia::render('LetsDoIt', [
-        'inviteCode' => random_int(100, 999),
-        'inviteUuid' => Uuid::uuid4()
-    ]);
-})->name('lets-do-it');
+Route::get('/join', function () {
+    return Inertia::render('Join');
+})->name('join');
+
+Route::post('/join/{inviteUuid}', [FlipController::class, 'join'])->name('join-with-uuid');
 
 Route::post('/flip', [FlipController::class, 'create'])->name('flip-create');
 
-// todo: create table where one uuid maps to both table and player
-Route::get('/flip/{playerUuid}/{gameUuid}', [FlipController::class, 'show'])->name('flip-show');
+Route::get('/flip/{uuid}', [FlipController::class, 'show'])->name('flip-show');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

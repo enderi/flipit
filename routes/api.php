@@ -19,4 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/hand/tick', [HandController::class, 'tick']);
+
 Route::post('/hand-status', [HandController::class, 'getStatus']);
+
+Route::post('/hand-status/revealed', [HandController::class, 'getRevealedCards']);
+
+Route::post('/hand-status/action', [HandController::class, 'postAction']);
