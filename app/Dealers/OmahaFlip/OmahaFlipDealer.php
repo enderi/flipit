@@ -30,21 +30,29 @@ class OmahaFlipDealer2
     const WAITING_PLAYERS_TO_ACT = 'WAITING_PLAYERS_TO_ACT';
     const WAITING_PLAYERS = 'WAITING_PLAYERS';
     const HAND_ENDED = 'HAND_ENDED';
+    
     private $currentHand;
-
     private $game;
     private $players;
 
-    private $pendingActions;
     private $card_index;
+    private $street;
+
+    private $playersJoined;
+
+    private $pendingActions;
     private $allCardsRevealed;
     private $handStatus;
+
+    private $newHandRequested;
 
     public function __construct()
     {
         $this->players = collect([]);
         $this->pendingActions = [];
         $this->allCardsRevealed = false;
+        $this->newHandRequested = [];
+        $this->playersJoined = collect([]);
     }
 
     public static function of($game): OmahaFlipDealer2
@@ -103,6 +111,7 @@ class OmahaFlipDealer2
 
     private function isPlayerCountValid(): bool
     {
+        // note: check only players in game class
         $playerCount = 0;
         $actions = $this->currentHand->actions;
         for($i=0; $i<$actions->count(); $i++){
@@ -118,6 +127,8 @@ class OmahaFlipDealer2
 
     private function createNewHand()
     {
+        Hand::where('game_id', $this->game->id)
+            ->update(['ended', true]);
         $deck = new Deck();
         $deck->initialize();
         $deck->shuffle();
@@ -144,6 +155,9 @@ class OmahaFlipDealer2
     }
 
     public function tick($playerUuid) {
+        $this->figureWhatStreetAndCardIndex();
+        $this->findPendingActions();
+        $this->handStatus = $this->figureHandStatus();
         $this->proceedIfPossible();
         return $this->getStatus($playerUuid);
     }
@@ -200,6 +214,7 @@ class OmahaFlipDealer2
             $result = $this->getResult($handValues);
         }
         return [
+            'actions' => $this->currentHand->actions, // todo: remove this
             'mySeat' =>$seatByPlayerUuid[$playerUuid],
             'cardsPerSeat' => $cardsPerSeat,
             'communityCards' => $communityCards,
@@ -253,6 +268,32 @@ class OmahaFlipDealer2
         return $bestHandsBySeat;
     }
 
+    
+
+    private function figureWhatStreetAndCardIndex() {
+        $street = '';
+        $card_index = 0;
+        $actions = $this->currentHand->actions;
+        for ($i = 0; $i < $actions->count(); $i++) {
+            $action = $actions[$i];
+            $act = $action->data[self::KEY];
+            if($act == 'new_street_dealt'){
+                $street = $actions[$i]->data['value'];
+            }
+            if(array_key_exists('card_index', $action->data)){
+                $card_index++;
+            }
+            if($act == self::ALL_CARDS_REVEALED){
+                $this->allCardsRevealed = true;
+            }
+            if($act == self::HAND_ENDED){
+                $street = self::HAND_ENDED;
+            }
+        }
+        $this->street = $street;
+        $this->card_index = $card_index;
+    }
+    
     private function findPendingActions() {
         $actions = $this->getActions();
         $requiredActions = [];
@@ -264,9 +305,6 @@ class OmahaFlipDealer2
             } else if($act == self::PLAYER_ACTION) {
                 $key = $action->data[self::ACTION_UUID];
                 unset($requiredActions[$key]);
-            }
-            if($act == self::ALL_CARDS_REVEALED){
-                $this->allCardsRevealed = true;
             }
         }
         $this->pendingActions = $requiredActions;
@@ -281,26 +319,21 @@ class OmahaFlipDealer2
             return self::WAITING_PLAYERS_TO_ACT;
         }
 
-        $status = 'NOT_STARTED';
         $actions = $this->currentHand->actions;
-        $card_index = 0;
+        if(sizeof($actions) == 0){
+            return 'NOT_STARTED';
+        }
+        $status = '';
         for ($i = 0; $i < $actions->count(); $i++) {
             $action = $actions[$i];
             $act = $action->data[self::KEY];
-            if(array_key_exists('card_index', $action->data)){
-                $card_index++;
-            }
-            if($act == 'new_street_dealt'){
-                $status = $actions[$i]->data['value'];
+            if($act == 'player_joined'){
+                $this->playersJoined->push($action->data['playerUuid']);
             }
             if($act == self::HAND_ENDED){
                 $status = self::HAND_ENDED;
             }
-            if($act == self::ALL_CARDS_REVEALED){
-                $status = self::ALL_CARDS_REVEALED;
-            }
         }
-        $this->card_index = $card_index;
         return $status;
     }
 
@@ -330,9 +363,6 @@ class OmahaFlipDealer2
 
     public function proceedIfPossible()
     {
-        $this->findPendingActions();
-        $this->handStatus = $this->figureHandStatus();
-
         if(in_array($this->handStatus, [self::WAITING_PLAYERS_TO_ACT, self::WAITING_PLAYERS])){
             return;
         }
@@ -347,12 +377,16 @@ class OmahaFlipDealer2
             $this->dealFlop();
         }
 
-        if($this->handStatus == 'flop'){
+        if($this->street == 'flop'){
             $this->dealTurn();
         }
 
-        if($this->handStatus == 'turn'){
+        if($this->street == 'turn'){
             $this->dealRiver();
+        }
+
+        if($this->street == 'new_hand_requested') {
+            $this->createNewHand();
         }
     }
 
