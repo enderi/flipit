@@ -1,44 +1,52 @@
 <template>
     <app-layout>
-        <div class="container">
-            <div class="row">
+        <div class="container" v-if="!initializing">
+            <div class="row text-center">
                 <div class="col-6"><h3>{{ params.game.game_type }}</h3></div>
-                <div class="col-6">Inv. code: {{ params.invitationCode }}<br>
-                </div>
-                <!--<vue-qr-code :value="params.invitationCode" />-->
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h3>Table</h3>
-                    <card v-for="cCard in communityCards" :card="cCard.placeholder? 'empty' : revealedCards[cCard.card_uuid]"
-                          :highlight="cCard && bestHand[cCard.card_uuid]" :downlightOthers="handResult"></card>
+            <div class="row text-center" v-if="handPhase === 'WAITING'">
+                <div class="col-12">
+                    <vue-qr-code :value="params.invitationCode" /> <br>
+                    Invitation code: {{ params.invitationCode }}
                 </div>
             </div>
             <hr>
-            <div class="row" >
-                <div class="col-12 text-center" v-for="seat in otherSeats">
-                    <h3>{{ 'Seat ' + seat}}</h3>
-                    <span v-for="pCard in cardsPerSeat[seat]">
-                      <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
-                    </span>
+            <span v-if="handPhase !== 'WAITING'">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h3>Table</h3>
+                        <card v-for="cCard in communityCards" :card="cCard.placeholder? 'empty' : revealedCards[cCard.card_uuid]"
+                              :highlight="cCard && bestHand[cCard.card_uuid]" :downlightOthers="handResult"></card>
+                    </div>
                 </div>
-                <div class="col-12 text-center">
-                    <h3>{{ 'Me'}}</h3>
-                    <span v-for="pCard in cardsPerSeat[mySeat]">
-                      <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
-                    </span>
+                <hr>
+                <div class="row" >
+                    <div class="col-12 text-center" v-for="seat in otherSeats">
+                        <h3>{{ 'Seat ' + seat}}</h3>
+                        <span v-for="pCard in cardsPerSeat[seat]">
+                          <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
+                        </span>
+                    </div>
+                    <div class="col-12 text-center">
+                        <h3>{{ 'Me'}}</h3>
+                        <span v-for="pCard in cardsPerSeat[mySeat]">
+                          <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 text-center bottom-row">
-                    <div v-if="options && options.length">
-                        <div v-for="action in options">
-                            <action-button :action="action" v-on:action-made="acted"></action-button>
+                <div class="row">
+                    <div class="col-12 text-center bottom-row">
+                        <div v-if="options && options.length">
+                            <div v-for="action in options">
+                                <action-button :action="action" v-on:action-made="acted"></action-button>
+                            </div>
+                        </div>
+                        <div v-if="handPhase === 'HAND_ENDED' && !disableAll" >
+                            <button class="btn btn-outline-primary btn-lg" @click="newHand">New hand</button>
                         </div>
                     </div>
                 </div>
-            </div>
+                </span>
         </div>
     </app-layout>
 </template>
@@ -68,6 +76,7 @@ export default {
     props: ["params"],
     data: function () {
         return {
+            initializing: true,
             status: "",
             players: 0,
             actions: [],
@@ -83,7 +92,10 @@ export default {
             mySeat: null,
             handStatus: null,
             handResult: null,
-            throttledStatus: _.throttle(this.getStatus, 0, {leading: false})
+            throttledStatus: _.throttle(this.getStatus, 0, {leading: false}),
+
+            handPhase: null,
+            disableAll: false
         };
     },
     computed: {
@@ -117,12 +129,16 @@ export default {
                 .then(this.handleResponse)
         },
         handleResponse(resp) {
+            this.initializing = false
             this.options = resp.data.options
             this.revealedCards = resp.data.revealedCards
             this.cardsPerSeat = resp.data.cardsPerSeat
             this.mySeat = resp.data.mySeat
             this.communityCards = resp.data.communityCards
             this.handStatus = resp.data.handStatus
+
+            this.handPhase = resp.data.handPhase
+
             while(this.communityCards.length < 5){
                 this.communityCards.push({ placeholder: true })
             }
@@ -150,6 +166,20 @@ export default {
                 actionUuid: action.uuid,
                 action: action.key
             }).then(() => this.options = [])
+        },
+        disableAllActions() {
+            this.disableAll = true
+        },
+        enableAllActions() {
+            this.disableAll = false
+        },
+        newHand() {
+            this.disableAllActions()
+            axios.post('/api/hand-status/new', {
+                gameUuid: this.params.game.uuid,
+                playerUuid: this.params.playerUuid,
+            })
+            .then(this.enableAllActions);
         }
     },
 };

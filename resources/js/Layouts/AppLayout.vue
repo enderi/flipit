@@ -1,8 +1,8 @@
 <template>
     <div>
         <!-- Page Content -->
-        <div>
-            <nav class="navbar-light bg-light">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light text-center">
                 <div class="container-fluid text-center">
                     <a class="navbar-brand" href="#">Flipper</a>
                 </div>

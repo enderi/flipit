@@ -26,3 +26,5 @@ Route::post('/hand-status', [HandController::class, 'getStatus']);
 Route::post('/hand-status/revealed', [HandController::class, 'getRevealedCards']);
 
 Route::post('/hand-status/action', [HandController::class, 'postAction']);
+
+Route::post('/hand-status/new', [HandController::class, 'newHand']);

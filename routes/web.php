@@ -26,11 +26,12 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/join', function () {
-    return Inertia::render('Join');
+Route::get('/join', function (\Illuminate\Http\Request $request) {
+    $errors = $request->get('error');
+    return Inertia::render('Join', ['error'=>$errors]);
 })->name('join');
 
-Route::post('/join/{inviteUuid}', [FlipController::class, 'join'])->name('join-with-uuid');
+Route::post('/join', [FlipController::class, 'join'])->name('join-with-uuid');
 
 Route::post('/flip', [FlipController::class, 'create'])->name('flip-create');
 

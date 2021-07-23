@@ -12,6 +12,10 @@ class Hand extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $hidden = ['id', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        'ended' => 'boolean'
+    ];
+
     public function actions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Action::class);

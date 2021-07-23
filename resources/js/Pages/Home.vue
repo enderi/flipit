@@ -2,7 +2,7 @@
     <app-layout>
         <div class="row mt-3">
             <div class="col-12 text-center">
-                <inertia-link :href="route('flip-create')" method="post" class="btn btn-primary">Create a flip</inertia-link>
+                <inertia-link :href="route('flip-create')" method="post" class="btn btn-outline-primary btn-lg">Go flippin'</inertia-link>
             </div>
         </div>
         <div class="row">
@@ -12,13 +12,13 @@
         </div>
         <div class="row mt-2">
             <div class="col-12 text-center">
-                <inertia-link :href="route('join')" class="btn btn-link">Join game</inertia-link>
+                <inertia-link :href="route('join')" class="btn btn-link btn-lg">Join game</inertia-link>
             </div>
-            <div>
+            <footer>
                 <div class="text-center">
                     Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
                 </div>
-            </div>
+            </footer>
         </div>
     </app-layout>
 </template>
