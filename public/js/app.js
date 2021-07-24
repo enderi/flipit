@@ -19228,7 +19228,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return _.filter(_.keys(this.cardsPerSeat), function (s) {
-        return s !== _this.mySeat;
+        return +s !== +_this.mySeat;
       });
     }
   },
@@ -25913,7 +25913,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.playing-card[data-v-24549c4a] {\r\n    font-weight: bold;\r\n    /* width: 10em;\r\n    height: 15em;\r\n    border: 1px solid black; */\r\n\r\n    display: inline-block;\r\n    width: 3.3em;\r\n    height: 4.6em;\r\n    border: 1px solid #666;\r\n    border-radius: .3em;\r\n    -moz-border-radius: .3em;\r\n    -webkit-border-radius: .3em;\r\n    -khtml-border-radius: .3em;\r\n    padding: .25em;\r\n    margin: 0 .5em .5em 0;\r\n    text-align: center;\r\n    font-size: 1.2em; /* @change: adjust this value to make bigger or smaller cards */\r\n    font-weight: normal;\r\n    font-family: Arial, sans-serif;\r\n    position: relative;\r\n    background-color: #fff;\r\n    box-shadow: .1em .1em .3em #333;\n}\n.red[data-v-24549c4a] {\r\n    color: red\n}\n.blue[data-v-24549c4a] {\r\n    color: blue;\n}\n.green[data-v-24549c4a] {\r\n    color: green;\n}\n.black[data-v-24549c4a] {\r\n    color: black;\n}\n.back[data-v-24549c4a] {\r\n    text-indent: -4000px;\r\n    background-color: green;\n}\n.empty[data-v-24549c4a] {\r\n    text-indent: -4000px;\r\n    border: 1px dashed #111;\r\n    background-color: lightgray;\r\n    box-shadow: none;\n}\n.best-hand[data-v-24549c4a] {\r\n    border: 3px solid red;\n}\n.grayed[data-v-24549c4a] {\r\n    background-color: lightgray;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.playing-card[data-v-24549c4a] {\r\n    font-weight: bold;\r\n    /* width: 10em;\r\n    height: 15em;\r\n    border: 1px solid black; */\r\n\r\n    display: inline-block;\r\n    width: 3.3em;\r\n    height: 4.6em;\r\n    border: 1px solid #666;\r\n    border-radius: .3em;\r\n    -moz-border-radius: .3em;\r\n    -webkit-border-radius: .3em;\r\n    -khtml-border-radius: .3em;\r\n    padding: .25em;\r\n    margin: 0 .5em .5em 0;\r\n    text-align: center;\r\n    font-size: 1.1em; /* @change: adjust this value to make bigger or smaller cards */\r\n    font-weight: normal;\r\n    font-family: Arial, sans-serif;\r\n    position: relative;\r\n    background-color: #fff;\r\n    box-shadow: .1em .1em .3em #333;\n}\n.red[data-v-24549c4a] {\r\n    color: red\n}\n.blue[data-v-24549c4a] {\r\n    color: blue;\n}\n.green[data-v-24549c4a] {\r\n    color: green;\n}\n.black[data-v-24549c4a] {\r\n    color: black;\n}\n.back[data-v-24549c4a] {\r\n    text-indent: -4000px;\r\n    background-color: green;\n}\n.empty[data-v-24549c4a] {\r\n    text-indent: -4000px;\r\n    border: 1px dashed #111;\r\n    background-color: lightgray;\r\n    box-shadow: none;\n}\n.best-hand[data-v-24549c4a] {\r\n    border: 3px solid red;\n}\n.grayed[data-v-24549c4a] {\r\n    background-color: lightgray;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

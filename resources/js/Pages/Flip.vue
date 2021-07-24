@@ -103,7 +103,7 @@ export default {
             return this.players ? this.players.length : 0;
         },
         otherSeats() {
-            return _.filter(_.keys(this.cardsPerSeat), (s) => {return s !== this.mySeat})
+            return _.filter(_.keys(this.cardsPerSeat), (s) => {return +s !== +this.mySeat})
         }
     },
     mounted() {
