@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dealers\TexasFlip\TexasFlipDealer;
+use App\Dealers\OmahaFlip\OmahaFlipDealer;
 use App\Models\Game;
 use App\Models\GamePlayerMapping;
 use App\Models\Invitation;
@@ -16,7 +16,7 @@ class FlipController extends Controller
 {
     public function create()
     {
-        $dealer = new TexasFlipDealer();
+        $dealer = new OmahaFlipDealer();
         $dealer->newGame();
         $mapping = $dealer->joinAsPlayer();
         return Redirect::route('flip-show', ['uuid' => $mapping->uuid]);
@@ -36,23 +36,28 @@ class FlipController extends Controller
                 'params' => [
                     'game' => $game,
                     'playerUuid' => $player->uuid,
-                    'invitationCode' => $invitation->code
+                    'invitationCode' => $invitation->code,
+                    'invitationUrl' => route('join-with-code', ['code' => $invitation->code])
                 ]
             ]
         );
     }
 
-    public function join(Request  $request) {
-        $inviteUuid = $request->get('code');
-        // todo: handle expired invitations
+    public function join(Request $request) {
+        $code = $request->get('code');
+        return $this->joinWithCode($code);
+    }
+
+    public function joinWithCode($inviteUuid) {
         $invitation = null;
+    
         try {
             $invitation = Invitation::where('code', $inviteUuid)->where('expires_at', '>=', Carbon::now())->firstOrFail();
         }catch (ModelNotFoundException $exception){
             return Redirect::route('join', ['error' => 'Not found']);
         }
         $game = Game::find($invitation->game_id);
-        $dealer = TexasFlipDealer::of($game);
+        $dealer = OmahaFlipDealer::of($game);
         $mapping = $dealer->joinAsPlayer();
         $invitation->expires_at = Carbon::now()->addSecond(-1);
         $invitation->update();

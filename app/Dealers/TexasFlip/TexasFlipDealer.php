@@ -59,7 +59,7 @@ class TexasFlipDealer
             'information' => array()]);
         $this->createNewHand();
         $invitation = new Invitation([
-            'code' => random_int(100, 999), //Uuid::uuid4(),
+            'code' => Uuid::uuid4(),
             'expires_at' => Carbon::now()->addHour()
         ]);
         $this->game->invitation()->save($invitation);

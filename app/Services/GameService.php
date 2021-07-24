@@ -18,7 +18,7 @@ class GameService {
             'max_seats' => 2,
             'information' => array()]);
         $invitation = new Invitation([
-            'code' => random_int(100, 999), //Uuid::uuid4(),
+            'code' => Uuid::uuid4(),
             'expires_at' => Carbon::now()->addHour()
         ]);
         $game->invitation()->save($invitation);

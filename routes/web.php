@@ -31,6 +31,8 @@ Route::get('/join', function (\Illuminate\Http\Request $request) {
     return Inertia::render('Join', ['error'=>$errors]);
 })->name('join');
 
+Route::get('/join/{code}', [FlipController::class, 'joinWithCode'])->name('join-with-code');
+
 Route::post('/join', [FlipController::class, 'join'])->name('join-with-uuid');
 
 Route::post('/flip', [FlipController::class, 'create'])->name('flip-create');

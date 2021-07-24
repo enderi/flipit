@@ -2,12 +2,12 @@
     <app-layout>
         <div class="container" v-if="!initializing">
             <div class="row text-center">
-                <div class="col-6"><h3>{{ params.game.game_type }}</h3></div>
+                <div class="col-12"><h3><span v-if="params.game.game_type === 'OMAHA-FLIP'">Omaha Flip</span></h3></div>
             </div>
             <div class="row text-center" v-if="handPhase === 'WAITING'">
                 <div class="col-12">
+                    Scan a code with app or send <a :href="params.invitationUrl" target="_blank">direct link</a><br/>
                     <vue-qr-code :value="params.invitationCode" /> <br>
-                    Invitation code: {{ params.invitationCode }}
                 </div>
             </div>
             <hr>
@@ -34,9 +34,9 @@
                         </span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 text-center bottom-row">
-                        <div v-if="options && options.length">
+                <div class="row bottom-row">
+                    <div class="col-12">
+                        <div v-if="options && options.length" class="text-center">
                             <div v-for="action in options">
                                 <action-button :action="action" v-on:action-made="acted"></action-button>
                             </div>

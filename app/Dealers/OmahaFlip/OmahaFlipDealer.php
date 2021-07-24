@@ -49,8 +49,11 @@ class OmahaFlipDealer
     private $handStatus;
 
 
-    public function __construct($game)
+    public function __construct()
     {
+    }
+
+    public function initWithGame($game) {
         $this->setGame($game);
         $this->players = collect([]);
         $this->pendingActions = [];
@@ -112,7 +115,9 @@ class OmahaFlipDealer
 
     public static function of($game): OmahaFlipDealer
     {
-        return new OmahaFlipDealer($game);
+        $result = new OmahaFlipDealer();
+        $result->initWithGame($game);
+        return $result;
     }
 
     public function setGame($game)
@@ -131,10 +136,11 @@ class OmahaFlipDealer
             'information' => array()]);
         $this->createNewHand();
         $invitation = new Invitation([
-            'code' => random_int(100, 999), //Uuid::uuid4(),
+            'code' => Uuid::uuid4(),
             'expires_at' => Carbon::now()->addHour()
         ]);
         $this->game->invitation()->save($invitation);
+        return $this->game;
     }
 
     public function joinAsPlayer()

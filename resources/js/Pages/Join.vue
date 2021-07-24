@@ -28,12 +28,13 @@ export default {
         VueQrCode,
         QrcodeStream
     },
-    data: function () {
-        return {
-            code: ''
+    props: ['error', 'code'],
+    mounted() {
+        
+        if(this.urlCode){
+            this.code = this.urlCode
         }
     },
-    props: ['error'],
     methods: {
         join() {
             this.$inertia.post('/join', {code: this.code})
