@@ -7,7 +7,7 @@
             <div class="row text-center" v-if="handPhase === 'WAITING'">
                 <div class="col-12">
                     Scan a code with app or send <a :href="params.invitationUrl" target="_blank">direct link</a><br/>
-                    <vue-qr-code :value="params.invitationCode" /> <br>
+                    <vue-qr-code style="width: 80%" :value="params.invitationCode" /> <br>
                 </div>
             </div>
             <hr>

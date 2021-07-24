@@ -29,18 +29,12 @@ export default {
         QrcodeStream
     },
     props: ['error', 'code'],
-    mounted() {
-        
-        if(this.urlCode){
-            this.code = this.urlCode
-        }
-    },
     methods: {
         join() {
             this.$inertia.post('/join', {code: this.code})
         },
         onDecode(decodeString) {
-            this.code = decodeString
+            this.$inertia.post('/join', {code: decodeString})
         },
         async onInit(promise) {
             try {

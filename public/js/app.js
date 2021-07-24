@@ -19382,11 +19382,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     QrcodeStream: qrcode_reader_vue3__WEBPACK_IMPORTED_MODULE_3__.QrcodeStream
   },
   props: ['error', 'code'],
-  mounted: function mounted() {
-    if (this.urlCode) {
-      this.code = this.urlCode;
-    }
-  },
   methods: {
     join: function join() {
       this.$inertia.post('/join', {
@@ -19394,7 +19389,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onDecode: function onDecode(decodeString) {
-      this.code = decodeString;
+      this.$inertia.post('/join', {
+        code: decodeString
+      });
     },
     onInit: function onInit(promise) {
       var _this = this;
@@ -22929,6 +22926,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       }, "direct link", 8
       /* PROPS */
       , ["href"]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_qr_code, {
+        style: {
+          "width": "80%"
+        },
         value: $props.params.invitationCode
       }, null, 8
       /* PROPS */
@@ -23006,19 +23006,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "row mt-3"
+  "class": "row mt-4"
 };
 var _hoisted_2 = {
   "class": "col-12 text-center"
 };
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Go flippin'");
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Omaha Flip");
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "row"
+  "class": "row mt-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "col-12 text-center"
-}, " - or ")], -1
+}, " or ")], -1
 /* HOISTED */
 );
 
@@ -23031,9 +23031,6 @@ var _hoisted_6 = {
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Join game");
 
-var _hoisted_8 = {
-  "class": "text-center"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
@@ -23044,7 +23041,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
         href: _ctx.route('flip-create'),
         method: "post",
-        "class": "btn btn-outline-primary btn-lg"
+        "class": "btn btn-primary btn-lg"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_3];
@@ -23056,7 +23053,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* PROPS */
       , ["href"])])]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_inertia_link, {
         href: _ctx.route('join'),
-        "class": "btn btn-link btn-lg"
+        "class": "btn btn-outline-primary btn-lg"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_7];
@@ -23066,9 +23063,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("footer", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, " Laravel v" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.laravelVersion) + " (PHP v" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.phpVersion) + ") ", 1
-      /* TEXT */
-      )])])];
+      , ["href"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<footer>\r\n            <div class=\"text-center\">\r\n                Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})\r\n            </div>\r\n        </footer>")];
     }),
     _: 1
     /* STABLE */
