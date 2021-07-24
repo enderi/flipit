@@ -19300,6 +19300,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.handResult = resp.data.handResult;
+      this.enableAllActions();
     },
     acted: function acted(action) {
       var _this3 = this;
@@ -19324,7 +19325,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/hand-status/new', {
         gameUuid: this.params.game.uuid,
         playerUuid: this.params.playerUuid
-      }).then(this.enableAllActions);
+      });
     }
   }
 });

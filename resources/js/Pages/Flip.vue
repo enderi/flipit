@@ -39,7 +39,7 @@
                         <div v-if="options && options.length">
                             <action-button v-for="action in options" :action="action" v-on:action-made="acted"></action-button>
                         </div>
-                        <div v-if="handPhase === 'HAND_ENDED' && !disableAll" >
+                        <div v-if="handPhase === 'HAND_ENDED' && !disableAll    " >
                             <button class="btn btn-success btn-lg" @click="newHand">New hand</button>
                         </div>
                     </div>
@@ -163,6 +163,7 @@ export default {
                 })
             }
             this.handResult = resp.data.handResult
+            this.enableAllActions()
         },
         acted(action) {
             axios.post('/api/hand-status/action', {
@@ -183,8 +184,7 @@ export default {
             axios.post('/api/hand-status/new', {
                 gameUuid: this.params.game.uuid,
                 playerUuid: this.params.playerUuid,
-            })
-            .then(this.enableAllActions);
+            });
         }
     },
 };
