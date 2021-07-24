@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-bind:class="{disabled: isClicked}" class="btn btn-primary btn-lg" @click="act">{{action.text}}</button>
+        <button v-bind:class="{disabled: isClicked}" class="btn btn-outline-primary btn-lg" @click="act">{{action.text}}</button>
     </div>
 </template>
 

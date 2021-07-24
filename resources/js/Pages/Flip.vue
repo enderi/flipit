@@ -1,7 +1,7 @@
 <template>
     <app-layout>
         <div class="container" v-if="!initializing">
-            <div class="row text-center">
+            <div class="row text-center mt-2">
                 <div class="col-12"><h3><span v-if="params.game.game_type === 'OMAHA-FLIP'">Omaha Flip</span></h3></div>
             </div>
             <div class="row text-center" v-if="handPhase === 'WAITING'">
@@ -34,15 +34,13 @@
                         </span>
                     </div>
                 </div>
-                <div class="row bottom-row">
-                    <div class="col-12">
-                        <div v-if="options && options.length" class="text-center">
-                            <div v-for="action in options">
-                                <action-button :action="action" v-on:action-made="acted"></action-button>
-                            </div>
+                <div class="row fixed-bottom mb-2 me-2">
+                    <div class="col-12 text-end">
+                        <div v-if="options && options.length">
+                            <action-button v-for="action in options" :action="action" v-on:action-made="acted"></action-button>
                         </div>
                         <div v-if="handPhase === 'HAND_ENDED' && !disableAll" >
-                            <button class="btn btn-outline-primary btn-lg" @click="newHand">New hand</button>
+                            <button class="btn btn-success btn-lg" @click="newHand">New hand</button>
                         </div>
                     </div>
                 </div>
@@ -53,10 +51,9 @@
 
 <style scoped>
 .bottom-row {
-    overflow: hidden;
-    position: fixed;
-    bottom: 99px;
-    width: 100%;
+    position: absolute;
+    bottom: 0;
+
 }
 </style>
 

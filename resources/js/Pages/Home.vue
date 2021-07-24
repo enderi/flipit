@@ -1,16 +1,14 @@
 <template>
     <app-layout>
-        <div class="row mt-4">
-            <div class="col-12 text-center">
+
+        <div class="row mt-4 " style="height: 100%;">
+            <div class="col-12 text-center align-middle mt-4">
                 <inertia-link :href="route('flip-create')" method="post" class="btn btn-primary btn-lg">Omaha Flip</inertia-link>
             </div>
-        </div>
-        <div class="row mt-2">
+    
             <div class="col-12 text-center">
                 or
             </div>
-        </div>
-        <div class="row mt-2">
             <div class="col-12 text-center">
                 <inertia-link :href="route('join')" class="btn btn-outline-primary btn-lg">Join game</inertia-link>
             </div>
