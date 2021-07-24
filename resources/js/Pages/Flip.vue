@@ -106,8 +106,8 @@ export default {
     mounted() {
         Echo.channel('game.' + this.params.game.uuid)
             .listen('GameStateChanged', (e) => {
-                console.log(e.action)
                 if (e.action === 'refresh') {
+                    this.vibrate()
                     this.throttledStatus()
                 }
             });
@@ -117,6 +117,14 @@ export default {
         Echo.leave('game.' + this.params.game.uuid);
     },
     methods: {
+        vibrate() {
+            if ("vibrate" in navigator) {
+                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+                if (navigator.vibrate) {
+                    navigator.vibrate(100);
+                }
+            }
+        },
         getStatus() {
             axios
                 .post("/api/hand-status", {

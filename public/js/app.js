@@ -19236,9 +19236,9 @@ __webpack_require__.r(__webpack_exports__);
     var _this2 = this;
 
     Echo.channel('game.' + this.params.game.uuid).listen('GameStateChanged', function (e) {
-      console.log(e.action);
-
       if (e.action === 'refresh') {
+        _this2.vibrate();
+
         _this2.throttledStatus();
       }
     });
@@ -19248,6 +19248,15 @@ __webpack_require__.r(__webpack_exports__);
     Echo.leave('game.' + this.params.game.uuid);
   },
   methods: {
+    vibrate: function vibrate() {
+      if ("vibrate" in navigator) {
+        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
+      }
+    },
     getStatus: function getStatus() {
       axios.post("/api/hand-status", {
         gameUuid: this.params.game.uuid,
