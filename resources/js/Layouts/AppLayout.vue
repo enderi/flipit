@@ -1,9 +1,9 @@
 <template>
     <div>
         <!-- Page Content -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Flipper</a>
+                <a class="navbar-brand text-center" href="#">STACKED</a>
             </div>
         </nav>
         <main>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    
+
     export default {
         data() {
             return {

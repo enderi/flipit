@@ -2,7 +2,11 @@
     <app-layout>
         <div class="container" v-if="!initializing">
             <div class="row text-center mt-2">
-                <div class="col-12"><h3><span v-if="params.game.game_type === 'OMAHA-FLIP'">Omaha Flip</span></h3></div>
+                <div class="col-12">
+                    <h3>
+                        {{params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'}}
+                    </h3>
+                </div>
             </div>
             <div class="row text-center" v-if="handPhase === 'WAITING'">
                 <div class="col-12">
