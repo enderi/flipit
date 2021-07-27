@@ -23,12 +23,14 @@
                 <div class="row" >
                     <div class="col-12 text-center" v-for="seat in otherSeats">
                         <h3>{{ 'Seat ' + seat}}</h3>
+                        <p>{{handNameBySeat[seat]}}</p>
                         <span v-for="pCard in cardsPerSeat[seat]">
                           <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
                         </span>
                     </div>
                     <div class="col-12 text-center">
-                        <h3>{{ 'Me'}}</h3>
+                        <h3>Me</h3>
+                        <p>{{handNameBySeat[mySeat]}}</p>
                         <span v-for="pCard in cardsPerSeat[mySeat]">
                           <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
                         </span>
@@ -92,7 +94,8 @@ export default {
             throttledStatus: _.throttle(this.getStatus, 0, {leading: false}),
 
             handPhase: null,
-            disableAll: false
+            disableAll: false,
+            handNameBySeat: {}
         };
     },
     computed: {
@@ -147,6 +150,7 @@ export default {
             while(this.communityCards.length < 5){
                 this.communityCards.push({ placeholder: true })
             }
+            var handNameBySeat = {}
             var bestHand = null;
             var winnerSeat = null;
             _.each(resp.data.handValues, function(hand, seat) {
@@ -154,7 +158,9 @@ export default {
                     bestHand = hand;
                     winnerSeat = seat;
                 }
+                handNameBySeat[seat] = hand.name
             });
+            this.handNameBySeat = handNameBySeat
             this.bestHand = {}
             if(bestHand) {
                 var self = this

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dealers\OmahaFlip\OmahaFlipDealer;
+use App\Dealers\TexasFlip\TexasFlipDealer;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
@@ -38,7 +39,16 @@ class HandController extends Controller
 
     private function buildDealer($gameUuid) {
         $game = Game::firstWhere('uuid', $gameUuid);
-        $dealer = OmahaFlipDealer::of($game);
+        return $this->getDealer($game);
+    }
+
+    private function getDealer($game)
+    {
+        if ($game->game_type == TexasFlipDealer::TEXAS_FLIP) {
+            $dealer = TexasFlipDealer::of($game);
+        } else if ($game->game_type == OmahaFlipDealer::OMAHA_FLIP) {
+            $dealer = OmahaFlipDealer::of($game);
+        }
         return $dealer;
     }
 }

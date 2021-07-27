@@ -3,10 +3,14 @@
 
         <div class="row mt-4 " style="height: 100%;">
             <div class="col-12 text-center align-middle mt-4">
-                <inertia-link :href="route('flip-create')" method="post" class="btn btn-primary btn-lg">Omaha Flip</inertia-link>
+                <a @click="requestGame('OMAHA-FLIP')" class="btn btn-primary btn-lg">Omaha Flip</a>
             </div>
     
-            <div class="col-12 text-center">
+            <div class="col-12 text-center align-middle mt-4">
+                <a @click="requestGame('TEXAS-FLIP')" class="btn btn-primary btn-lg">Texas Flip</a>
+            </div>
+
+            <div class="col-12 text-center mt-4 mb-4">
                 or
             </div>
             <div class="col-12 text-center">
@@ -33,6 +37,11 @@
             // canRegister: Boolean,
             laravelVersion: String,
             phpVersion: String,
+        },
+        methods: {
+            requestGame(gameType){
+                this.$inertia.post(this.route('flip-create'), {gameType: gameType})
+            }
         }
     }
 </script>

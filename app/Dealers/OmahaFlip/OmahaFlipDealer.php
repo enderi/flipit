@@ -2,6 +2,7 @@
 
 namespace App\Dealers\OmahaFlip;
 
+use App\Dealers\FourStreetGames\FourStreetPokerFlow;
 use App\Dealers\TexasFlip\Combinations;
 use App\Events\GameStateChanged;
 use App\Lib\DeckLib\Deck;
@@ -13,6 +14,7 @@ use App\Models\Hand;
 use App\Models\Invitation;
 use App\Models\Player;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
 class OmahaFlipDealer
@@ -42,15 +44,11 @@ class OmahaFlipDealer
     private $card_index;
     private $handPhase;
 
-    private $playersJoined;
-
     private $pendingActions;
     private $allCardsRevealed;
     private $handStatus;
 
-
-    public function __construct()
-    {
+    public function __construct() {
     }
 
     public function initWithGame($game) {
@@ -60,6 +58,89 @@ class OmahaFlipDealer
         $this->allCardsRevealed = false;
         $this->playersJoined = collect([]);
         $this->parseStatus();
+    }
+    public static function of($game): OmahaFlipDealer
+    {
+        $result = new OmahaFlipDealer();
+        $result->initWithGame($game);
+        return $result;
+    }
+    public function setGame($game)
+    {
+        $this->game = $game;
+        $this->currentHand = $game->hands()->where('ended', false)->first();
+    }
+
+    public function newGame()
+    {
+        $this->game = Game::create([
+            'uuid' => Uuid::uuid4(),
+            'game_type' => self::OMAHA_FLIP,
+            'min_seats' => self::MIN_SEATS,
+            'max_seats' => self::MAX_SEATS,
+            'information' => array()]);
+        $this->createNewHand();
+        $invitation = new Invitation([
+            'code' => Uuid::uuid4(),
+            'expires_at' => Carbon::now()->addHour()
+        ]);
+        $this->game->invitation()->save($invitation);
+        return $this->game;
+    }
+
+    public function joinAsPlayer()
+    {
+        $player = Player::create([
+            'uuid' => Uuid::uuid4(),
+            'game_id' => $this->game['id'],
+            'seat_number' => $this->game->players->count() + 1
+        ]);
+
+        $this->createAction([
+            'hand_id' => $this->currentHand->id,
+            'uuid' => Uuid::uuid4(),
+            'data' => [
+                'playerUuid' => $player->uuid,
+                self::KEY => 'player_joined'
+            ]
+        ]);
+        $this->broadcastMessage();
+        return GamePlayerMapping::create(
+            [
+                'uuid' => Uuid::uuid4(),
+                'game_id' => $this->game->id,
+                'player_id' => $player->id
+            ]);
+    }
+
+    public function addUserAction($actionKey, $actionUuid, $playerUuid)
+    {
+        $this->createAction([
+            'hand_id' => $this->currentHand->id,
+            'uuid' => Uuid::uuid4(),
+            'data' => [
+                self::KEY => self::PLAYER_ACTION,
+                'playerUuid' => $playerUuid,
+                'action' => $actionKey,
+                self::ACTION_UUID => $actionUuid
+            ]
+        ]);
+    }
+    public function tick($playerUuid): array
+    {
+        $this->proceedIfPossible();
+        return $this->getStatus($playerUuid);
+    }
+
+    public function requestNewHand($playerUuid)
+    {
+        $this->createAction(['hand_id' => $this->currentHand->id,
+            'uuid' => Uuid::uuid4(),
+            'data' => [
+                self::KEY => self::REQUEST_NEW_HAND,
+                'playerUuid' => $playerUuid
+            ]
+        ]);
     }
 
     private function parseStatus()
@@ -113,124 +194,7 @@ class OmahaFlipDealer
         })->count();
     }
 
-    public static function of($game): OmahaFlipDealer
-    {
-        $result = new OmahaFlipDealer();
-        $result->initWithGame($game);
-        return $result;
-    }
-
-    public function setGame($game)
-    {
-        $this->game = $game;
-        $this->currentHand = $game->hands()->where('ended', false)->first();
-    }
-
-    public function newGame()
-    {
-        $this->game = Game::create([
-            'uuid' => Uuid::uuid4(),
-            'game_type' => self::OMAHA_FLIP,
-            'min_seats' => self::MIN_SEATS,
-            'max_seats' => self::MAX_SEATS,
-            'information' => array()]);
-        $this->createNewHand();
-        $invitation = new Invitation([
-            'code' => Uuid::uuid4(),
-            'expires_at' => Carbon::now()->addHour()
-        ]);
-        $this->game->invitation()->save($invitation);
-        return $this->game;
-    }
-
-    public function joinAsPlayer()
-    {
-        $player = Player::create([
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $this->game['id'],
-            'seat_number' => $this->game->players->count() + 1
-        ]);
-
-        $this->createAction([
-            'hand_id' => $this->currentHand->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                'playerUuid' => $player->uuid,
-                self::KEY => 'player_joined'
-            ]
-        ]);
-        $this->broadcastMessage();
-        return GamePlayerMapping::create(
-            [
-                'uuid' => Uuid::uuid4(),
-                'game_id' => $this->game->id,
-                'player_id' => $player->id
-            ]);
-    }
-
-    private function isPlayerCountValid(): bool
-    {
-        // note: check only players in game class
-        $playerCount = 0;
-        $actions = $this->currentHand->actions;
-        for ($i = 0; $i < $actions->count(); $i++) {
-            if ($actions[$i]->data[self::KEY] == 'player_joined') {
-                $playerCount++;
-            }
-        }
-        if ($playerCount < $this->game->min_seats || $playerCount > $this->game->max_seats) {
-            return false;
-        }
-        return true;
-    }
-
-    private function createNewHand()
-    {
-        Hand::where('game_id', $this->game->id)
-            ->update(['ended' => true]);
-        $deck = new Deck();
-        $deck->initialize();
-        $deck->shuffle();
-        $this->currentHand = Hand::create([
-            'game_id' => $this->game->id,
-            'uuid' => Uuid::uuid4(),
-            'ended' => false,
-            'deck' => $deck->toString()
-        ]);
-    }
-
-    public function addUserAction($actionKey, $actionUuid, $playerUuid)
-    {
-        $this->createAction([
-            'hand_id' => $this->currentHand->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                self::KEY => self::PLAYER_ACTION,
-                'playerUuid' => $playerUuid,
-                'action' => $actionKey,
-                self::ACTION_UUID => $actionUuid
-            ]
-        ]);
-    }
-
-    public function tick($playerUuid)
-    {
-        $this->proceedIfPossible();
-        return $this->getStatus($playerUuid);
-    }
-
-    public function requestNewHand($playerUuid)
-    {
-        $this->createAction(['hand_id' => $this->currentHand->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                self::KEY => self::REQUEST_NEW_HAND,
-                'playerUuid' => $playerUuid
-            ]
-        ]);
-    }
-
-    public function getStatus($playerUuid): array
+    private function getStatus($playerUuid): array
     {
         $playerInGame = $this->players->contains(function ($p) use ($playerUuid) {
             return $playerUuid == $p->uuid;
@@ -296,6 +260,21 @@ class OmahaFlipDealer
         ];
     }
 
+    private function createNewHand()
+    {
+        Hand::where('game_id', $this->game->id)
+            ->update(['ended' => true]);
+        $deck = new Deck();
+        $deck->initialize();
+        $deck->shuffle();
+        $this->currentHand = Hand::create([
+            'game_id' => $this->game->id,
+            'uuid' => Uuid::uuid4(),
+            'ended' => false,
+            'deck' => $deck->toString()
+        ]);
+    }
+
     private function getHandValues($cardsPerSeat, $communityCards)
     {
         $evaluator = new evaluate();
@@ -339,32 +318,6 @@ class OmahaFlipDealer
         return $bestHandsBySeat;
     }
 
-
-    private function figureWhatStreetAndCardIndex()
-    {
-        $street = 'NOT_STARTED';
-        $card_index = 0;
-        $actions = $this->currentHand->actions;
-        for ($i = 0; $i < $actions->count(); $i++) {
-            $action = $actions[$i];
-            $act = $action->data[self::KEY];
-            if ($act == 'new_street_dealt') {
-                $street = $actions[$i]->data['value'];
-            }
-            if (array_key_exists('card_index', $action->data)) {
-                $card_index++;
-            }
-            if ($act == self::ALL_CARDS_REVEALED) {
-                $this->allCardsRevealed = true;
-            }
-            if ($act == self::HAND_ENDED) {
-                $street = self::HAND_ENDED;
-            }
-        }
-        $this->handPhase = $street;
-        $this->card_index = $card_index;
-    }
-
     private function findPendingActions()
     {
         $actions = $this->getActions();
@@ -380,33 +333,6 @@ class OmahaFlipDealer
             }
         }
         $this->pendingActions = $requiredActions;
-    }
-
-    private function figureHandStatus()
-    {
-        if (!$this->isPlayerCountValid()) {
-            return self::WAITING_PLAYERS;
-        }
-        if ($this->isPendingActions()) {
-            return self::WAITING_PLAYERS_TO_ACT;
-        }
-
-        $actions = $this->currentHand->actions;
-        if (sizeof($actions) == 0) {
-            return 'NOT_STARTED';
-        }
-        $status = '';
-        for ($i = 0; $i < $actions->count(); $i++) {
-            $action = $actions[$i];
-            $act = $action->data[self::KEY];
-            if ($act == 'player_joined') {
-                $this->playersJoined->push($action->data['playerUuid']);
-            }
-            if ($act == self::HAND_ENDED) {
-                $status = self::HAND_ENDED;
-            }
-        }
-        return $status;
     }
 
     private function mapRevealedCards($playerUuid): array
