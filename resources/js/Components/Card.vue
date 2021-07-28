@@ -30,7 +30,7 @@
     padding: .25em;
     margin: 0 .5em .5em 0;
     text-align: center;
-    font-size: 1.1em; /* @change: adjust this value to make bigger or smaller cards */
+    font-size: 0.9em; /* @change: adjust this value to make bigger or smaller cards */
     font-weight: normal;
     font-family: Arial, sans-serif;
     position: relative;
@@ -71,7 +71,7 @@
 }
 
 .best-hand {
-    border: 3px solid red;
+    border: 3px solid orange;
 }
 
 .grayed {

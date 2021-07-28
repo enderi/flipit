@@ -489,7 +489,7 @@ class OmahaFlipDealer
         $this->dealCommunityCards('river', 1);
     }
 
-    private function addConfirmRequiredForAllPlayers($key = "Let's go!"): void
+    private function addConfirmRequiredForAllPlayers($key = "Proceed, please!"): void
     {
         $this->game->players->each(function ($player) use ($key) {
             $this->createAction([

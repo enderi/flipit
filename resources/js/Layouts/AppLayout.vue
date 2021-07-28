@@ -1,9 +1,13 @@
 <template>
     <div>
         <!-- Page Content -->
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand text-center" href="#">STACKED</a>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container">
+
+                <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
+                <span class="navbar-text">
+                    {{subHeader}}
+                </span>
             </div>
         </nav>
         <main>
@@ -15,6 +19,7 @@
 <script>
 
     export default {
+        props: ['subHeader'],
         data() {
             return {
             }

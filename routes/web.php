@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\FlipController;
+use App\Http\Controllers\GameController;
+use App\Models\Game;
+use App\Models\Hand;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,21 +25,23 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'handCount' => Hand::get()->count(),
+        'gameCount' => Game::get()->count(),
     ]);
-});
+})->name('home');
 
 Route::get('/join', function (\Illuminate\Http\Request $request) {
     $errors = $request->get('error');
     return Inertia::render('Join', ['error'=>$errors]);
 })->name('join');
 
-Route::get('/join/{code}', [FlipController::class, 'joinWithCode'])->name('join-with-code');
+Route::get('/join/{code}', [GameController::class, 'joinWithCode'])->name('join-with-code');
 
-Route::post('/join', [FlipController::class, 'join'])->name('join-with-uuid');
+Route::post('/join', [GameController::class, 'join'])->name('join-with-uuid');
 
-Route::post('/flip', [FlipController::class, 'create'])->name('flip-create');
+Route::post('/flip', [GameController::class, 'create'])->name('game-create');
 
-Route::get('/flip/{uuid}', [FlipController::class, 'show'])->name('flip-show');
+Route::get('/flip/{uuid}', [GameController::class, 'show'])->name('game-show');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class FlipController extends Controller
+class GameController extends Controller
 {
     public function create(Request $request)
     {
@@ -27,7 +27,7 @@ class FlipController extends Controller
         }
         $dealer->newGame();
         $mapping = $dealer->joinAsPlayer();
-        return Redirect::route('flip-show', ['uuid' => $mapping->uuid]);
+        return Redirect::route('game-show', ['uuid' => $mapping->uuid]);
     }
 
     public function show($uuid){
@@ -70,7 +70,7 @@ class FlipController extends Controller
         $invitation->expires_at = Carbon::now()->addSecond(-1);
         $invitation->update();
 
-        return Redirect::route('flip-show', ['uuid' => $mapping->uuid]);
+        return Redirect::route('game-show', ['uuid' => $mapping->uuid]);
     }
 
     /**

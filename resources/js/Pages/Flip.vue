@@ -1,24 +1,16 @@
 <template>
-    <app-layout>
+    <app-layout :sub-header="params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'">
         <div class="container" v-if="!initializing">
-            <div class="row text-center mt-2">
-                <div class="col-12">
-                    <h3>
-                        {{params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'}}
-                    </h3>
-                </div>
-            </div>
             <div class="row text-center" v-if="handPhase === 'WAITING'">
                 <div class="col-12">
                     Scan a code with app or send <a :href="params.invitationUrl" target="_blank">direct link</a><br/>
                     <vue-qr-code style="width: 80%" :value="params.invitationCode" /> <br>
                 </div>
             </div>
-            <hr>
             <span v-if="handPhase !== 'WAITING'">
                 <div class="row">
                     <div class="col-12 text-center">
-                        <h3>Table</h3>
+                        <h3 class="mt-4">Table</h3>
                         <card v-for="cCard in communityCards" :card="cCard.placeholder? 'empty' : revealedCards[cCard.card_uuid]"
                               :highlight="cCard && bestHand[cCard.card_uuid]" :downlightOthers="handResult"></card>
                     </div>
@@ -26,15 +18,15 @@
                 <hr>
                 <div class="row" >
                     <div class="col-12 text-center" v-for="seat in otherSeats">
-                        <h3>{{ 'Seat ' + seat}}</h3>
-                        <p>{{handNameBySeat[seat]}}</p>
+                        <h3 class="text-danger">{{ 'Seat ' + seat}}</h3>
+                        <p class="mt-0 text-danger">{{handNameBySeat[seat]}}</p>
                         <span v-for="pCard in cardsPerSeat[seat]">
                           <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
                         </span>
                     </div>
                     <div class="col-12 text-center">
-                        <h3>Me</h3>
-                        <p>{{handNameBySeat[mySeat]}}</p>
+                        <h3 class="text-success">Me</h3>
+                        <p class="mt-0 text-success">{{handNameBySeat[mySeat]}}</p>
                         <span v-for="pCard in cardsPerSeat[mySeat]">
                           <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
                         </span>
@@ -46,7 +38,8 @@
                             <action-button v-for="action in options" :action="action" v-on:action-made="acted"></action-button>
                         </div>
                         <div v-if="handPhase === 'HAND_ENDED' && !disableAll    " >
-                            <button class="btn btn-success btn-lg" @click="newHand">New hand</button>
+                            <button class="btn btn-link btn-lg" @click="quit">Exit</button>
+                            <button class="btn btn-outline-primary btn-lg" @click="newHand">Next hand</button>
                         </div>
                     </div>
                 </div>
@@ -188,6 +181,9 @@ export default {
         },
         enableAllActions() {
             this.disableAll = false
+        },
+        quit() {
+            this.$inertia.get('/')
         },
         newHand() {
             this.disableAllActions()
