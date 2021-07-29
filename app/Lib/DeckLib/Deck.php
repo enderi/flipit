@@ -33,7 +33,7 @@ class Deck
         for($i=0; $i<52; $i++) {
             $rank = substr($deckString, $i*2, 1);
             $suit = substr($deckString, $i*2+1, 1);
-            $card = new Card($rank, $suit);
+            $card = new card($rank, $suit);
             $cards[]=$card;
         }
         $deck = new Deck();
