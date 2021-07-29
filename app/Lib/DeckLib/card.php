@@ -11,7 +11,7 @@ class card
     private $suit;
     private $suitName;
     private $suitValue;
-    
+
     private static $ranks = array(
         '2' => array('value' => 2, 'name' => 'Two'),
         '3' => array('value' => 3, 'name' => 'Three'),
@@ -44,7 +44,11 @@ class card
         $this->suitValue = self::$suits[$suit]["value"];
         $this->suitName = self::$suits[$suit]["name"];
     }
-    
+
+    public static function of($strName) {
+        return new card($strName[0], $strName[1]);
+    }
+
     public function getRank()
     {
         return $this->rank;
@@ -67,7 +71,7 @@ class card
 
     public static function getSuits()
     {
-        return array_keys(self::$suits);  
+        return array_keys(self::$suits);
     }
 
     public function getSuitName()

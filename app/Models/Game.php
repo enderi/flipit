@@ -24,4 +24,8 @@ class Game extends Model
     public function hands() {
         return $this->hasMany(Hand::class);
     }
+
+    public function getCurrentHand() {
+        return $this->hands()->where('ended', false)->first();
+    }
 }

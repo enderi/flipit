@@ -13,7 +13,13 @@ class Hand extends Model
     protected $hidden = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [
-        'ended' => 'boolean'
+        'ended' => 'boolean',
+        'data' => 'array',
+        'result' => 'array'
+    ];
+
+    protected $attributes = [
+        'result' => '{}'
     ];
 
     public function actions(): \Illuminate\Database\Eloquent\Relations\HasMany

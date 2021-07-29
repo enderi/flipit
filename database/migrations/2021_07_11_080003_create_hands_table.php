@@ -16,7 +16,9 @@ class CreateHandsTable extends Migration
         Schema::create('hands', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
+            $table->json('data');
             $table->boolean('ended')->default(0);
+            $table->json('result')->nullable();
             $table->foreignId('game_id')->constrained();
             $table->string('deck');
             $table->timestamps();

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use ActionService;
 use App\Dealers\OmahaFlip\OmahaFlipDealer;
 use App\Dealers\TexasFlip\TexasFlipDealer;
+use App\Dealers\TrickGame\LastTrickDealer;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
@@ -48,6 +50,8 @@ class HandController extends Controller
             $dealer = TexasFlipDealer::of($game);
         } else if ($game->game_type == OmahaFlipDealer::OMAHA_FLIP) {
             $dealer = OmahaFlipDealer::of($game);
+        } else if ($game->game_type == LastTrickDealer::LAST_TRICK) {
+            $dealer = LastTrickDealer::of($game);
         }
         return $dealer;
     }

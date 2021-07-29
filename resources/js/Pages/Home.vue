@@ -13,8 +13,8 @@
                     </p>
                 </dd>
             </dl>
-            <!--
-            <div class="text-center align-middle mt-4">
+
+            <!--<div class="text-center align-middle mt-4">
                 <a @click="requestGame('LAST-TRICK')" class="btn btn-primary btn-lg">Last Trick Game</a>
             </div>-->
 

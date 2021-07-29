@@ -1,24 +1,14 @@
 <template>
   <span>
-    <span v-if="!card" class="playing-card back">
+    <span v-if="card.placeholder" class="playing-card empty">
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
     </span>
-      <span v-if="card && card === 'empty'" class="playing-card empty">
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-      </span>
-    <span v-if="card && card !== 'empty'" class="playing-card" v-bind:class="[getColor(), {'best-hand': highlight, 'grayed': (downlightOthers && !highlight)}]">
-      <div>{{getRank()}}</div>
-      <div v-html="getSuit()"></div>
-    </span>
+    <base-card v-if="!card.placeholder" :backside="!card.card" :card="card.card"></base-card>
   </span>
 </template>
 <style scoped>
 .playing-card {
-    font-weight: bold;
-    /* width: 10em;
-    height: 15em;
-    border: 1px solid black; */
-
     display: inline-block;
     width: 3.3em;
     height: 4.6em;
@@ -27,40 +17,17 @@
     -moz-border-radius: .3em;
     -webkit-border-radius: .3em;
     -khtml-border-radius: .3em;
-    padding: .25em;
+    padding: .5em;
     margin: 0 .5em .5em 0;
     text-align: center;
     font-size: 0.9em; /* @change: adjust this value to make bigger or smaller cards */
-    font-weight: normal;
-    font-family: Arial, sans-serif;
+    font-weight: bolder;
     position: relative;
     background-color: #fff;
     -moz-box-shadow: .1em .1em .3em #333;
     -webkit-box-shadow: .1em .1em .3em #333;
     box-shadow: .1em .1em .3em #333;
 }
-
-.red {
-    color: red
-}
-
-.blue {
-    color: blue;
-}
-
-.green {
-    color: green;
-}
-
-.black {
-    color: black;
-}
-
-.back {
-    text-indent: -4000px;
-    background-color: green;
-}
-
 .empty {
     text-indent: -4000px;
     border: 1px dashed #111;
@@ -69,58 +36,15 @@
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-
-.best-hand {
-    border: 3px solid orange;
-}
-
-.grayed {
-    background-color: lightgray;
-}
-
 </style>
 <script>
+import BaseCard from './BaseCard'
 export default {
-    props: ['card', 'highlight', 'downlightOthers'],
+    components: {
+        BaseCard
+    },
+    props: ['card'],
     methods: {
-        isdownlightOthersed() {
-            console.log(this.downlightOthers)
-            if(this.downlightOthers && !this.highlight){
-                return 'grayed'
-            }
-        },
-        getColor() {
-            var suit = this.card[1]
-            if (suit === 'h') {
-                return 'red'
-            }
-            if (suit === 'c') {
-                return 'green'
-            }
-            if (suit === 'd') {
-                return 'blue'
-            }
-            return 'black'
-        },
-        getRank() {
-            return this.card[0] || '?'
-        },
-        getSuit() {
-            var suit = this.card[1]
-            if (suit === 'h') {
-                return '&hearts;';  //'&#9829;'
-            }
-            if (suit === 'd') {
-                return '&diams;'
-            }
-            if (suit === 's') {
-                return '&spades;'
-            }
-            if (suit === 'c') {
-                return '&clubs;'
-            }
-            return '?'
-        }
     }
 }
 </script>

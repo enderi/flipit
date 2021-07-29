@@ -43,6 +43,7 @@ Route::post('/flip', [GameController::class, 'create'])->name('game-create');
 
 Route::get('/flip/{uuid}', [GameController::class, 'show'])->name('game-show');
 
+Route::post('/flip/exit', [GameController::class, 'exitGame'])->name('exit-game');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\HandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,5 @@ Route::post('/hand-status/revealed', [HandController::class, 'getRevealedCards']
 Route::post('/hand-status/action', [HandController::class, 'postAction']);
 
 Route::post('/hand-status/new', [HandController::class, 'newHand']);
+
+Route::get('/game/stats/{gameUuid}', [GameController::class, 'getStats'])->name('stats');
