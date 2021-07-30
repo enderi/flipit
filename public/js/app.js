@@ -18007,11 +18007,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (suit === 'c') {
-        return 'green';
+        return 'black';
       }
 
       if (suit === 'd') {
-        return 'blue';
+        return 'red';
       }
 
       return 'black';
@@ -26330,7 +26330,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.playing-card[data-v-6fff6a4c] {\r\n    display: inline-block;\r\n    width: 3.3em;\r\n    height: 4.6em;\r\n    border: 1px solid #666;\r\n    border-radius: .3em;\r\n    -moz-border-radius: .3em;\r\n    -webkit-border-radius: .3em;\r\n    -khtml-border-radius: .3em;\r\n    padding: .5em;\r\n    margin: 0 .5em .5em 0;\r\n    text-align: center;\r\n    font-size: 0.9em; /* @change: adjust this card to make bigger or smaller cards */\r\n    font-weight: bolder;\r\n    position: relative;\r\n    background-color: #fff;\r\n    box-shadow: .1em .1em .3em #333;\n}\n.playing-card.mini-card[data-v-6fff6a4c] {\r\n    font-size: 0.5em;\n}\n.clickable-card[data-v-6fff6a4c]:hover {\r\n    background-color: lightgray;\n}\n.red[data-v-6fff6a4c] {\r\n    color: red\n}\n.blue[data-v-6fff6a4c] {\r\n    color: blue;\n}\n.green[data-v-6fff6a4c] {\r\n    color: green;\n}\n.black[data-v-6fff6a4c] {\r\n    color: black;\n}\n.back[data-v-6fff6a4c] {\r\n    text-indent: -4000px;\r\n    background-color: green;\n}\n.empty[data-v-6fff6a4c] {\r\n    text-indent: -4000px;\r\n    border: 1px dashed #111;\r\n    background-color: lightgray;\r\n    box-shadow: none;\n}\n.best-hand[data-v-6fff6a4c] {\r\n    border: 3px solid orange;\n}\n.grayed[data-v-6fff6a4c] {\r\n    background-color: lightgray;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.playing-card[data-v-6fff6a4c] {\n    display: inline-block;\n    width: 3.3em;\n    height: 4.6em;\n    border: 1px solid #666;\n    border-radius: .3em;\n    -moz-border-radius: .3em;\n    -webkit-border-radius: .3em;\n    -khtml-border-radius: .3em;\n    padding: .5em;\n    margin: 0 .5em .5em 0;\n    text-align: center;\n    font-size: 0.9em; /* @change: adjust this card to make bigger or smaller cards */\n    font-weight: bolder;\n    position: relative;\n    background-color: #fff;\n    box-shadow: .1em .1em .3em #333;\n}\n.playing-card.mini-card[data-v-6fff6a4c] {\n    font-size: 0.5em;\n}\n.clickable-card[data-v-6fff6a4c]:hover {\n    background-color: lightgray;\n}\n.red[data-v-6fff6a4c] {\n    color: red\n}\n.blue[data-v-6fff6a4c] {\n    color: blue;\n}\n.green[data-v-6fff6a4c] {\n    color: green;\n}\n.black[data-v-6fff6a4c] {\n    color: black;\n}\n.back[data-v-6fff6a4c] {\n    text-indent: -4000px;\n    background-color: green;\n}\n.empty[data-v-6fff6a4c] {\n    text-indent: -4000px;\n    border: 1px dashed #111;\n    background-color: lightgray;\n    box-shadow: none;\n}\n.best-hand[data-v-6fff6a4c] {\n    border: 3px solid orange;\n}\n.grayed[data-v-6fff6a4c] {\n    background-color: lightgray;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

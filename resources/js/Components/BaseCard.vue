@@ -2,9 +2,9 @@
   <span>
     <span v-if="backside" class="playing-card back">
     </span>
-    <span 
-        v-if="!backside" 
-        class="playing-card" 
+    <span
+        v-if="!backside"
+        class="playing-card"
         v-bind:class="[getColor(), {'mini-card': minicard}]">
       <div>{{getRank()}}</div>
       <div v-html="getSuit()"></div>
@@ -88,10 +88,10 @@ export default {
                 return 'red'
             }
             if (suit === 'c') {
-                return 'green'
+                return 'black'
             }
             if (suit === 'd') {
-                return 'blue'
+                return 'red'
             }
             return 'black'
         },
