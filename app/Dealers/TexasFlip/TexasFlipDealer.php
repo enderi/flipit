@@ -26,15 +26,9 @@ class TexasFlipDealer extends HoldemBaseDealer
         return $result;
     }
 
-    protected function getHandValues($cs, $communityCardsItems)
+    protected function getHandValues($handCards, $communityCards)
     {
-        $handCards = $cs->map(function($c){
-            return $c['card'];
-        });
-        $commCards = $communityCardsItems->map(function($c){
-            return $c['card'];
-        });
-        return $this->getBestHand($handCards, $commCards);
+        return $this->getBestHand($handCards, $communityCards);
     }
 
     protected function getBestHand($handCards, $communityCards): array
