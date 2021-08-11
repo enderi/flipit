@@ -24,26 +24,10 @@ class GameController extends Controller
     public function create(Request $request, GameService $gameService)
     {
         $gameType = $request->get('gameType');
-        $dealer = null;
         $game = $gameService->newGame($gameType);
-        $mapping = $gameService->joinGame($game);
-        $this->createNewHand($game);
+        $dealer = $this->getDealer($game);
+        $mapping = $dealer->joinAsPlayer();
         return Redirect::route('game-show', ['uuid' => $mapping->uuid]);
-    }
-
-    private function createNewHand($game) {
-        Hand::where('game_id', $game->id)
-            ->update(['ended' => true]);
-        $deck = new Deck();
-        $deck->initialize();
-        $deck->shuffle();
-        return Hand::create([
-            'game_id' => $game->id,
-            'data' => [],
-            'uuid' => Uuid::uuid4(),
-            'ended' => false,
-            'deck' => $deck->toString()
-        ]);
     }
 
     public function show($uuid){
@@ -53,13 +37,14 @@ class GameController extends Controller
         $player = $mapping->player;
 
         $invitation = Invitation::firstWhere('game_id', $game->id);
-
         if(in_array($game->game_type, [OmahaFlipDealer::OMAHA_FLIP, TexasFlipDealer::TEXAS_FLIP])){
             return Inertia::render(
                 'Flip',
                 [
                     'params' => [
+                        'uuid' => $uuid,
                         'game' => $game,
+                        'seatNumber' => $player->seat_number,
                         'playerUuid' => $player->uuid,
                         'invitationCode' => $invitation->code,
                         'invitationUrl' => route('join-with-code', ['code' => $invitation->code])
@@ -88,8 +73,6 @@ class GameController extends Controller
     }
 
     public function joinWithCode($inviteUuid) {
-        $invitation = null;
-
         try {
             $invitation = Invitation::where('code', $inviteUuid)->where('expires_at', '>=', Carbon::now())->firstOrFail();
         }catch (ModelNotFoundException $exception){

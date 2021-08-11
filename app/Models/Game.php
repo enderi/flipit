@@ -25,6 +25,10 @@ class Game extends Model
         return $this->hasMany(Hand::class);
     }
 
+    public function mappings() {
+        return $this->hasMany(GamePlayerMapping::class);
+    }
+
     public function getCurrentHand() {
         return $this->hands()->where('ended', false)->first();
     }

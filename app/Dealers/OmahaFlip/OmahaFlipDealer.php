@@ -27,23 +27,14 @@ class OmahaFlipDealer extends HoldemBaseDealer
         return self::POCKET_CARD_COUNT;
     }
 
-    protected function getHandValues($cs, $communityCardsItems)
+    protected function getHandValues($handCards, $communityCardsItems)
     {
         if (sizeof($communityCardsItems) < 3) {
             return [];
         }
-        $handCombinations = [];
 
-        $handCards = collect($cs)->map(function($cardItem) {
-            if(is_array($cardItem)) {
-                return $cardItem['card'];
-            }else{
-                dd($cardItem);
-            }
-
-        });
         $communityCards = collect($communityCardsItems)->map(function($c){
-            return $c['card'];
+            return $c;
         });
 
         return $this->getBestHand($handCards, $communityCards);

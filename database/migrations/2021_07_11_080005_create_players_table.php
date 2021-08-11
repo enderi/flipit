@@ -18,6 +18,7 @@ class CreatePlayersTable extends Migration
             $table->string('uuid');
             $table->foreignId('game_id')->constrained();
             $table->integer('seat_number');
+            $table->boolean('ready')->default(false);
             $table->timestamps();
         });
     }

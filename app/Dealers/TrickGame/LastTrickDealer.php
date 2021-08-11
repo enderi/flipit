@@ -53,7 +53,7 @@ class LastTrickDealer
         $this->pendingActions = [];
         $this->allCardsRevealed = false;
         $this->playersJoined = collect([]);
-        $this->parseStatus();
+        //$this->parseStatus();
     }
     public static function of($game): LastTrickDealer
     {
@@ -67,7 +67,7 @@ class LastTrickDealer
         $this->currentHand = $game->hands()->where('ended', false)->first();
     }
 
-    public function newGame()
+    /*public function newGame()
     {
         $this->game = Game::create([
             'uuid' => Uuid::uuid4(),
@@ -82,7 +82,7 @@ class LastTrickDealer
         ]);
         $this->game->invitation()->save($invitation);
         return $this->game;
-    }
+    }*/
 
     public function joinAsPlayer()
     {
@@ -96,7 +96,7 @@ class LastTrickDealer
             'hand_id' => $this->currentHand->id,
             'uuid' => Uuid::uuid4(),
             'data' => [
-                'playerUuid' => $player->uuid,
+                'player_uuid' => $player->uuid,
                 self::KEY => 'player_joined'
             ]
         ]);
@@ -109,7 +109,7 @@ class LastTrickDealer
             ]);
     }
 
-    public function addUserAction($actionKey, $actionUuid, $playerUuid)
+    public function addUserAction($actionKey, $playerUuid)
     {
         $this->createAction([
             'hand_id' => $this->currentHand->id,
@@ -117,8 +117,7 @@ class LastTrickDealer
             'data' => [
                 self::KEY => self::PLAYER_ACTION,
                 'playerUuid' => $playerUuid,
-                'action' => $actionKey,
-                self::ACTION_UUID => $actionUuid
+                'action' => $actionKey
             ]
         ]);
     }
@@ -137,57 +136,6 @@ class LastTrickDealer
                 'playerUuid' => $playerUuid
             ]
         ]);
-    }
-
-    private function parseStatus()
-    {
-        // check if all players have requested a new hand
-        $newHandRequests = $this->currentHand->actions->filter(function($action){
-            return $action->data[self::KEY] == self::REQUEST_NEW_HAND;
-        })->map(function($action){
-            return $action->data['playerUuid'];
-        });
-
-        $allFound = $this->game->players->map(function($player){
-            return $player->uuid;
-        })->every(function($value) use ($newHandRequests) {
-            return $newHandRequests->contains($value);
-        });
-
-        if($allFound && $newHandRequests->count() == $this->game->players->count()) {
-            $this->createNewHand();
-        }
-        // figure out what street we are at
-        $phase = 'WAITING';
-        $playerCount = $this->game->players->count();
-        if ($playerCount >= $this->game->min_seats && $playerCount <= $this->game->max_seats) {
-            $phase = self::READY_TO_START;
-        }
-
-        $actions = $this->currentHand->actions;
-        for ($i = 0; $i < $actions->count(); $i++) {
-            $action = $actions[$i];
-            $act = $action->data[self::KEY];
-            if ($act == 'new_street_dealt') {
-                $phase = $actions[$i]->data['value'];
-            }
-            if ($act == self::HAND_ENDED) {
-                $phase = self::HAND_ENDED;
-            }
-        }
-        $this->handPhase = $phase;
-
-        $this->allCardsRevealed = $this->currentHand->actions->contains(function ($act) {
-            return $act->data[self::KEY] == self::ALL_CARDS_REVEALED;
-        });
-
-        // Find pending actions
-        $this->findPendingActions();
-
-        // calculate card index
-        $this->card_index = $this->currentHand->actions->filter(function ($action) {
-            return array_key_exists('card_index', $action->data);
-        })->count();
     }
 
     private function getStatus($playerUuid): array

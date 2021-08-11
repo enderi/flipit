@@ -44,27 +44,4 @@ class GameService {
         $game->invitation()->save($invitation);
         return $game;
     }
-
-    public function joinGame($game) {
-        $player = Player::create([
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $game['id'],
-            'seat_number' => $game->players->count() + 1
-        ]);
-
-        Action::create([
-            'game_id' => $game->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                'playerUuid' => $player->uuid,
-                'key' => 'player_joined'
-            ]
-        ]);
-        return GamePlayerMapping::create(
-            [
-                'uuid' => Uuid::uuid4(),
-                'game_id' => $game->id,
-                'player_id' => $player->id
-            ]);
-    }
 }

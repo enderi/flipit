@@ -7,26 +7,44 @@ use App\Dealers\OmahaFlip\OmahaFlipDealer;
 use App\Dealers\TexasFlip\TexasFlipDealer;
 use App\Dealers\TrickGame\LastTrickDealer;
 use App\Models\Game;
+use App\Models\GamePlayerMapping;
 use Illuminate\Http\Request;
 
 class HandController extends Controller
 {
 
     public function getStatus(Request $request) {
+
         $playerUuid = $request->get('playerUuid');
         $dealer = $this->buildDealer($request->get('gameUuid'));
         return $dealer->tick($playerUuid);
     }
 
-    public function postAction(Request $request) {
-        $playerUuid = $request->get('playerUuid');
-        $action = $request->get('action');
-        $actionUuid = $request->get('actionUuid');
-        $dealer = $this->buildDealer($request->get('gameUuid'));
-        $dealer->addUserAction($action, $actionUuid, $playerUuid);
+    public function tick($uuid){
+        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
+        $gameUuid = $mapping->game->uuid;
+        $playerUuid = $mapping->player->uuid;
+        $dealer = $this->buildDealer($gameUuid);
+        return $dealer->tick($playerUuid);
+    }
 
-        $dealer = $this->buildDealer($request->get('gameUuid'));
-        $dealer->tick($playerUuid);
+    public function getStatusByUuid($uuid) {
+        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
+        $gameUuid = $mapping->game->uuid;
+        $playerUuid = $mapping->player->uuid;
+        $dealer = $this->buildDealer($gameUuid);
+        return $dealer->tick($playerUuid);
+    }
+
+    public function postAction(Request $request) {
+        $mappingUuid = $request->get('uuid');
+        $mapping = GamePlayerMapping::firstWhere('uuid', $mappingUuid);        
+        $action = $request->get('action');
+        $gameUuid = $mapping->game->uuid;
+        $playerUuid = $mapping->player->uuid;
+        $dealer = $this->buildDealer($gameUuid);
+        $dealer->addUserAction($action, $playerUuid);
+        return $dealer->tick($playerUuid);
     }
 
     public function newHand(Request $request){

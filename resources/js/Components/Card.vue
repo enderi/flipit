@@ -1,10 +1,10 @@
 <template>
   <span>
-    <span v-if="card.placeholder" class="playing-card empty">
+    <span v-if="card === ''" class="playing-card empty">
         <div>&nbsp;</div>
         <div>&nbsp;</div>
     </span>
-    <base-card v-if="!card.placeholder" :backside="!card.card" :card="card.card"></base-card>
+    <base-card v-if="card !== ''" :backside="card === '??'" :card="card"></base-card>
   </span>
 </template>
 <style scoped>

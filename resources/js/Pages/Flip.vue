@@ -1,67 +1,67 @@
 <template>
     <app-layout :sub-header="params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'">
         <div class="container" v-if="!initializing">
-            <div class="row text-center" v-if="handPhase === 'WAITING'">
-                <div class="col-12">
-                    Scan a code with app or send <a :href="params.invitationUrl" target="_blank">direct link</a><br/>
-                    <vue-qr-code style="width: 80%" :value="params.invitationCode"/>
-                    <br>
-                </div>
-            </div>
-            <span v-if="handPhase !== 'WAITING'">
+            <waiting v-if="hand.handStatus === 'waiting_for_opponent'" :url="params.invitationUrl" :code="params.invitationCode"></waiting>
+            <span v-if="hand.handStatus !== 'waiting_for_opponent'">
                 <div class="row">
                     <div class="col-sm-6 offset-sm-3 col-xs-12">
                         <div class="row text-center">
+                            <!--<div
+                                v-bind:class="{'winner': results.opponent && results.opponent.result === 'win', 'text-muted': results.opponent && results.opponent.result === 'lose'}"
+                                class="col-12 pt-2">-->
                             <div
-                                v-bind:class="{'winner': results.villain && results.villain.result === 'win', 'text-muted': results.villain && results.villain.result === 'lose'}"
                                 class="col-12 pt-2">
                                 <div class="row">
                                     <div class="col">
-                                        <h3 class="text-left">'Villain'</h3>
+                                        <h3 class="text-left">'Villain'
+                                            <span v-if="options && options[opponentSeat]" class="spinner-border text-primary" role="status">
+                                            </span>
+                                        </h3>
                                     </div>
-                                    <div class="col text-muted">
+                                    <!--<div class="col text-muted">
                                         {{stats[mySeat === 1?2:1] || 0}} wins
-                                    </div>
+                                    </div>-->
                                 </div>
-                                <span v-for="pCard in handStatus.opponentCards">
-                                <card :card="pCard"></card>
+                                <span v-if="hand.cards" v-for="pCard in (hand.cards[opponentSeat] || [])">
+                                    <card :card="pCard"></card>
                                 </span>
-                                <p class="mt-0 mb-2">{{ handStatus.opponentHandValue.name || '&nbsp;' }}
+                                <p class="mt-0 mb-2">{{ opponentHandValue.name || '&nbsp;' }} - {{ opponentHandValue.value || '&nbsp;' }}
                                 </p>
                                 <hr>
                             </div>
                             <div class="col-12 mb-4">
                                 <h3>Table</h3>
-                                <card v-for="cCard in handStatus.communityCards" :card="cCard"
+                                <card v-if="hand.cards" v-for="cCard in communityCards" :card="cCard"
                                 ></card>
                             </div>
                             <hr>
-                            <div
+                            <!--<div
                                 v-bind:class="{'winner': results.me && results.me.result === 'win', 'text-muted': results.me && results.me.result === 'lose'}"
-                                class="col-12 pt-0">
+                                class="col-12 pt-0">-->
+                            <div class="col-12 pt-0">
                                 <div class="row">
                                     <div class="col">
                                         <h3 class="text-left">You</h3>
                                     </div>
-                                    <div class="col text-muted">
+                                    <!--<div class="col text-muted">
                                         {{stats[mySeat === 1?1:2] || 0}} wins
-                                    </div>
+                                    </div>-->
                                 </div>
-                                <span v-for="pCard in handStatus.myCards">
+                                <span v-if="hand.cards" v-for="pCard in (hand.cards[mySeat] || [])">
                                     <card :card="pCard"></card>
                                 </span>
-                                <p class="mt-0">{{ handStatus.myHandValue.name || '&nbsp;' }}
+                                <p class="mt-0">{{ myHandValue.name || '&nbsp;' }} - {{ myHandValue.value || '&nbsp;' }}
                                 </p>
                             </div>
                         </div>
-                        
+
                     <div class="row fixed-bottom mb-2 me-2">
                         <div class="col-12 text-end">
                             <div v-if="options && options.length">
                                 <action-button v-for="action in options" :action="action"
                                                v-on:action-made="acted"></action-button>
                             </div>
-                            <div v-if="handPhase === 'HAND_ENDED' && !disableAll">
+                            <div v-if="gameStatus === 'HAND_ENDED' && !disableAll">
                                 <button class="btn btn-link btn-lg" @click="quit">Exit</button>
                                 <button class="btn btn-outline-primary btn-lg" @click="newHand">Next hand</button>
                             </div>
@@ -98,6 +98,7 @@ import VueQrCode from "vue3-qrcode";
 import ActionButton from '../Components/ActionButton'
 import Card from '../Components/Card'
 import BaseCard from '../Components/BaseCard'
+import Waiting from './Waiting'
 
 export default {
     components: {
@@ -105,24 +106,22 @@ export default {
         VueQrCode,
         ActionButton,
         Card,
-        BaseCard
+        BaseCard,
+        Waiting
     },
     props: ["params"],
     data: function () {
         return {
-            initializing: true,
-            myCards: [],
-            opponentCards: [],
-            myHandValue: null,
-            opponentHandValue: null,
-            handStatus: null,
-            result: null,
-            handPhase: null,
-            stats: null,
-            mySeat: null,
-            options: [],
             throttledStatus: _.throttle(this.getStatus, 10, {leading: false}),
-            disableAll: false
+            hand: {},
+            options: null,
+            gameStatus: null,
+            initializing: true,
+            mySeat: this.params.seatNumber,
+            opponentSeat: +this.params.seatNumber === 1 ? 2: 1,
+            myHandValue: {},
+            opponentHandValue: {},
+            results: {}
         };
     },
     computed: {
@@ -136,11 +135,15 @@ export default {
         }
     },
     mounted() {
-        Echo.channel('game.' + this.params.game.uuid)
+        console.log('=====' , this.params)
+        Echo.channel('game.' + this.params.uuid)
             .listen('GameStateChanged', (e) => {
-                if (e.action === 'refresh') {
+                console.log('new event received 1', e.action.action);
+                console.log('new event received 2', e.action.status);
+                if (e.action.action === 'new-status') {
                     this.vibrate()
-                    this.throttledStatus()
+
+                    this.handleResponse(e.action.status)
                 }
                 if(e.action === 'opponent-left') {
                     this.vibrate()
@@ -167,33 +170,49 @@ export default {
         },
         getStatus() {
             axios
-                .post("/api/hand-status", {
-                    gameUuid: this.params.game.uuid,
-                    playerUuid: this.params.playerUuid
-                })
-                .then(this.handleResponse)
+                .get("/api/hand-status/" + this.params.uuid)
+                .then(resp => this.handleResponse(resp.data))
         },
-        handleResponse(resp) {
-            this.initializing = false
-            this.options = resp.data.options
-            this.handStatus = resp.data.handStatus
-            this.handPhase = resp.data.handPhase
-            this.results = resp.data.results
-            this.mySeat = resp.data.mySeat
+        handleResponse(data) {
+            this.hand = data
+            if(data) {
+                this.handStatus = data.handStatus
+                this.myHandValue = data.myHandValue
+                this.opponentHandValue = data.opponentHandValue
+                console.log('dddd', this.handStatus, this.mySeat, this.opponentSeat)
+                if(this.handStatus !== 'waiting_for_opponent') {
+                    this.hand = _.extend(this.hand, data)
+                    this.updateCommunityCards(data.cards.community)
+                    this.options = this.hand.options && this.hand.options[this.mySeat]
+                }
+                console.log('erwwerw', data)
+                if(data.result){
+                    this.results.me = data.result[this.mySeat]
+                    this.results.opponent = data.result[this.opponentSeat]
+                }
 
-            while (this.handStatus.communityCards.length < 5) {
-                this.handStatus.communityCards.push({placeholder: true})
+            } else {
+                this.communityCards = ['','','','','',]
             }
-            this.enableAllActions()
-            this.getGameStats()
+            this.initializing = false
+        },
+        updateCommunityCards(cards) {
+            if(cards) {
+                this.communityCards = cards
+            } else {
+                this.communityCards = ['','','','','',]
+            }
+            while(this.communityCards.length < 5) {
+                this.communityCards.push('')
+            }
         },
         acted(action) {
+            this.options = []
             axios.post('/api/hand-status/action', {
-                gameUuid: this.params.game.uuid,
-                playerUuid: this.params.playerUuid,
-                actionUuid: action.uuid,
+                uuid: this.params.uuid,
                 action: action.key
-            }).then(() => this.options = [])
+            })
+            .then((resp) => this.handleResponse(resp.data))
         },
         disableAllActions() {
             this.disableAll = true
