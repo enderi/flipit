@@ -47,7 +47,7 @@ class GameController extends Controller
                         'seatNumber' => $player->seat_number,
                         'playerUuid' => $player->uuid,
                         'invitationCode' => $invitation->code,
-                        'invitationUrl' => route('join-with-code', ['code' => $invitation->code])
+                        'invitationUrl' => route('show-join', ['code' => $invitation->code])
                     ]
                 ]
             );
@@ -70,6 +70,15 @@ class GameController extends Controller
     public function join(Request $request) {
         $code = $request->get('code');
         return $this->joinWithCode($code);
+    }
+
+    public function showJoinWithCode($inviteUuid) {
+        return Inertia::render(
+            'Join',
+            [
+                'code' => $inviteUuid
+            ]
+            );
     }
 
     public function joinWithCode($inviteUuid) {

@@ -35,7 +35,14 @@ Route::get('/join', function (\Illuminate\Http\Request $request) {
     return Inertia::render('Join', ['error'=>$errors]);
 })->name('join');
 
-Route::get('/join/{code}', [GameController::class, 'joinWithCode'])->name('join-with-code');
+
+//Route::get('/join/{code}', [GameController::class, 'joinWithCode'])->name('join-with-code');
+
+Route::get('/join/{code}', function (\Illuminate\Http\Request $request, $code) {
+    $errors = $request->get('error');
+    return Inertia::render('Join', ['error'=>$errors, 'code' => $code]);
+})->name('show-join');
+
 
 Route::post('/join', [GameController::class, 'join'])->name('join-with-uuid');
 
