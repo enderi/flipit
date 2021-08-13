@@ -14,6 +14,14 @@ class Deck
         $this->cards = $cards;
     }
 
+    public function getCards() {
+        return $this->cards;
+    }
+
+    public function getRemainingFromIndex($index) {
+        return array_slice($this->cards, $index, (sizeof($this->cards) - $index));
+    }
+
     public function initialize() {
         $suits = card::getSuits();
         $ranks = card::getRanks();

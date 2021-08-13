@@ -1,8 +1,8 @@
 <template>
     <app-layout :sub-header="params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'">
         <div class="container" v-if="!initializing">
-            <waiting v-if="hand.handStatus === 'waiting_for_opponent'" :url="params.invitationUrl" :code="params.invitationCode"></waiting>
-            <span v-if="hand.handStatus !== 'waiting_for_opponent'">
+            <waiting v-if="!gameStarted" :url="params.invitationUrl" :code="params.invitationCode"></waiting>
+            <span v-if="gameStarted">
                 <div class="row">
                     <div class="col-sm-6 offset-sm-3 col-xs-12">
                         <div class="row text-center">
@@ -25,7 +25,7 @@
                                 <span v-if="hand.cards" v-for="pCard in (hand.cards[opponentSeat] || [])">
                                     <card :card="pCard"></card>
                                 </span>
-                                <p class="mt-0 mb-2">{{ opponentHandValue.name || '&nbsp;' }} - {{ opponentHandValue.value || '&nbsp;' }}
+                                <p class="mt-0 mb-2" v-if="opponentHandValue">{{ opponentHandValue.name || '&nbsp;' }} - {{ opponentHandValue.value || '&nbsp;' }}
                                 </p>
                                 <hr>
                             </div>
@@ -50,7 +50,7 @@
                                 <span v-if="hand.cards" v-for="pCard in (hand.cards[mySeat] || [])">
                                     <card :card="pCard"></card>
                                 </span>
-                                <p class="mt-0">{{ myHandValue.name || '&nbsp;' }} - {{ myHandValue.value || '&nbsp;' }}
+                                <p class="mt-0" v-if="myHandValue">{{ myHandValue.name || '&nbsp;' }} - {{ myHandValue.value || '&nbsp;' }}
                                 </p>
                             </div>
                         </div>
@@ -58,8 +58,10 @@
                     <div class="row fixed-bottom mb-2 me-2">
                         <div class="col-12 text-end">
                             <div v-if="options && options.length">
-                                <action-button v-for="action in options" :action="action"
+                                <transition v-for="action in options" enter-active-class="animate__animated animate__fadeIn">
+                                <action-button :action="action"
                                                v-on:action-made="acted"></action-button>
+                                </transition>
                             </div>
                             <div v-if="gameStatus === 'HAND_ENDED' && !disableAll">
                                 <button class="btn btn-link btn-lg" @click="quit">Exit</button>
@@ -100,6 +102,7 @@ import Card from '../Components/Card'
 import BaseCard from '../Components/BaseCard'
 import Waiting from './Waiting'
 
+
 export default {
     components: {
         AppLayout,
@@ -113,7 +116,9 @@ export default {
     data: function () {
         return {
             throttledStatus: _.throttle(this.getStatus, 10, {leading: false}),
-            hand: {},
+            hand: {
+                cards: {}
+            },
             options: null,
             gameStatus: null,
             initializing: true,
@@ -121,7 +126,10 @@ export default {
             opponentSeat: +this.params.seatNumber === 1 ? 2: 1,
             myHandValue: {},
             opponentHandValue: {},
-            results: {}
+            results: {},
+            cardsDealt: 0,
+            communityCards: [],
+            gameStarted: false
         };
     },
     computed: {
@@ -173,28 +181,40 @@ export default {
                 .get("/api/hand-status/" + this.params.uuid)
                 .then(resp => this.handleResponse(resp.data))
         },
-        handleResponse(data) {
-            this.hand = data
-            if(data) {
-                this.handStatus = data.handStatus
-                this.myHandValue = data.myHandValue
-                this.opponentHandValue = data.opponentHandValue
-                console.log('dddd', this.handStatus, this.mySeat, this.opponentSeat)
-                if(this.handStatus !== 'waiting_for_opponent') {
-                    this.hand = _.extend(this.hand, data)
-                    this.updateCommunityCards(data.cards.community)
-                    this.options = this.hand.options && this.hand.options[this.mySeat]
-                }
-                console.log('erwwerw', data)
-                if(data.result){
-                    this.results.me = data.result[this.mySeat]
-                    this.results.opponent = data.result[this.opponentSeat]
-                }
-
+        dealNextCard(item) {
+            if(item.target === 'community'){
+                this.communityCards.push(item.card)
             } else {
-                this.communityCards = ['','','','','',]
+                this.hand.cards[item.target] = this.hand.cards[item.target] || []
+                this.hand.cards[item.target].push(item.card)
             }
-            this.initializing = false
+            this.$forceUpdate()
+        },
+        handleResponse(data) {
+            if(data.handStatus === 'waiting_for_opponent'){
+                this.gameStarted = false
+                this.initializing = false
+                return
+            } else {
+                this.gameStarted = true
+                this.initializing = false
+            }
+
+            var delay = 0
+            if(this.cardsDealt < data.cardsInDealOrder.length) {
+                console.log('hephe', data.cardsInDealOrder.length)
+                while(this.cardsDealt < data.cardsInDealOrder.length){
+                    var currCard = data.cardsInDealOrder[this.cardsDealt]
+                    _.delay(this.dealNextCard, delay, currCard)
+                    delay = delay + 150
+                    this.cardsDealt++;
+                }
+            }
+            this.options = data.options && data.options[this.mySeat]
+            
+            this.myHandValue = data.myHandValue
+            this.opponentHandValue = data.opponentHandValue
+            return
         },
         updateCommunityCards(cards) {
             if(cards) {

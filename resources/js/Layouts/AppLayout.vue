@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Page Content -->
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <!--<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container">
 
                 <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
@@ -9,7 +9,14 @@
                     {{subHeader}}
                 </span>
             </div>
-        </nav>
+        </nav>-->
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 text-Left">
+                    <h1><inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link></h1>
+                </div>
+            </div>
+        </div>
         <main>
             <slot></slot>
         </main>

@@ -19,11 +19,13 @@ class OmahaFlipDealer extends HoldemBaseDealer
         return $result;
     }
 
-    public function getGameType() {
+    public function getGameType(): string
+    {
         return self::OMAHA_FLIP;
     }
 
-    public function getCardCount() {
+    public function getCardCount()
+    {
         return self::POCKET_CARD_COUNT;
     }
 
@@ -33,20 +35,13 @@ class OmahaFlipDealer extends HoldemBaseDealer
             return [];
         }
 
-        $communityCards = collect($communityCardsItems)->map(function($c){
+        $communityCards = collect($communityCardsItems)->map(function ($c) {
             return $c;
         });
 
         return $this->getBestHand($handCards, $communityCards);
     }
 
-    /**
-     * @param \Illuminate\Support\Collection $handCards
-     * @param array $handCombinations
-     * @param \Illuminate\Support\Collection $communityCards
-     * @param evaluate $evaluator
-     * @return array
-     */
     protected function getBestHand($handCards, $communityCards): array
     {
         $evaluator = new evaluate();

@@ -1,8 +1,14 @@
 <?php
 
+use App\Dealers\TexasFlip\Combinations;
 use App\Http\Controllers\GameController;
+use App\Lib\DeckLib\Deck;
 use App\Models\Game;
 use App\Models\Hand;
+use App\Services\DealerService;
+use App\Services\HoldemSolver;
+use App\Services\Lookup;
+use App\Services\Pokerank;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,3 +54,47 @@ Route::post('/flip/exit', [GameController::class, 'exitGame'])->name('exit-game'
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+
+Route::get('test', function(){
+    $dealerService = new HoldemSolver();
+    $deck = Deck::of("QhKh6cQc3s6s9cJc2c8hKc8d3hTh4c7d5c4h6d7s3c9hAd2hTsKd5d7c2sQdAhAsTd8cJsTc7h8s9dJh5s2dJdQs5h4s3d9s4d6hAcKs");
+    for($i=0; $i<1; $i++) {
+        //$deck = new Deck();
+        //$deck->initialize();
+        //$deck->shuffle();
+        echo $deck->toString() . '<br>';
+        $hand1 = collect([]);
+        $hand2 = collect([]);
+        $start = microtime(true);
+
+        $hand1->push($deck->draw());
+        $hand2->push($deck->draw());
+        $hand1->push($deck->draw());
+        $hand2->push($deck->draw());
+        /*$hand1->push($deck->draw());
+        $hand2->push($deck->draw());
+        $hand1->push($deck->draw());
+        $hand2->push($deck->draw());*/
+
+        $table = collect($deck->draw(3));
+        echo 'Hand 1: ' . collect($hand1)->map(function ($c) {
+            return $c->toString();
+        }) . "<br>";
+    echo 'Hand 2: ' . collect($hand2)->map(function ($c) {
+            return $c->toString();
+        }) . "<br>";
+    echo 'Flop: ' . collect($table)->map(function ($c) {
+            return $c->toString();
+        }) . "<br>";
+        $result = $dealerService->calc($deck->getCards(), $table, $hand1, $hand2);        
+        $winsFor1 = $result['1'];
+        $winsFor2 = $result['2'];
+        $ties = $result['0'];
+
+        echo '1 win: ' . $winsFor1 . ', 2 win: ' . $winsFor2 . ', tied: ' . $ties;
+        $time_elapsed_secs = microtime(true) - $start;
+        echo 'time: ' . $time_elapsed_secs . '<br>';
+        echo '------------------------------------<br>';
+    }
+});

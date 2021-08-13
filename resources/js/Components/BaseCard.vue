@@ -4,7 +4,7 @@
     </span>
     <span
         v-if="!backside"
-        class="playing-card"
+        class="playing-card slide"
         v-bind:class="[getColor(), {'mini-card': minicard}]">
       <div>{{getRank()}}</div>
       <div v-html="getSuit()"></div>
@@ -12,6 +12,19 @@
   </span>
 </template>
 <style scoped>
+.slide {
+  animation-name: slide;
+  animation-duration: 0.5s;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes slide {
+    from { top: -10px; left: -100px; }
+    to   { top: 0; left: 0; }
+}
+
+
 .playing-card {
     display: inline-block;
     width: 3.3em;
