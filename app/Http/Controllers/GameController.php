@@ -49,7 +49,7 @@ class GameController extends Controller
             $common['invitationUrl'] = route('join-with-code', ['code' => $invitation->code]);
         }
         if(in_array($game->game_type, [OmahaFlipDealer::OMAHA_FLIP, TexasFlipDealer::TEXAS_FLIP])){
-            return Inertia::render('Flip', ['params' => $common]);
+            return Inertia::render('GameTypes/HoldemFlips/HoldemFlip', ['params' => $common]);
         }
         if($game->game_type == LastTrickDealer::LAST_TRICK) {
             return Inertia::render('LastTrick', ['params' => $common]);

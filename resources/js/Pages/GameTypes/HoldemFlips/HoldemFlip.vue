@@ -1,0 +1,287 @@
+<template>
+  <app-layout>
+    <div v-if="!initializing">
+      <waiting
+        v-if="!gameStarted"
+        :url="params.invitationUrl"
+        :code="params.invitationCode"
+      ></waiting>
+      <span v-if="gameStarted">
+            <div class="card border-success mb-3" style="background-color: #ececec">
+                <div class="card-body">
+                    <h5 class="card-title">{{params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'}}</h5>
+                    <div class="card-text">   
+                        <div class="row text-center">
+                            <div class="col-sm-6 offset-sm-3 col-xs-12">
+                                <!--- villain -->
+                                <h4>Villain</h4>
+                                <hand :cards="placeHolders.seat[opponentSeat]" />
+                                <br>
+                                <span v-bind:class="{'bold': (myHandValue.value > opponentHandValue.value)}">
+                                    {{ opponentHandValue.name || "&nbsp;" }}
+                                </span>
+                                <hr>
+
+                                <!-- Table -->
+                                <div class="col-12 mt-4 mb-4">
+                                    <hand :cards="placeHolders.table" />
+                                </div>
+                                
+                                <hr />
+                                <h4>Villain</h4>
+                                <!-- My -->
+                                <hand :cards="placeHolders.seat[mySeat]" />
+                                <br>
+                                <span v-bind:class="{'bold': (myHandValue.value < opponentHandValue.value)}">
+                                    {{ myHandValue.name || "&nbsp;" }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <div class="card-footer text-center" style="min-height: 65px">
+                    <div v-if="options && options.length">
+                        <span v-for="action in options" v-bind:key="action">
+                            <action-button
+                                :action="action"
+                                v-on:action-made="acted" />                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+      </span>
+    </div>
+  </app-layout>
+</template>
+
+<style scoped>
+.card.card-footer {
+    align-self: flex-end;
+    flex: 1 1 auto;
+}
+.bold {
+    font-weight: bold;
+}
+.bottom-row {
+  position: absolute;
+  bottom: 0;
+}
+
+.table {
+  background-color: darkgreen;
+}
+
+.winner {
+  background-image: linear-gradient(
+    to right,
+    white,
+    lightgreen,
+    lightgreen,
+    lightgray,
+    white
+  );
+}
+</style>
+
+<script>
+import AppLayout from "@/Layouts/AppLayout";
+import VueQrCode from "vue3-qrcode";
+import ActionButton from "../../../Components/ActionButton";
+import CardPlaceHolder from "../../../Components/CardPlaceHolder";
+import Hand from './Hand'
+import Waiting from "../../../Pages/Waiting";
+
+export default {
+    components: {
+        AppLayout,
+        VueQrCode,
+        ActionButton,
+        CardPlaceHolder,
+        Waiting,
+        Hand
+    },
+    props: ["params"],
+    data: function () {
+        return {
+            options: null,
+            gameStatus: null,
+            initializing: true,
+            mySeat: this.params.seatNumber,
+            opponentSeat: +this.params.seatNumber === 1 ? 2: 1,
+            myHandValue: {},
+            opponentHandValue: {},
+            results: {},
+            cardsDealt: 0,
+            communityCards: [],
+            gameStarted: false,
+            placeHolders: this.buildPlaceHolders()
+        };
+    },
+  mounted() {
+    console.log("=====", this.params);
+    Echo.channel("game." + this.params.uuid).listen("GameStateChanged", (e) => {
+      console.log("new event received 1", e.action.action);
+      console.log("new event received 2", e.action.status);
+      if (e.action.action === "new-status") {
+        this.vibrate();
+
+        this.handleResponse(e.action.status);
+      }
+      if (e.action === "opponent-left") {
+        this.vibrate();
+        confirm("Your opponent has left, I'll guide you home");
+        this.quit();
+      }
+    });
+    this.getStatus();
+  },
+  unmounted() {
+    this.unSubscribeEcho();
+  },
+  methods: {
+    unSubscribeEcho() {
+      Echo.leave("game." + this.params.game.uuid);
+    },
+    vibrate() {
+      if ("vibrate" in navigator) {
+        navigator.vibrate =
+          navigator.vibrate ||
+          navigator.webkitVibrate ||
+          navigator.mozVibrate ||
+          navigator.msVibrate;
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
+      }
+    },
+        unSubscribeEcho() {
+            Echo.leave('game.' + this.params.game.uuid)
+        },
+        vibrate() {
+            if ("vibrate" in navigator) {
+                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+                if (navigator.vibrate) {
+                    navigator.vibrate(100);
+                }
+            }
+        },
+        getStatus() {
+            axios
+                .get("/api/hand-status/" + this.params.uuid)
+                .then(resp => this.handleResponse(resp.data))
+        },
+        dealNextCard(item) {
+            if(item.target === 'community'){
+                this.addCardToFirstFreeSlot(this.placeHolders.table, item.card)
+            } else {
+                this.addCardToFirstFreeSlot(this.placeHolders.seat[item.target], item.card)
+            }
+            this.$forceUpdate()
+        },
+        addCardToFirstFreeSlot(items, card) {
+            for(var i=0; i<items.length; i++){
+                var curr = items[i]
+                console.log('curr', curr)
+                if(curr.placeHolder){
+                    curr.placeHolder = false
+                    curr.card = card
+                    break;
+                }
+            }
+        },
+        initialize() {
+            this.placeHolders = this.buildPlaceHolders()
+            this.cardsDealt = 0
+        },
+        handleResponse(data) {
+            if(data.handStatus === 'waiting_for_opponent'){
+                this.gameStarted = false
+                this.initializing = false
+                return
+            } else {
+                this.gameStarted = true
+                this.initializing = false
+            }
+
+            var delay = 0
+            if(this.cardsDealt > data.cardsInDealOrder.length) {
+                this.initialize()
+            }
+            if(this.cardsDealt < data.cardsInDealOrder.length) {
+                console.log('hephe', data.cardsInDealOrder.length)
+                while(this.cardsDealt < data.cardsInDealOrder.length){
+                    var currCard = data.cardsInDealOrder[this.cardsDealt]
+                    _.delay(this.dealNextCard, delay, currCard)
+                    delay = delay + 150
+                    this.cardsDealt++;
+                }
+            }
+            this.options = data.options && data.options[this.mySeat]
+            
+            this.myHandValue = data.myHandValue
+            this.opponentHandValue = data.opponentHandValue
+            return
+        },
+        acted(action) {
+            this.options = []
+            axios.post('/api/hand-status/action', {
+                uuid: this.params.uuid,
+                action: action.key
+            })
+            .then((resp) => this.handleResponse(resp.data))
+        },
+        disableAllActions() {
+            this.disableAll = true
+        },
+        enableAllActions() {
+            this.disableAll = false
+        },
+        quit() {
+            this.unSubscribeEcho()
+            this.$inertia.post(this.route('exit-game'), {gameUuid: this.params.game.uuid});
+        },
+        newHand() {
+            this.disableAllActions()
+            axios.post('/api/hand-status/new', {
+                gameUuid: this.params.game.uuid,
+                playerUuid: this.params.playerUuid,
+            });
+        },
+        getGameStats() {
+            axios.get('/api/game/stats/' + this.params.game.uuid)
+            .then((resp)=>{
+                this.stats = resp.data.winsBySeat
+            });
+    }, 
+    buildPlaceHolders() {
+        var cardCount = this.params.game.game_type === 'OMAHA-FLIP' ? 4 : 2
+        var placeHolders = {
+            seat: {
+                1: [],
+                2: []
+            }, 
+            table: []
+        }
+        for(var i = 0; i< 5; i++){
+            placeHolders.table.push({
+                placeHolder: true,
+                card: null
+            })
+        }
+        for(var i = 0; i< cardCount; i++){
+            placeHolders.seat[1].push({
+                placeHolder: true,
+                card: null
+            })
+            placeHolders.seat[2].push({
+                placeHolder: true,
+                card: null
+            })
+        }
+        return placeHolders
+    }
+  }
+}
+</script>

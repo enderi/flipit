@@ -10,15 +10,24 @@
                 </span>
             </div>
         </nav>-->
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-12 col-sm-6 text-Left">
-                    <h1><inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link></h1>
+                <div class="col-sm-6 offset-sm-3 col-xs-6">
+                    <h1>
+                        <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
+                    </h1>
                 </div>
             </div>
         </div>
+        <hr>
         <main>
-            <slot></slot>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 offset-sm-3 col-xs-6">
+                        <slot></slot>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </template>

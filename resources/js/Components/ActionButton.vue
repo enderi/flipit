@@ -2,7 +2,7 @@
     <div>
         <button 
             v-bind:class="{disabled: isClicked}" 
-            class="btn btn-primary btn-lg shake" 
+            class="btn btn-primary btn-lg" 
             @click="act">
             {{action.text}}
         </button>
