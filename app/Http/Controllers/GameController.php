@@ -11,6 +11,7 @@ use App\Models\Game;
 use App\Models\GamePlayerMapping;
 use App\Models\Hand;
 use App\Models\Invitation;
+use App\Services\DealerService;
 use App\Services\GameService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,11 +22,11 @@ use Ramsey\Uuid\Uuid;
 
 class GameController extends Controller
 {
-    public function create(Request $request, GameService $gameService)
+    public function create(Request $request, GameService $gameService, DealerService $dealerService)
     {
         $gameType = $request->get('gameType');
         $game = $gameService->newGame($gameType);
-        $dealer = $this->getDealer($game);
+        $dealer = $dealerService->getDealer($game);
         $mapping = $dealer->joinAsPlayer();
         return Redirect::route('game-show', ['uuid' => $mapping->uuid]);
     }
@@ -36,40 +37,29 @@ class GameController extends Controller
         $game = $mapping->game;
         $player = $mapping->player;
 
-        $invitation = Invitation::firstWhere('game_id', $game->id);
+        $invitation = Invitation::where('game_id', $game->id)
+            ->where('expires_at', '>', Carbon::now())->first();
+        $common = [
+            'uuid' => $uuid,
+            'game' => $game,
+            'seatNumber' => $player->seat_number,
+            'playerUuid' => $player->uuid];
+        if($invitation != null) {
+            $common['invitationCode'] = $invitation->code;
+            $common['invitationUrl'] = route('show-join', ['code' => $invitation->code]);
+        }
         if(in_array($game->game_type, [OmahaFlipDealer::OMAHA_FLIP, TexasFlipDealer::TEXAS_FLIP])){
-            return Inertia::render(
-                'Flip',
-                [
-                    'params' => [
-                        'uuid' => $uuid,
-                        'game' => $game,
-                        'seatNumber' => $player->seat_number,
-                        'playerUuid' => $player->uuid,
-                        'invitationCode' => $invitation->code,
-                        'invitationUrl' => route('show-join', ['code' => $invitation->code])
-                    ]
-                ]
-            );
+            return Inertia::render('GameTypes/HoldemFlips/HoldemFlip', ['params' => $common]);
+
         }
         if($game->game_type == LastTrickDealer::LAST_TRICK) {
-            return Inertia::render(
-                'LastTrick',
-                [
-                    'params' => [
-                        'game' => $game,
-                        'playerUuid' => $player->uuid,
-                        'invitationCode' => $invitation->code,
-                        'invitationUrl' => route('join-with-code', ['code' => $invitation->code])
-                    ]
-                ]
-            );
+            return Inertia::render('LastTrick', ['params' => $common]);
         }
     }
 
-    public function join(Request $request) {
+    public function join(Request $request, DealerService $dealerService) {
         $code = $request->get('code');
-        return $this->joinWithCode($code);
+        return $this->joinWithCode($code, $dealerService);
     }
 
     public function showJoinWithCode($inviteUuid) {
@@ -81,14 +71,15 @@ class GameController extends Controller
             );
     }
 
-    public function joinWithCode($inviteUuid) {
+
+    public function joinWithCode($inviteUuid, DealerService $dealerService) {
         try {
             $invitation = Invitation::where('code', $inviteUuid)->where('expires_at', '>=', Carbon::now())->firstOrFail();
         }catch (ModelNotFoundException $exception){
             return Redirect::route('join', ['error' => 'Not found']);
         }
         $game = Game::find($invitation->game_id);
-        $dealer = $this->getDealer($game);
+        $dealer = $dealerService->getDealer($game);
         $mapping = $dealer->joinAsPlayer();
         $invitation->expires_at = Carbon::now()->addSecond(-1);
         $invitation->update();
@@ -122,21 +113,5 @@ class GameController extends Controller
         return [
             'winsBySeat' => $pointsPerSet
         ];
-    }
-
-    /**
-     * @param $game
-     * @return OmahaFlipDealer|TexasFlipDealer
-     */
-    private function getDealer($game)
-    {
-        if ($game->game_type == TexasFlipDealer::TEXAS_FLIP) {
-            $dealer = TexasFlipDealer::of($game);
-        } else if ($game->game_type == OmahaFlipDealer::OMAHA_FLIP) {
-            $dealer = OmahaFlipDealer::of($game);
-        } else if ($game->game_type == LastTrickDealer::LAST_TRICK) {
-            $dealer = LastTrickDealer::of($game);
-        }
-        return $dealer;
     }
 }

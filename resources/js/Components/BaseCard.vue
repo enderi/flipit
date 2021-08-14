@@ -12,26 +12,18 @@
   </span>
 </template>
 <style scoped>
-.playing-card {
-    display: inline-block;
-    width: 3.3em;
-    height: 4.6em;
-    border: 1px solid #666;
-    border-radius: .3em;
-    -moz-border-radius: .3em;
-    -webkit-border-radius: .3em;
-    -khtml-border-radius: .3em;
-    padding: .5em;
-    margin: 0 .5em .5em 0;
-    text-align: center;
-    font-size: 0.9em; /* @change: adjust this card to make bigger or smaller cards */
-    font-weight: bolder;
-    position: relative;
-    background-color: #fff;
-    -moz-box-shadow: .1em .1em .3em #333;
-    -webkit-box-shadow: .1em .1em .3em #333;
-    box-shadow: .1em .1em .3em #333;
+.slide {
+  animation-name: slide;
+  animation-duration: 0.5s;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
+
+@keyframes slide {
+    from { top: -10px; left: -100px; }
+    to   { top: 0; left: 0; }
+}
+
 .playing-card.mini-card {
     font-size: 0.5em;
 }

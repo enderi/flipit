@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Dealers\FourStreetGames;
+namespace App\Dealers\TrickGame;
 
-use DASPRiD\Enum\Exception\IllegalArgumentException;
 
 class FourStreetGameStatus
 {
     private $actions;
     private $gameStatus;
     private $cards;
-    private $cardsInDealOrder;
     private $options;
     private $joinedPlayers;
     private $pocketCardsDealt = false;
@@ -36,7 +34,6 @@ class FourStreetGameStatus
     private function parseStatus()
     {
         $this->gameStatus = 'waiting_for_opponent';
-        $cardsInDealOrder = collect([]);
         $cards = [];
         $playerUuids = collect([]);
         foreach ($this->game->players as $p) {
@@ -66,19 +63,10 @@ class FourStreetGameStatus
                 $this->cardIndex++;
                 $seatNo = $data['seat_number'];
                 $cards[$seatNo]->push($data['card']);
-                
-                $cardsInDealOrder->push([
-                    'target' => $seatNo,
-                    'card' => $data['card']
-                ]);
             }
             if (in_array($currKey, ['flop_card', 'turn_card', 'river_card'])) {
                 $this->cardIndex++;
                 $cards['community']->push($data['card']);
-                $cardsInDealOrder->push([
-                    'target' => 'community',
-                    'card' => $data['card']
-                ]);
             }
 
             if ($currKey == 'new_street_dealt') {
@@ -105,7 +93,6 @@ class FourStreetGameStatus
             }
         }
         $this->cards = $cards;
-        $this->cardsInDealOrder = $cardsInDealOrder;
         $options = [];
         if (!$waitingActions->isEmpty()) {
             foreach ($waitingActions as $a) {
@@ -163,10 +150,6 @@ class FourStreetGameStatus
         return $this->newHandRequested->count() == 2;
     }
 
-    public function getCardsInDealOrder($seat) {
-        return $this->cardsInDealOrder;
-    }
-
     public function getCards($seatNo) {
         if($this->allCardsRevealed) {
             return $this->cards;
@@ -206,10 +189,6 @@ class FourStreetGameStatus
 
     public function getGameStatus() {
         return $this->gameStatus;
-    }
-
-    public function isFlopDealt() {
-        return $this->flopDealt;
     }
 
     public function handEnded() {

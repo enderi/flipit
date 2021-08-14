@@ -1,6 +1,9 @@
 <template>
   <span>
-    <base-card v-if="card !== ''" :backside="card === '??'" :card="card"></base-card>
+    <span class="playing-card empty">
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+    </span>
   </span>
 </template>
 <style scoped>
@@ -14,13 +17,6 @@
 }
 </style>
 <script>
-import BaseCard from './BaseCard'
 export default {
-    components: {
-        BaseCard
-    },
-    props: ['card'],
-    methods: {
-    }
 }
 </script>

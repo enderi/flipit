@@ -44,4 +44,5 @@ class GameService {
         $game->invitation()->save($invitation);
         return $game;
     }
+
 }

@@ -248,7 +248,6 @@ class evaluate
             $rankValue *= $cards[$i]->getRankValue();
             $suitValue *= $cards[$i]->getSuitValue();
         }
-
         $rank = $this->rankings[$rankValue];
 
         if ($suitValue === 115856201 || $suitValue === 147008443 || $suitValue === 229345007 || $suitValue === 418195493) // check if all five cards are the same suit
@@ -293,7 +292,6 @@ class evaluate
                                     $cards[$d],
                                     $cards[$e]
                                 );
-
                                 $rank = $this->getValueOfFive($currentHand);
 
                                 if ($rank < $this->highest) // lowest rank is best, 1 = Royal Flush.
