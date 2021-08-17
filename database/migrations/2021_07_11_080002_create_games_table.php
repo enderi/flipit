@@ -20,7 +20,7 @@ class CreateGamesTable extends Migration
             $table->integer('max_seats');
             $table->integer('min_seats');
             $table->json('information');
-            
+
             $table->timestamps();
         });
     }

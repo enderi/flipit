@@ -191,13 +191,6 @@ abstract class HoldemBaseDealer extends DealerBase
             'ended' => false,
             'deck' => $deck->toString()
         ]);
-        foreach ($this->game->players as $player) {
-            $this->createAction([
-                'player_uuid' => $player->uuid,
-                'seat_number' => $player->seat_number,
-                self::KEY => 'player_joined'
-            ]);
-        }
 
     }
 

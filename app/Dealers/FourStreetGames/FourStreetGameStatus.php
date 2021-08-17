@@ -27,9 +27,12 @@ class FourStreetGameStatus
         $this->game = $game;
         $this->currentHand = $game->getCurrentHand();
         $this->actions = $this->currentHand != null ? $this->currentHand->actions : collect([]);
-        $this->joinedPlayers = collect([]);
+        $this->joinedPlayers = $this->game->players;
         $this->options = collect([]);
         $this->seatByPlayerUuid = [];
+        foreach ($this->joinedPlayers as $pl) {
+            $this->seatByPlayerUuid[$pl['uuid']] = $pl->seat_number;
+        }
         $this->newHandRequested = collect([]);
         $this->cardsInSeatRevealed = [
             1 => false,
@@ -41,12 +44,18 @@ class FourStreetGameStatus
     private function parseStatus()
     {
         $this->gameStatus = 'waiting_for_opponent';
+        if ($this->joinedPlayers->count() == 2) {
+            $this->gameStatus = 'ready_to_start';
+        } else {
+            return;
+        }
         $cardsInDealOrder = collect([]);
         $cards = [];
         $playerUuids = collect([]);
         foreach ($this->game->players as $p) {
             $cards[$p['seat_number']] = collect([]);
             $playerUuids->push($p['uuid']);
+
         }
         $cards['community'] = collect([]);
 
@@ -59,14 +68,6 @@ class FourStreetGameStatus
                 $this->allCardsRevealed = true;
                 $this->cardsInSeatRevealed[1] = true;
                 $this->cardsInSeatRevealed[2] = true;
-                continue;
-            }
-            if ($currKey == 'player_joined') {
-                $this->joinedPlayers->push($data);
-                $this->seatByPlayerUuid[$data['player_uuid']] = $data['seat_number'];
-                if ($this->joinedPlayers->count() == 2) {
-                    $this->gameStatus = 'ready_to_start';
-                }
                 continue;
             }
             if ($currKey == 'pocket_card') {
@@ -127,7 +128,7 @@ class FourStreetGameStatus
             1 => collect([]),
             2 => collect([])
         ];
-        if (!$this->allCardsRevealed) {
+        if (!$this->allCardsRevealed && sizeof($playerUuids) == 2) {
             foreach ($playerUuids as $plUuid) {
                 $seat = $this->seatByPlayerUuid[$plUuid];
                 if (!$this->cardsInSeatRevealed[$seat]) {
@@ -166,16 +167,19 @@ class FourStreetGameStatus
 
     public function isWaitingForUserActions()
     {
+        if($this->joinedPlayers->count() != 2) {
+            return false;
+        }
         $blockersFound = false;
-            if($this->options[1]->filter(function($op) {
+        if ($this->options[1]->filter(function ($op) {
                 return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
             })->count() > 0 ||
-                $this->options[2]->filter(function($op) {
-                    return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
-                })->count() > 0
-            ){
-                $blockersFound = true;
-            }
+            $this->options[2]->filter(function ($op) {
+                return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
+            })->count() > 0
+        ) {
+            $blockersFound = true;
+        }
         return $blockersFound;
 
         /*return $this
@@ -223,7 +227,7 @@ class FourStreetGameStatus
             return $this->cardsInDealOrder;
         } else {
             return $this->cardsInDealOrder->map(function ($c) use ($seat) {
-                if(array_key_exists('target', $c) && ($c['target'] =='community' || $c['target'] == $seat)) {
+                if (array_key_exists('target', $c) && ($c['target'] == 'community' || $c['target'] == $seat)) {
                     return $c;
                 }
                 $c['card'] = '??';
