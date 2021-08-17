@@ -23430,6 +23430,9 @@ var _hoisted_6 = {
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Join game");
 
+var _hoisted_8 = {
+  "class": "text-center"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
 
@@ -23461,7 +23464,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\r\n            <div class=\"card-body\">\r\n                <h5 class=\"card-title\">Stats</h5>\r\n                {{ gameCount }} games played\r\n                {{ handCount }} hands dealt\r\n            </div>")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<footer>\r\n            <div class=\"text-center\">\r\n                Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})\r\n            </div>\r\n        </footer>")];
+      , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\r\n            <div class=\"card-body\">\r\n                <h5 class=\"card-title\">Stats</h5>\r\n                {{ gameCount }} games played\r\n                {{ handCount }} hands dealt\r\n            </div>")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("footer", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, " Laravel v" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.laravelVersion) + " (PHP v" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.phpVersion) + ") ", 1
+      /* TEXT */
+      )])];
     }),
     _: 1
     /* STABLE */

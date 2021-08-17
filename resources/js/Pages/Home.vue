@@ -31,11 +31,11 @@
                 {{ handCount }} hands dealt
             </div>-->
         </div>
-        <!--<footer>
+        <footer>
             <div class="text-center">
                 Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
             </div>
-        </footer>-->
+        </footer>
     </app-layout>
 </template>
 
