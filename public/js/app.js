@@ -19220,7 +19220,7 @@ __webpack_require__.r(__webpack_exports__);
     Card: _Components_Card__WEBPACK_IMPORTED_MODULE_0__.default,
     CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__.default
   },
-  props: ['cards'],
+  props: ['items'],
   methods: {}
 });
 
@@ -19276,7 +19276,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       cardsDealt: 0,
       communityCards: [],
       gameStarted: false,
-      placeHolders: this.buildPlaceHolders()
+      placeHolders: this.buildPlaceHolders(),
+      dealtCardArray: {},
+      dealtCards: []
     };
   },
   mounted: function mounted() {
@@ -19336,21 +19338,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return _this2.handleResponse(resp.data);
     });
   }), _defineProperty(_methods, "dealNextCard", function dealNextCard(item) {
-    if (item.target === 'community') {
-      this.addCardToFirstFreeSlot(this.placeHolders.table, item.card);
-    } else {
-      this.addCardToFirstFreeSlot(this.placeHolders.seat[item.target], item.card);
-    }
-
+    this.addCardToFirstFreeSlot(this.placeHolders.target[item.target], item);
+    this.dealtCardArray[item.index] = item;
     this.$forceUpdate();
-  }), _defineProperty(_methods, "addCardToFirstFreeSlot", function addCardToFirstFreeSlot(items, card) {
+  }), _defineProperty(_methods, "addCardToFirstFreeSlot", function addCardToFirstFreeSlot(items, item) {
     for (var i = 0; i < items.length; i++) {
       var curr = items[i];
-      console.log('curr', curr);
 
       if (curr.placeHolder) {
         curr.placeHolder = false;
-        curr.card = card;
+        curr.item = item;
         break;
       }
     }
@@ -19373,8 +19370,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.initialize();
     }
 
-    if (this.cardsDealt < data.cardsInDealOrder.length) {
-      console.log('hephe', data.cardsInDealOrder.length);
+    if (this.cardsDealt <= data.cardsInDealOrder.length) {
+      for (var i = 0; i < this.cardsDealt; i++) {
+        var source = data.cardsInDealOrder[i];
+
+        var curr = _.find(this.placeHolders.target[source.target], function (ii) {
+          return !ii.placeHolder && ii.item.index === source.index;
+        });
+
+        if (curr && curr.item.card !== source.card) {
+          curr.item.card = source.card;
+        }
+
+        var curr = this.dealtCardArray[source.index];
+
+        if (curr && curr.card !== source.card) {
+          this.dealtCardArray[source.index] = source;
+        }
+      }
 
       while (this.cardsDealt < data.cardsInDealOrder.length) {
         var currCard = data.cardsInDealOrder[this.cardsDealt];
@@ -19393,13 +19406,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "acted", function acted(action) {
     var _this3 = this;
 
-    this.options = [];
+    this.disableAllActions();
     axios.post('/api/hand-status/action', {
       uuid: this.params.uuid,
       action: action.key
     }).then(function (resp) {
       return _this3.handleResponse(resp.data);
-    });
+    })["finally"](this.enableAllActions);
   }), _defineProperty(_methods, "disableAllActions", function disableAllActions() {
     this.disableAll = true;
   }), _defineProperty(_methods, "enableAllActions", function enableAllActions() {
@@ -19424,31 +19437,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "buildPlaceHolders", function buildPlaceHolders() {
     var cardCount = this.params.game.game_type === 'OMAHA-FLIP' ? 4 : 2;
     var placeHolders = {
-      seat: {
+      target: {
         1: [],
-        2: []
-      },
-      table: []
+        2: [],
+        community: []
+      }
     };
 
     for (var i = 0; i < 5; i++) {
-      placeHolders.table.push({
+      placeHolders.target.community.push({
         placeHolder: true,
-        card: null
+        item: null
       });
     }
 
     for (var i = 0; i < cardCount; i++) {
-      placeHolders.seat[1].push({
+      placeHolders.target[1].push({
         placeHolder: true,
-        card: null
+        item: null
       });
-      placeHolders.seat[2].push({
+      placeHolders.target[2].push({
         placeHolder: true,
-        card: null
+        item: null
       });
     }
 
+    this.dealtCardArray = {};
     return placeHolders;
   }), _methods)
 });
@@ -20615,7 +20629,7 @@ __webpack_require__.r(__webpack_exports__);
 var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-fcfbae5a");
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     "class": [{
       disabled: _ctx.isClicked
     }, "btn btn-primary btn-lg"],
@@ -20624,7 +20638,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.action.text), 3
   /* TEXT, CLASS */
-  )]);
+  );
 });
 
 /***/ }),
@@ -23206,12 +23220,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("card");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cards, function (card) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.items, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
-      key: card.card
-    }, [card.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_card_place_holder)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !card.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_card, {
-      key: card.card,
-      card: card.card
+      key: item.item && item.item.card
+    }, [item.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_card_place_holder)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !item.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_card, {
+      key: 1,
+      card: item.item.card
     }, null, 8
     /* PROPS */
     , ["card"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
@@ -23265,7 +23279,7 @@ var _hoisted_7 = {
   "class": "row text-center"
 };
 var _hoisted_8 = {
-  "class": "col-sm-6 offset-sm-3 col-xs-12"
+  "class": "col-lg-6 offset-lg-3 col-xs-12"
 };
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Villain", -1
@@ -23288,7 +23302,7 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Villain", -1
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Hero", -1
 /* HOISTED */
 );
 
@@ -23303,7 +23317,8 @@ var _hoisted_16 = {
   }
 };
 var _hoisted_17 = {
-  key: 0
+  key: 0,
+  "class": "row"
 };
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
@@ -23328,24 +23343,24 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("- villain "), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
-        cards: _ctx.placeHolders.seat[_ctx.opponentSeat]
+        items: _ctx.placeHolders.target[_ctx.opponentSeat]
       }, null, 8
       /* PROPS */
-      , ["cards"]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      , ["items"]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
         "class": {
           'bold': _ctx.myHandValue.value > _ctx.opponentHandValue.value
         }
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.opponentHandValue.name || " "), 3
       /* TEXT, CLASS */
       ), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
-        cards: _ctx.placeHolders.table
+        items: _ctx.placeHolders.target.community
       }, null, 8
       /* PROPS */
-      , ["cards"])]), _hoisted_13, _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
-        cards: _ctx.placeHolders.seat[_ctx.mySeat]
+      , ["items"])]), _hoisted_13, _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+        items: _ctx.placeHolders.target[_ctx.mySeat]
       }, null, 8
       /* PROPS */
-      , ["cards"]), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      , ["items"]), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
         "class": {
           'bold': _ctx.myHandValue.value < _ctx.opponentHandValue.value
         }
@@ -23353,6 +23368,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       /* TEXT, CLASS */
       )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_ctx.options && _ctx.options.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
+          "class": "col",
           key: action
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_action_button, {
           action: action,

@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <button 
-            v-bind:class="{disabled: isClicked}" 
-            class="btn btn-primary btn-lg" 
-            @click="act">
-            {{action.text}}
-        </button>
-    </div>
+  <button 
+      v-bind:class="{disabled: isClicked}" 
+      class="btn btn-primary btn-lg" 
+      @click="act">
+      {{action.text}}
+  </button>
 </template>
 <style scoped>
 .shake {

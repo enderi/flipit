@@ -1,12 +1,11 @@
 <template>
   <span>
-    <span v-for="card in cards" v-bind:key="card.card">
-        <span v-if="card.placeHolder">
+    <span v-for="item in items" :key="item.item && item.item.card">
+        <span v-if="item.placeHolder">
             <card-place-holder/>
         </span>
-        <card v-if="!card.placeHolder"
-            v-bind:key="card.card" 
-            :card="card.card">
+        <card v-if="!item.placeHolder" 
+            :card="item.item.card">
         </card>
     </span>
   </span>
@@ -22,7 +21,7 @@ export default {
         Card,
         CardPlaceHolder
     },
-    props: ['cards'],
+    props: ['items'],
     methods: {
     }
 }

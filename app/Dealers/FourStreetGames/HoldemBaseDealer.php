@@ -49,7 +49,7 @@ abstract class HoldemBaseDealer extends DealerBase
             'player_uuid' => $playerUuid,
             'action' => $actionKey
         ]);
-        $this->refreshState();
+        $this->refreshState(true);
     }
 
     public function tick($playerUuid): array
@@ -88,32 +88,11 @@ abstract class HoldemBaseDealer extends DealerBase
             return true;
         }
         if ($status->handEnded()) {
-            /*
-            $handValuesBySeat = $this->getHandValuesForSeats();;
-            $result = [
-                1 => ['hand'=>$handValuesBySeat[1]],
-                2 => ['hand'=>$handValuesBySeat[1]],
-            ];
-            if($handValuesBySeat[1]['value'] == $handValuesBySeat[2]['value']){
-                $result[1]['result'] = 'split';
-                $result[2]['result'] = 'split';
-            }
-            if($handValuesBySeat[1]['value'] < $handValuesBySeat[2]['value']){
-                $result[1]['result'] = 'win';
-                $result[2]['result'] = 'lose';
-            }
-            if($handValuesBySeat[1]['value'] > $handValuesBySeat[2]['value']){
-                $result[1]['result'] = 'lose';
-                $result[2]['result'] = 'win';
-            }
-
-            $this->currentHand->result = $result;
-            $this->currentHand->save();*/
         }
         return false;
     }
 
-    protected function refreshState()
+    protected function refreshState($forceBroadcast = false)
     {
         $counter = 0;
         $finished = false;
@@ -129,7 +108,7 @@ abstract class HoldemBaseDealer extends DealerBase
             }
             $counter++;
         }
-        if ($modified) {
+        if ($modified || $forceBroadcast) {
             $this->broadcastStatus();
         }
     }
@@ -162,7 +141,8 @@ abstract class HoldemBaseDealer extends DealerBase
             'myHandValue' => $myHandValue,
             'opponentHandValue' => $opponentHandValue,
             'handStatus' => $this->status->getGameStatus(),
-            'cardsInDealOrder' => $this->status->getCardsInDealOrder($mySeat)
+            'cardsInDealOrder' => $this->status->getCardsInDealOrder($mySeat),
+            'allCardsRevealed' => $this->status->areAllCardsRevealed()
         ];
 
         if ($this->status->handEnded()) {
@@ -249,11 +229,7 @@ abstract class HoldemBaseDealer extends DealerBase
 
     private function dealFlop()
     {
-        $actions = collect([]);
-        $actions->push([
-            'key' => 'all_cards_revealed'
-        ]);
-        return $actions->merge($this->dealCommunityCards('flop', 3));
+        return $this->dealCommunityCards('flop', 3);
     }
 
     private function dealTurn()
@@ -263,7 +239,11 @@ abstract class HoldemBaseDealer extends DealerBase
 
     private function dealRiver()
     {
-        return $this->dealCommunityCards('river', 1);
+        $actions = collect([]);
+        $actions->push([
+            'key' => 'all_cards_revealed'
+        ]);
+        return $actions->merge($this->dealCommunityCards('river', 1));
     }
 
     private function dealCommunityCards($streetName, $numberOfCards)

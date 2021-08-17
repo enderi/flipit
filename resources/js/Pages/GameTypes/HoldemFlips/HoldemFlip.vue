@@ -12,10 +12,10 @@
                     <h5 class="card-title">{{params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'}}</h5>
                     <div class="card-text">   
                         <div class="row text-center">
-                            <div class="col-sm-6 offset-sm-3 col-xs-12">
+                            <div class="col-lg-6 offset-lg-3 col-xs-12">
                                 <!--- villain -->
                                 <h4>Villain</h4>
-                                <hand :cards="placeHolders.seat[opponentSeat]" />
+                                <hand :items="placeHolders.target[opponentSeat]" />
                                 <br>
                                 <span v-bind:class="{'bold': (myHandValue.value > opponentHandValue.value)}">
                                     {{ opponentHandValue.name || "&nbsp;" }}
@@ -24,13 +24,13 @@
 
                                 <!-- Table -->
                                 <div class="col-12 mt-4 mb-4">
-                                    <hand :cards="placeHolders.table" />
+                                    <hand :items="placeHolders.target.community" />
                                 </div>
                                 
                                 <hr />
-                                <h4>Villain</h4>
+                                <h4>Hero</h4>
                                 <!-- My -->
-                                <hand :cards="placeHolders.seat[mySeat]" />
+                                <hand :items="placeHolders.target[mySeat]" />
                                 <br>
                                 <span v-bind:class="{'bold': (myHandValue.value < opponentHandValue.value)}">
                                     {{ myHandValue.name || "&nbsp;" }}
@@ -42,8 +42,8 @@
 
                 </div>
                 <div class="card-footer text-center" style="min-height: 65px">
-                    <div v-if="options && options.length">
-                        <span v-for="action in options" v-bind:key="action">
+                    <div class="row" v-if="options && options.length">
+                        <span class="col" v-for="action in options" v-bind:key="action">
                             <action-button
                                 :action="action"
                                 v-on:action-made="acted" />                            
@@ -116,7 +116,9 @@ export default {
             cardsDealt: 0,
             communityCards: [],
             gameStarted: false,
-            placeHolders: this.buildPlaceHolders()
+            placeHolders: this.buildPlaceHolders(),
+            dealtCardArray: {},
+            dealtCards: []
         };
     },
   mounted() {
@@ -173,20 +175,16 @@ export default {
                 .then(resp => this.handleResponse(resp.data))
         },
         dealNextCard(item) {
-            if(item.target === 'community'){
-                this.addCardToFirstFreeSlot(this.placeHolders.table, item.card)
-            } else {
-                this.addCardToFirstFreeSlot(this.placeHolders.seat[item.target], item.card)
-            }
+            this.addCardToFirstFreeSlot(this.placeHolders.target[item.target], item)
+            this.dealtCardArray[item.index] = item
             this.$forceUpdate()
         },
-        addCardToFirstFreeSlot(items, card) {
+        addCardToFirstFreeSlot(items, item) {
             for(var i=0; i<items.length; i++){
                 var curr = items[i]
-                console.log('curr', curr)
                 if(curr.placeHolder){
                     curr.placeHolder = false
-                    curr.card = card
+                    curr.item = item
                     break;
                 }
             }
@@ -209,8 +207,21 @@ export default {
             if(this.cardsDealt > data.cardsInDealOrder.length) {
                 this.initialize()
             }
-            if(this.cardsDealt < data.cardsInDealOrder.length) {
-                console.log('hephe', data.cardsInDealOrder.length)
+            if(this.cardsDealt <= data.cardsInDealOrder.length) {
+                for(var i=0; i<this.cardsDealt; i++) {
+                    var source = data.cardsInDealOrder[i]
+                    var curr = _.find(this.placeHolders.target[source.target], (ii) => { 
+                        return !ii.placeHolder && ii.item.index === source.index
+                    })
+
+                    if(curr && curr.item.card !== source.card){
+                        curr.item.card = source.card
+                    }
+                    var curr = this.dealtCardArray[source.index]
+                    if(curr && curr.card !== source.card) {
+                        this.dealtCardArray[source.index] = source
+                    }  
+                }
                 while(this.cardsDealt < data.cardsInDealOrder.length){
                     var currCard = data.cardsInDealOrder[this.cardsDealt]
                     _.delay(this.dealNextCard, delay, currCard)
@@ -219,18 +230,18 @@ export default {
                 }
             }
             this.options = data.options && data.options[this.mySeat]
-            
             this.myHandValue = data.myHandValue
             this.opponentHandValue = data.opponentHandValue
             return
         },
         acted(action) {
-            this.options = []
+            this.disableAllActions()
             axios.post('/api/hand-status/action', {
                 uuid: this.params.uuid,
                 action: action.key
             })
             .then((resp) => this.handleResponse(resp.data))
+            .finally(this.enableAllActions)
         },
         disableAllActions() {
             this.disableAll = true
@@ -258,28 +269,29 @@ export default {
     buildPlaceHolders() {
         var cardCount = this.params.game.game_type === 'OMAHA-FLIP' ? 4 : 2
         var placeHolders = {
-            seat: {
+            target: {
                 1: [],
-                2: []
-            }, 
-            table: []
+                2: [],
+                community: []
+            }
         }
         for(var i = 0; i< 5; i++){
-            placeHolders.table.push({
+            placeHolders.target.community.push({
                 placeHolder: true,
-                card: null
+                item: null
             })
         }
         for(var i = 0; i< cardCount; i++){
-            placeHolders.seat[1].push({
+            placeHolders.target[1].push({
                 placeHolder: true,
-                card: null
+                item: null
             })
-            placeHolders.seat[2].push({
+            placeHolders.target[2].push({
                 placeHolder: true,
-                card: null
+                item: null
             })
         }
+        this.dealtCardArray = {}
         return placeHolders
     }
   }

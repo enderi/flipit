@@ -20,6 +20,7 @@ class FourStreetGameStatus
     private $cardIndex = 0;
     private $allCardsRevealed = false;
     private $newHandRequested;
+    private $cardsInSeatRevealed;
 
     public function __construct($game)
     {
@@ -30,6 +31,10 @@ class FourStreetGameStatus
         $this->options = collect([]);
         $this->seatByPlayerUuid = [];
         $this->newHandRequested = collect([]);
+        $this->cardsInSeatRevealed = [
+            1 => false,
+            2 => false
+        ];
         $this->parseStatus();
     }
 
@@ -50,14 +55,16 @@ class FourStreetGameStatus
         foreach ($this->actions as $a) {
             $data = $a->data;
             $currKey = $data['key'];
-            if($currKey == 'all_cards_revealed'){
+            if ($currKey == 'all_cards_revealed') {
                 $this->allCardsRevealed = true;
+                $this->cardsInSeatRevealed[1] = true;
+                $this->cardsInSeatRevealed[2] = true;
                 continue;
             }
-            if($currKey == 'player_joined'){
+            if ($currKey == 'player_joined') {
                 $this->joinedPlayers->push($data);
                 $this->seatByPlayerUuid[$data['player_uuid']] = $data['seat_number'];
-                if($this->joinedPlayers->count() == 2){
+                if ($this->joinedPlayers->count() == 2) {
                     $this->gameStatus = 'ready_to_start';
                 }
                 continue;
@@ -66,10 +73,11 @@ class FourStreetGameStatus
                 $this->cardIndex++;
                 $seatNo = $data['seat_number'];
                 $cards[$seatNo]->push($data['card']);
-                
+
                 $cardsInDealOrder->push([
                     'target' => $seatNo,
-                    'card' => $data['card']
+                    'card' => $data['card'],
+                    'index' => $this->cardIndex
                 ]);
             }
             if (in_array($currKey, ['flop_card', 'turn_card', 'river_card'])) {
@@ -77,27 +85,36 @@ class FourStreetGameStatus
                 $cards['community']->push($data['card']);
                 $cardsInDealOrder->push([
                     'target' => 'community',
-                    'card' => $data['card']
+                    'card' => $data['card'],
+                    'index' => $this->cardIndex
                 ]);
             }
 
             if ($currKey == 'new_street_dealt') {
                 $waitingActions = collect($playerUuids);
                 $this->gameStatus = $data['value'];
-                if($this->gameStatus == 'pocket_cards') {
+                if ($this->gameStatus == 'pocket_cards') {
                     $this->pocketCardsDealt = true;
-                } else if($this->gameStatus == 'flop') {
+                } else if ($this->gameStatus == 'flop') {
                     $this->flopDealt = true;
-                } else if($this->gameStatus == 'turn') {
+                } else if ($this->gameStatus == 'turn') {
                     $this->turnDealt = true;
-                }else if($this->gameStatus == 'river') {
+                } else if ($this->gameStatus == 'river') {
                     $this->riverDealt = true;
                 }
             }
             if ($currKey == 'player_action') {
-                if ($data['action'] == 'new_hand'){
+                if ($data['action'] == 'new_hand') {
                     $this->newHandRequested->push($data['player_uuid']);
                     $this->newHandRequested = $this->newHandRequested->unique();
+                }
+                if ($data['action'] == 'show_cards') {
+                    $seat = $this->seatByPlayerUuid[$data['player_uuid']];
+                    $this->cardsInSeatRevealed[$seat] = true;
+                    if ($this->cardsInSeatRevealed[1] && $this->cardsInSeatRevealed[2]) {
+                        $this->allCardsRevealed = true;
+                    }
+                    continue;
                 }
                 $waitingActions = $waitingActions->filter(function ($a) use ($data) {
                     return $a != $data['player_uuid'];
@@ -106,14 +123,26 @@ class FourStreetGameStatus
         }
         $this->cards = $cards;
         $this->cardsInDealOrder = $cardsInDealOrder;
-        $options = [];
+        $options = [
+            1 => collect([]),
+            2 => collect([])
+        ];
+        if (!$this->allCardsRevealed) {
+            foreach ($playerUuids as $plUuid) {
+                $seat = $this->seatByPlayerUuid[$plUuid];
+                if (!$this->cardsInSeatRevealed[$seat]) {
+                    $options[$seat]->push([
+                        'text' => 'Show cards',
+                        'key' => 'show_cards',
+                        'non_blocking' => true
+                    ]);
+                }
+            }
+        }
         if (!$waitingActions->isEmpty()) {
             foreach ($waitingActions as $a) {
                 $seat = $this->seatByPlayerUuid[$a];
-                if (!array_key_exists($seat, $options)) {
-                    $options[$seat] = collect([]);
-                }
-                if($this->handEnded()){
+                if ($this->handEnded()) {
                     $options[$seat]->push([
                         'text' => 'New hand',
                         'key' => 'new_hand',
@@ -125,103 +154,150 @@ class FourStreetGameStatus
                     ]);
                 }
             }
-        } else {
         }
         $this->options = collect($options);
 
     }
 
-    public function getCardIndex() {
+    public function getCardIndex()
+    {
         return $this->cardIndex;
     }
 
-    public function isWaitingForUserActions() {
-        return $this->options->count() > 0;
+    public function isWaitingForUserActions()
+    {
+        $blockersFound = false;
+            if($this->options[1]->filter(function($op) {
+                return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
+            })->count() > 0 ||
+                $this->options[2]->filter(function($op) {
+                    return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
+                })->count() > 0
+            ){
+                $blockersFound = true;
+            }
+        return $blockersFound;
+
+        /*return $this
+                ->options
+                ->where(function ($op) {
+                    return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
+                })
+                ->count() > 0;
+   */
     }
 
-    public function isPocketCardsDealt() {
+    public function isPocketCardsDealt()
+    {
         return $this->pocketCardsDealt;
     }
 
-    public function readyToDealPocketCards() {
+    public function readyToDealPocketCards()
+    {
         return $this->joinedPlayers->count() == 2 && !$this->pocketCardsDealt;
     }
 
-    public function readyToDealFlop() {
+    public function readyToDealFlop()
+    {
         return $this->pocketCardsDealt && !$this->flopDealt;
     }
 
-    public function readyToDealTurn() {
+    public function readyToDealTurn()
+    {
         return $this->flopDealt && !$this->turnDealt;
     }
 
-    public function readyToDealRiver() {
+    public function readyToDealRiver()
+    {
         return $this->turnDealt && !$this->riverDealt;
     }
 
-    public function readyForNewHand() {
+    public function readyForNewHand()
+    {
         return $this->newHandRequested->count() == 2;
     }
 
-    public function getCardsInDealOrder($seat) {
-        return $this->cardsInDealOrder;
+    public function getCardsInDealOrder($seat)
+    {
+        if ($this->allCardsRevealed) {
+            return $this->cardsInDealOrder;
+        } else {
+            return $this->cardsInDealOrder->map(function ($c) use ($seat) {
+                if(array_key_exists('target', $c) && ($c['target'] =='community' || $c['target'] == $seat)) {
+                    return $c;
+                }
+                $c['card'] = '??';
+                return $c;
+            });
+        }
     }
 
-    public function getCards($seatNo) {
-        if($this->allCardsRevealed) {
+    public function getCards($seatNo)
+    {
+        if ($this->allCardsRevealed) {
             return $this->cards;
         } else {
             return $this->hiddenCards($seatNo);
         }
     }
 
-    private function hiddenCards($seatNo){
+    private function hiddenCards($seatNo)
+    {
         $new = array();
 
         foreach ($this->cards as $k => $v) {
-            if($k == $seatNo || $k == 'community') {
+            if ($k == $seatNo || $k == 'community') {
                 $new[$k] = clone $v;
-            }else {
-                $new[$k] = collect($v)->map(function($c){ return '??';});
+            } else {
+                $new[$k] = collect($v)->map(function ($c) {
+                    return '??';
+                });
             }
         }
         return $new;
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return $this->options;
     }
 
-    public function getSeatForPlayerUuid($uuid){
-        if(array_key_exists($uuid, $this->seatByPlayerUuid)) {
+    public function getSeatForPlayerUuid($uuid)
+    {
+        if (array_key_exists($uuid, $this->seatByPlayerUuid)) {
             return $this->seatByPlayerUuid[$uuid];
-        }else {
+        } else {
             return null;
         }
     }
 
-    public function areAllCardsRevealed() {
+    public function areAllCardsRevealed()
+    {
         return $this->allCardsRevealed;
     }
 
-    public function getGameStatus() {
+    public function getGameStatus()
+    {
         return $this->gameStatus;
     }
 
-    public function isFlopDealt() {
+    public function isFlopDealt()
+    {
         return $this->flopDealt;
     }
 
-    public function handEnded() {
+    public function handEnded()
+    {
         return $this->riverDealt;
     }
 
-    public function toString() {
+    public function toString()
+    {
         return nl2br('STATUS: ' . $this->gameStatus
-        . ', PlayerCount: ' . $this->joinedPlayers->count()
-        . ', Waiting for user: ' . ($this->isWaitingForUserActions() ? 'yes' : 'no')
-        . ', options: ' . json_encode($this->options)
-        . "\n"
-    );
+            . ', PlayerCount: ' . $this->joinedPlayers->count()
+            . ', Waiting for user: ' . ($this->isWaitingForUserActions() ? 'yes' : 'no')
+            . ', options: ' . json_encode($this->options)
+            . "\n"
+        );
     }
 }
