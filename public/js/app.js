@@ -21772,7 +21772,7 @@ var _hoisted_2 = {
   "class": "row"
 };
 var _hoisted_3 = {
-  "class": "col-sm-6 offset-sm-3 col-xs-6"
+  "class": "col-lg-6 offset-lg-3 col-xs-6"
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("STACKED");
@@ -21788,7 +21788,7 @@ var _hoisted_7 = {
   "class": "row"
 };
 var _hoisted_8 = {
-  "class": "col-sm-6 offset-sm-3 col-xs-6"
+  "class": "col-lg-6 offset-lg-3 col-xs-6"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_inertia_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("inertia-link");
@@ -23279,7 +23279,7 @@ var _hoisted_7 = {
   "class": "row text-center"
 };
 var _hoisted_8 = {
-  "class": "col-lg-6 offset-lg-3 col-xs-12"
+  "class": "col-xs-12"
 };
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Villain", -1
@@ -23295,7 +23295,7 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_12 = {
-  "class": "col-12 mt-4 mb-4"
+  "class": "mt-4 mb-4"
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1

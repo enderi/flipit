@@ -12,7 +12,7 @@
         </nav>-->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6 offset-sm-3 col-xs-6">
+                <div class="col-lg-6 offset-lg-3 col-xs-6">
                     <h1>
                         <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
                     </h1>
@@ -23,7 +23,7 @@
         <main>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-6 offset-sm-3 col-xs-6">
+                    <div class="col-lg-6 offset-lg-3 col-xs-6">
                         <slot></slot>
                     </div>
                 </div>

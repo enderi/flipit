@@ -12,7 +12,7 @@
                     <h5 class="card-title">{{params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'}}</h5>
                     <div class="card-text">   
                         <div class="row text-center">
-                            <div class="col-lg-6 offset-lg-3 col-xs-12">
+                            <div class="col-xs-12">
                                 <!--- villain -->
                                 <h4>Villain</h4>
                                 <hand :items="placeHolders.target[opponentSeat]" />
@@ -23,7 +23,7 @@
                                 <hr>
 
                                 <!-- Table -->
-                                <div class="col-12 mt-4 mb-4">
+                                <div class="mt-4 mb-4">
                                     <hand :items="placeHolders.target.community" />
                                 </div>
                                 
