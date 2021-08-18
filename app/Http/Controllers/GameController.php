@@ -13,6 +13,7 @@ use App\Models\Hand;
 use App\Models\Invitation;
 use App\Services\DealerService;
 use App\Services\GameService;
+use App\Services\PlayerService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -22,12 +23,17 @@ use Ramsey\Uuid\Uuid;
 
 class GameController extends Controller
 {
-    public function create(Request $request, GameService $gameService, DealerService $dealerService)
+    public function create(
+        Request $request, 
+        GameService $gameService, 
+        PlayerService $playerService,
+        DealerService $dealerService)
     {
         $gameType = $request->get('gameType');
         $game = $gameService->newGame($gameType);
+        $mapping = $playerService->joinGame($game);
         $dealer = $dealerService->getDealer($game);
-        $mapping = $dealer->joinAsPlayer();
+        $dealer->tick($mapping->player->uuid);
         return Redirect::route('game-show', ['uuid' => $mapping->uuid]);
     }
 
@@ -50,16 +56,18 @@ class GameController extends Controller
         }
         if(in_array($game->game_type, [OmahaFlipDealer::OMAHA_FLIP, TexasFlipDealer::TEXAS_FLIP])){
             return Inertia::render('GameTypes/HoldemFlips/HoldemFlip', ['params' => $common]);
-
         }
         if($game->game_type == LastTrickDealer::LAST_TRICK) {
             return Inertia::render('LastTrick', ['params' => $common]);
         }
     }
 
-    public function join(Request $request, DealerService $dealerService) {
+    public function join(
+        Request $request, 
+        DealerService $dealerService,
+        PlayerService $playerService) {
         $code = $request->get('code');
-        return $this->joinWithCode($code, $dealerService);
+        return $this->joinWithCode($code, $dealerService, $playerService);
     }
 
     public function showJoinWithCode($inviteUuid) {
@@ -72,15 +80,19 @@ class GameController extends Controller
     }
 
 
-    public function joinWithCode($inviteUuid, DealerService $dealerService) {
+    public function joinWithCode(
+        $inviteUuid, 
+        DealerService $dealerService,
+        PlayerService $playerService) {
         try {
             $invitation = Invitation::where('code', $inviteUuid)->where('expires_at', '>=', Carbon::now())->firstOrFail();
         }catch (ModelNotFoundException $exception){
             return Redirect::route('join', ['error' => 'Not found']);
         }
         $game = Game::find($invitation->game_id);
+        $mapping = $playerService->joinGame($game);
         $dealer = $dealerService->getDealer($game);
-        $mapping = $dealer->joinAsPlayer();
+        $dealer->tick($mapping->player->uuid);
         $invitation->expires_at = Carbon::now()->addSecond(-1);
         $invitation->update();
 

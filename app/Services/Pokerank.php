@@ -319,7 +319,6 @@ class Pokerank
      */
     public function toInt($suit, $rank)
     {
-        echo 'to rank ' . $rank . ' => ' . $this->primeRankValues[$rank]; 
         return $suit << 8 | $this->primeRankValues[$rank];
     }
 

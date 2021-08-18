@@ -40,6 +40,7 @@ class TexasFlipDealer extends HoldemBaseDealer
         foreach ($communityCards as $c) {
             $playerCardsInUse[] = $c;
         }
+
         foreach ($handCards as $c) {
             $playerCardsInUse[] = $c;
         }

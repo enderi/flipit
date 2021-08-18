@@ -3,13 +3,8 @@
 namespace App\Dealers\FourStreetGames;
 
 use App\Dealers\DealerBase;
-use App\Lib\DeckLib\card;
 use App\Lib\DeckLib\Deck;
-use App\Models\Action;
-use App\Models\GamePlayerMapping;
 use App\Models\Hand;
-use App\Models\Player;
-use App\Services\HoldemSolver;
 use Ramsey\Uuid\Uuid;
 
 abstract class HoldemBaseDealer extends DealerBase
@@ -24,24 +19,6 @@ abstract class HoldemBaseDealer extends DealerBase
 
     protected abstract function getHandValues($cs, $communityCardsItems);
 
-    protected abstract function getBestHand($handCards, $communityCards): array;
-
-    public function joinAsPlayer(): GamePlayerMapping
-    {
-        $player = Player::create([
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $this->game['id'],
-            'seat_number' => $this->game->players->count() + 1,
-            'ready' => 1
-        ]);
-        return GamePlayerMapping::create(
-            [
-                'uuid' => Uuid::uuid4(),
-                'game_id' => $this->game->id,
-                'player_id' => $player->id
-            ]);
-    }
-
     public function addUserAction($actionKey, $playerUuid)
     {
         $this->createAction([
@@ -49,81 +26,108 @@ abstract class HoldemBaseDealer extends DealerBase
             'player_uuid' => $playerUuid,
             'action' => $actionKey
         ]);
-        $this->refreshState(true);
     }
 
-    public function tick($playerUuid): array
+    public function tick($playerUuid, $forceBroadcast = false): array
     {
-        $this->refreshState();
+        $shouldBroadCast = false;
+        if($this->game->players->count() == 2){
+            if($this->game->hand == null) {
+                $this->createNewHand();
+            }
+            $shouldBroadCast = $this->refreshState();
+        }
+        if($shouldBroadCast || $forceBroadcast){
+            $this->broadcastStatus();
+        }
+
         return $this->getStatus($playerUuid);
     }
 
-    private function proceedIfPossible(FourStreetGameStatus $status): bool
+    private function proceedIfPossible(): bool
     {
-        if ($this->currentHand == null) {
-            if ($this->game->players->count() == 2) {
-                $this->createNewHand();
-                return true;
-            } else {
-                return false;
-            }
+        if ($this->status->readyForNewHand()) {
+            $this->createNewHand();
+            return true;
+        }
+
+        if($this->status->isWaitingForUserActions()){
+            return false;
+        }
+
+        if ($this->game->hand == null) {
+            return false;
         }
         $actions = null;
-        if ($status->readyToDealPocketCards()) {
+        if ($this->status->readyToDealPocketCards()) {
             $actions = $this->dealPocketCards();
-        } else if ($status->readyToDealFlop()) {
+        } else if ($this->status->readyToDealFlop()) {
             $actions = $this->dealFlop();
-        } else if ($status->readyToDealTurn()) {
+        } else if ($this->status->readyToDealTurn()) {
             $actions = $this->dealTurn();
-        } else if ($status->readyToDealRiver()) {
+        } else if ($this->status->readyToDealRiver()) {
             $actions = $this->dealRiver();
-        } else if ($status->readyForNewHand()) {
-            $this->createNewHand();
+        } else if($this->status->handEnded()){
+            $actions = $this->saveResult();
         }
         if ($actions != null) {
             $actions->each(function ($action) {
                 $this->createAction($action);
             });
-
             return true;
-        }
-        if ($status->handEnded()) {
         }
         return false;
     }
 
-    protected function refreshState($forceBroadcast = false)
+    private function saveResult() {
+        $result = $this->getHandValuesForSeats();
+        $resultToSave = [
+            1 => 'tie',
+            2 => 'tie'
+        ];
+        $h1 = $result[1];
+        $h2 = $result[2];
+        if($h1['value'] < $h2['value']) {
+            $resultToSave[1] = 'win';
+            $resultToSave[2] = 'lose';
+        }
+        if($h1['value'] > $h2['value']) {
+            $resultToSave[1] = 'lose';
+            $resultToSave[2] = 'win';
+        }
+        $action = [
+            self::KEY => 'hand_ended',
+            'results' => $resultToSave
+        ];
+        $resultToSave['hands'] = $result;
+        $this->currentHand['result'] = $resultToSave;
+        $this->currentHand->save();
+        return collect([$action]);
+    }
+
+    protected function refreshState()
     {
-        $counter = 0;
-        $finished = false;
+        $this->status = new FourStreetGameStatus($this->game);
         $modified = false;
-        while (!$finished && $counter < 10) {
-            $status = new FourStreetGameStatus($this->game);
-            $this->status = $status;
-            if (!$status->isWaitingForUserActions()) {
-                $modified = $this->proceedIfPossible($status);
-                $finished = false;
-            } else {
-                $finished = true;
-            }
+        $counter = 0;
+        while($this->proceedIfPossible() && $counter <10){
+            $this->game->refresh();
+            $this->status = new FourStreetGameStatus($this->game);
+            $modified = true;
             $counter++;
         }
-        if ($modified || $forceBroadcast) {
-            $this->broadcastStatus();
-        }
+        return $modified;
     }
 
     protected function getStatus($playerUuid): array
     {
-
-        if ($this->status->getGameStatus() == 'waiting_for_opponent') {
+        if ($this->status == null || $this->status->getGameStatus() == 'WAITING_PLAYERS') {
             return [
-                'handStatus' => $this->status->getGameStatus()
+                'handStatus' => 'WAITING_PLAYERS'
             ];
         }
         $mySeat = $this->status->getSeatForPlayerUuid($playerUuid);
         $opponentSeat = $mySeat == 1 ? 2 : 1;
-        $cards = $this->status->getCards($mySeat);
         $values = $this->getHandValuesForSeats();
         $myHandValue = $values[$mySeat];
         if ($this->status->areAllCardsRevealed()) {
@@ -132,9 +136,8 @@ abstract class HoldemBaseDealer extends DealerBase
             $opponentHandValue = [];
         }
 
-
         $result = [
-            'cards' => $cards,
+            'gameId' => $this->game->id,
             'mySeat' => $mySeat,
             'options' => $this->status->getOptions(),
             'myPlayerUuid' => $playerUuid,
@@ -145,22 +148,9 @@ abstract class HoldemBaseDealer extends DealerBase
             'allCardsRevealed' => $this->status->areAllCardsRevealed()
         ];
 
-        if ($this->status->handEnded()) {
-            $result['result'] = $this->currentHand->result;
+        if($this->status->isFlopDealtButNotRiver()){
+            $result['odds'] = 'hephe';
         }
-
-        /*if($this->status->isFlopDealt()) {
-            $cardIndex = $this->status->getCardIndex();
-            $deck = $this->currentHand->getDeck();
-            $remaining = $deck->getRemainingFromIndex($cardIndex);
-            $solver = new HoldemSolver();
-            $communityCards = $cards['community']->map(function($c) { return card::of($c); });
-            $hand1 = $cards['1']->map(function($c) { return card::of($c); });
-            $hand2 = $cards['2']->map(function($c) { return card::of($c); });
-
-            $result['odds'] = $solver->calc($remaining, $communityCards, $hand1, $hand2);
-
-        }*/
         return $result;
     }
 
@@ -183,15 +173,17 @@ abstract class HoldemBaseDealer extends DealerBase
         $deck = new Deck();
         $deck->initialize();
         $deck->shuffle();
-
-        $this->currentHand = Hand::create([
+        $hand = Hand::create([
             'game_id' => $this->game->id,
             'data' => [],
             'uuid' => Uuid::uuid4(),
             'ended' => false,
             'deck' => $deck->toString()
         ]);
-
+        $this->game->hand_id = $hand->id;
+        $this->game->save();
+        $this->game->refresh();
+        $this->currentHand = $this->game->hand;
     }
 
     private function dealPocketCards()

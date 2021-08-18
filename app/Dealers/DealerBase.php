@@ -13,9 +13,8 @@ abstract class DealerBase
     protected $game;
     protected $currentHand;
     public abstract function getGameType(): String;
-    public abstract function joinAsPlayer(): GamePlayerMapping;
     public abstract function addUserAction(String $actionKey, String $playerUuid);
-    public abstract function tick(String $playerUuid);
+    public abstract function tick(String $playerUuid, $forceBroadcast = false);
 
     protected abstract function getStatus($playerUuid): array;
     protected abstract function refreshState();
@@ -23,8 +22,7 @@ abstract class DealerBase
     public function initWithGame($game)
     {
         $this->game = $game;
-        $this->currentHand = $game->getCurrentHand();
-        return $this->refreshState();
+        $this->currentHand = $game->hand;
     }
 
     public function requestNewHand($playerUuid)

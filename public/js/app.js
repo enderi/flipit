@@ -19286,9 +19286,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     console.log("=====", this.params);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", function (e) {
-      console.log("new event received 1", e.action.action);
-      console.log("new event received 2", e.action.status);
-
       if (e.action.action === "new-status") {
         _this.vibrate();
 
@@ -19334,6 +19331,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "getStatus", function getStatus() {
     var _this2 = this;
 
+    console.log('uuid', this.params);
     axios.get("/api/hand-status/" + this.params.uuid).then(function (resp) {
       return _this2.handleResponse(resp.data);
     });
@@ -19355,7 +19353,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.placeHolders = this.buildPlaceHolders();
     this.cardsDealt = 0;
   }), _defineProperty(_methods, "handleResponse", function handleResponse(data) {
-    if (data.handStatus === 'waiting_for_opponent') {
+    console.log('status', data);
+
+    if (data.handStatus === 'WAITING_PLAYERS') {
       this.gameStarted = false;
       this.initializing = false;
       return;

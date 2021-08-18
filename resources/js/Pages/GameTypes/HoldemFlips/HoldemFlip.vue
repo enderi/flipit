@@ -124,8 +124,6 @@ export default {
   mounted() {
     console.log("=====", this.params);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", (e) => {
-      console.log("new event received 1", e.action.action);
-      console.log("new event received 2", e.action.status);
       if (e.action.action === "new-status") {
         this.vibrate();
 
@@ -170,6 +168,7 @@ export default {
             }
         },
         getStatus() {
+            console.log('uuid', this.params)
             axios
                 .get("/api/hand-status/" + this.params.uuid)
                 .then(resp => this.handleResponse(resp.data))
@@ -194,7 +193,8 @@ export default {
             this.cardsDealt = 0
         },
         handleResponse(data) {
-            if(data.handStatus === 'waiting_for_opponent'){
+            console.log('status', data)
+            if(data.handStatus === 'WAITING_PLAYERS'){
                 this.gameStarted = false
                 this.initializing = false
                 return

@@ -13,20 +13,6 @@ use Illuminate\Http\Request;
 
 class HandController extends Controller
 {
-    public function getStatus(Request $request, DealerService $dealerService) {
-        $playerUuid = $request->get('playerUuid');
-        $dealer = $dealerService->getDealerForUuid($request->get('gameUuid'));
-        return $dealer->tick($playerUuid);
-    }
-
-    public function tick($uuid, DealerService $dealerService){
-        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
-        $gameUuid = $mapping->game->uuid;
-        $playerUuid = $mapping->player->uuid;
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        return $dealer->tick($playerUuid);
-    }
-
     public function getStatusByUuid($uuid, DealerService $dealerService) {
         $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
         $gameUuid = $mapping->game->uuid;
@@ -43,7 +29,7 @@ class HandController extends Controller
         $playerUuid = $mapping->player->uuid;
         $dealer = $dealerService->getDealerForUuid($gameUuid);
         $dealer->addUserAction($action, $playerUuid);
-        return $dealer->tick($playerUuid);
+        return $dealer->tick($playerUuid, true);
     }
 
     public function newHand(Request $request, DealerService $dealerService){

@@ -2,32 +2,53 @@
 
 namespace App\Dealers\FourStreetGames;
 
-use DASPRiD\Enum\Exception\IllegalArgumentException;
-
 class FourStreetGameStatus
 {
+    public static $gameStates = [
+        'WAITING_PLAYERS' => 'WAITING_PLAYERS',
+        'PLAYERS_JOINED' => 'PLAYERS_JOINED',
+        'PREFLOP' => 'PREFLOP',
+        'FLOP_DEALT' => 'FLOP_DEALT',
+        'TURN_DEALT' => 'TURN_DEALT',
+        'RIVER_DEALT' => 'RIVER_DEALT',
+        'HAND_ENDED' => 'HAND_ENDED',
+    ];
+
+    private $streetsDealt = [
+        'pocket_cards' => false,
+        'flop' => false,
+        'turn' => false,
+        'river' => false
+    ];
+
     private $actions;
     private $gameStatus;
     private $cards;
     private $cardsInDealOrder;
     private $options;
     private $joinedPlayers;
-    private $pocketCardsDealt = false;
-    private $flopDealt = false;
-    private $turnDealt = false;
-    private $riverDealt = false;
     private $seatByPlayerUuid;
     private $cardIndex = 0;
     private $allCardsRevealed = false;
     private $newHandRequested;
     private $cardsInSeatRevealed;
+    private $resultSaved = false;
 
     public function __construct($game)
     {
-        $this->game = $game;
-        $this->currentHand = $game->getCurrentHand();
-        $this->actions = $this->currentHand != null ? $this->currentHand->actions : collect([]);
-        $this->joinedPlayers = $this->game->players;
+        $this->setData($game->players, $game->hand);
+    }
+
+    public function setData($players, $currentHand)
+    {
+        $this->joinedPlayers = $players;
+        $this->currentHand = $currentHand;
+        $this->actions = $currentHand->actions;
+        $this->initializeState();
+    }
+
+    private function initializeState()
+    {
         $this->options = collect([]);
         $this->seatByPlayerUuid = [];
         foreach ($this->joinedPlayers as $pl) {
@@ -43,16 +64,16 @@ class FourStreetGameStatus
 
     private function parseStatus()
     {
-        $this->gameStatus = 'waiting_for_opponent';
+        $this->gameStatus = FourStreetGameStatus::$gameStates['WAITING_PLAYERS'];
         if ($this->joinedPlayers->count() == 2) {
-            $this->gameStatus = 'ready_to_start';
+            $this->gameStatus = FourStreetGameStatus::$gameStates['PLAYERS_JOINED'];
         } else {
             return;
         }
         $cardsInDealOrder = collect([]);
         $cards = [];
         $playerUuids = collect([]);
-        foreach ($this->game->players as $p) {
+        foreach ($this->joinedPlayers as $p) {
             $cards[$p['seat_number']] = collect([]);
             $playerUuids->push($p['uuid']);
 
@@ -92,18 +113,18 @@ class FourStreetGameStatus
             }
 
             if ($currKey == 'new_street_dealt') {
-                $waitingActions = collect($playerUuids);
                 $this->gameStatus = $data['value'];
-                if ($this->gameStatus == 'pocket_cards') {
-                    $this->pocketCardsDealt = true;
-                } else if ($this->gameStatus == 'flop') {
-                    $this->flopDealt = true;
-                } else if ($this->gameStatus == 'turn') {
-                    $this->turnDealt = true;
-                } else if ($this->gameStatus == 'river') {
-                    $this->riverDealt = true;
+                $this->streetsDealt[$data['value']] = true;
+                if (in_array($data['value'], ['pocket_cards', 'flop', 'turn'])) {
+                    $waitingActions = collect($playerUuids);
                 }
             }
+            if ($currKey == 'hand_ended') {
+                $waitingActions = collect($playerUuids);
+                $this->gameStatus = 'hand_ended';
+                $this->resultSaved = true;
+            }
+
             if ($currKey == 'player_action') {
                 if ($data['action'] == 'new_hand') {
                     $this->newHandRequested->push($data['player_uuid']);
@@ -143,7 +164,7 @@ class FourStreetGameStatus
         if (!$waitingActions->isEmpty()) {
             foreach ($waitingActions as $a) {
                 $seat = $this->seatByPlayerUuid[$a];
-                if ($this->handEnded()) {
+                if ($this->waitingForNewHandRequest()) {
                     $options[$seat]->push([
                         'text' => 'New hand',
                         'key' => 'new_hand',
@@ -167,7 +188,7 @@ class FourStreetGameStatus
 
     public function isWaitingForUserActions()
     {
-        if($this->joinedPlayers->count() != 2) {
+        if ($this->joinedPlayers->count() != 2) {
             return false;
         }
         $blockersFound = false;
@@ -181,44 +202,46 @@ class FourStreetGameStatus
             $blockersFound = true;
         }
         return $blockersFound;
-
-        /*return $this
-                ->options
-                ->where(function ($op) {
-                    return !array_key_exists('non_blocking', $op) || $op['non_blocking'] == false;
-                })
-                ->count() > 0;
-   */
     }
 
-    public function isPocketCardsDealt()
+    public function isFlopDealtButNotRiver()
     {
-        return $this->pocketCardsDealt;
+        return $this->streetsDealt['flop'] && !$this->streetsDealt['river'];
     }
 
     public function readyToDealPocketCards()
     {
-        return $this->joinedPlayers->count() == 2 && !$this->pocketCardsDealt;
+        return !$this->streetsDealt['pocket_cards'];
     }
 
     public function readyToDealFlop()
     {
-        return $this->pocketCardsDealt && !$this->flopDealt;
+        return $this->streetsDealt['pocket_cards'] && !$this->streetsDealt['flop'];
     }
 
     public function readyToDealTurn()
     {
-        return $this->flopDealt && !$this->turnDealt;
+        return $this->streetsDealt['flop'] && !$this->streetsDealt['turn'];
     }
 
     public function readyToDealRiver()
     {
-        return $this->turnDealt && !$this->riverDealt;
+        return $this->streetsDealt['turn'] && !$this->streetsDealt['river'];
+    }
+
+    public function handEnded()
+    {
+        return $this->streetsDealt['river'] && !$this->resultSaved;
+    }
+
+    public function waitingForNewHandRequest()
+    {
+        return $this->streetsDealt['river'] && $this->resultSaved && $this->newHandRequested->count() < 2;
     }
 
     public function readyForNewHand()
     {
-        return $this->newHandRequested->count() == 2;
+        return $this->resultSaved && $this->newHandRequested->count() == 2;
     }
 
     public function getCardsInDealOrder($seat)
@@ -285,15 +308,6 @@ class FourStreetGameStatus
         return $this->gameStatus;
     }
 
-    public function isFlopDealt()
-    {
-        return $this->flopDealt;
-    }
-
-    public function handEnded()
-    {
-        return $this->riverDealt;
-    }
 
     public function toString()
     {
