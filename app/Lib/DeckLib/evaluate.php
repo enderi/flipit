@@ -325,7 +325,7 @@ class evaluate
             }
             else
             {
-                return ($a->getRankValue($a->getRank()) < $b->getRankValue($b->getRank())) ? -1 :1;
+                return ($a->getRankValue($a->getRank()) < $b->getRankValue($b->getRank())) ? 1 :-1;
             }
         });
 
