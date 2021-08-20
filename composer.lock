@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db526c99166a0639f3c7a943e92c4b1c",
+    "content-hash": "fab03d07726f6ced42c34e431ad22fbc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -114,6 +114,60 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.4"
             },
             "time": "2021-06-18T13:26:35+00:00"
+        },
+        {
+            "name": "bocharsky-bw/arrayzy",
+            "version": "v0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bocharsky-bw/Arrayzy.git",
+                "reference": "2df9806a5c2383fd74992b95ec06a765da9262fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bocharsky-bw/Arrayzy/zipball/2df9806a5c2383fd74992b95ec06a765da9262fd",
+                "reference": "2df9806a5c2383fd74992b95ec06a765da9262fd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arrayzy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bocharsky Victor",
+                    "email": "bocharsky.bw@gmail.com"
+                }
+            ],
+            "description": "A native PHP arrays easy manipulation library in OOP way.",
+            "homepage": "https://github.com/bocharsky-bw/Arrayzy",
+            "keywords": [
+                "OOP",
+                "array",
+                "arrayzy",
+                "helper",
+                "manipulation",
+                "utility",
+                "wrapper"
+            ],
+            "support": {
+                "issues": "https://github.com/bocharsky-bw/Arrayzy/issues",
+                "source": "https://github.com/bocharsky-bw/Arrayzy/tree/master"
+            },
+            "time": "2016-07-20T17:49:22+00:00"
         },
         {
             "name": "brick/math",

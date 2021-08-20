@@ -5,6 +5,7 @@ namespace App\Dealers\FourStreetGames;
 use App\Dealers\DealerBase;
 use App\Lib\DeckLib\Deck;
 use App\Models\Hand;
+use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 
 abstract class HoldemBaseDealer extends DealerBase
@@ -13,11 +14,13 @@ abstract class HoldemBaseDealer extends DealerBase
     const KEY = 'key';
     const PREFLOP = 'pocket_cards';
 
-    private $status;
+    private ?FourStreetGameStatus $status = null;
 
     public abstract function getCardCount();
 
     protected abstract function getHandValues($cs, $communityCardsItems);
+
+    protected abstract function getOddsUntilRiver($handCards, Deck $deck);
 
     public function addUserAction($actionKey, $playerUuid)
     {
@@ -28,7 +31,7 @@ abstract class HoldemBaseDealer extends DealerBase
         ]);
     }
 
-    public function tick($playerUuid, $forceBroadcast = false): array
+    public function tick(string $playerUuid, $forceBroadcast = false): array
     {
         $shouldBroadCast = false;
         if($this->game->players->count() == 2){
@@ -79,7 +82,7 @@ abstract class HoldemBaseDealer extends DealerBase
         return false;
     }
 
-    private function saveResult() {
+    private function saveResult(): Collection {
         $result = $this->getHandValuesForSeats();
         $resultToSave = [
             1 => 'tie',
@@ -105,7 +108,7 @@ abstract class HoldemBaseDealer extends DealerBase
         return collect([$action]);
     }
 
-    protected function refreshState()
+    protected function refreshState():bool
     {
         $this->status = new FourStreetGameStatus($this->game);
         $modified = false;
@@ -148,13 +151,14 @@ abstract class HoldemBaseDealer extends DealerBase
             'allCardsRevealed' => $this->status->areAllCardsRevealed()
         ];
 
-        if($this->status->isFlopDealtButNotRiver()){
-            $result['odds'] = 'hephe';
+        if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
+            $deck = $this->status->getDeck();
+            $result['odds'] = $this->getOddsUntilRiver($this->status->getAllCards(), $deck);;
         }
         return $result;
     }
 
-    private function getHandValuesForSeats()
+    private function getHandValuesForSeats(): array
     {
         $cards1 = $this->status->getCards('1');
         $cards2 = $this->status->getCards('2');
@@ -188,6 +192,7 @@ abstract class HoldemBaseDealer extends DealerBase
 
     private function dealPocketCards()
     {
+        $deck = $this->status->getDeck();
         $dealtCards = collect([]);
         $card_index = $this->status->getCardIndex();
 
@@ -196,7 +201,7 @@ abstract class HoldemBaseDealer extends DealerBase
                 $action = [
                     self::KEY => 'pocket_card',
                     'card_index' => $card_index++,
-                    'card' => $this->currentHand->getDeck()->getIndex($card_index)->toString(),
+                    'card' => $deck->draw(1)->toString(),
                     'player_uuid' => $this->game->players[$i]->uuid,
                     'seat_number' => $this->game->players[$i]->seat_number
                 ];
@@ -231,9 +236,10 @@ abstract class HoldemBaseDealer extends DealerBase
         return $actions->merge($this->dealCommunityCards('river', 1));
     }
 
-    private function dealCommunityCards($streetName, $numberOfCards)
+    private function dealCommunityCards(string $streetName, int $numberOfCards)
     {
         $actions = collect([]);
+        $deck = $this->status->getDeck();
         $key = $streetName . '_card';
         $card_index = $this->status->getCardIndex();
         for ($i = 0; $i < $numberOfCards; $i++) {
@@ -241,8 +247,8 @@ abstract class HoldemBaseDealer extends DealerBase
                     self::KEY => $key,
                     'community' => true,
                     'card_index' => $card_index++,
-                    'card' => $this->currentHand->getDeck()->getIndex($card_index)->toString()]
-            );
+                    'card' => $deck->draw(1)->toString()
+            ]);
         }
         $actions->push([
             self::KEY => 'new_street_dealt',

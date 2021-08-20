@@ -4,7 +4,10 @@ namespace App\Dealers\TexasFlip;
 
 use App\Dealers\FourStreetGames\HoldemBaseDealer;
 use App\Lib\DeckLib\card;
+use App\Lib\DeckLib\Deck;
 use App\Lib\DeckLib\evaluate;
+use App\Services\Lookup;
+use App\Services\Pokerank;
 
 class TexasFlipDealer extends HoldemBaseDealer
 {
@@ -64,5 +67,58 @@ class TexasFlipDealer extends HoldemBaseDealer
             }
         }
         return $bestHand;
+    }
+
+    protected function getOddsUntilRiver($handCards, Deck $deck) {
+        $cardsLeft = 5 - count($handCards['community']);
+        $winsBySeat = [
+            1=>0,
+            2=>0,
+            'tie'=>0,
+            'total'=>0
+        ];
+        $counter = 0;
+        $pokerank = new Pokerank();
+        $pokerank->setLookup(Lookup::lookup());
+        $cardCollections = [];
+        foreach ($handCards as $key => $c) {
+            $cardCollections[$key] = collect($c)->map(function($c) use ($pokerank){
+                return $pokerank->fromString($c);
+            });
+        }
+        $remainingCards = collect($deck->getCards())->map(function($c) use($pokerank){
+            return $pokerank->fromString($c->toString());
+
+        })->toArray();
+        foreach(new Combinations($remainingCards, $cardsLeft) as $c) {
+            $table = $cardCollections['community']
+                ->merge(collect($c));
+
+            $bestHand1 = 0;
+            $bestHand2 = 0;
+            foreach(new Combinations($table->merge($cardCollections[1])->toArray(), 5) as $hand){
+                $result = $pokerank->score($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
+                if($bestHand1 < $result){
+                    $bestHand1 = $result;
+                }
+            }
+            foreach(new Combinations($table->merge($cardCollections[2])->toArray(), 5) as $hand){
+                $result = $pokerank->score($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
+                if($bestHand2 < $result){
+                    $bestHand2 = $result;
+                }
+            }
+            if($bestHand1 > $bestHand2){
+                $winsBySeat[1]++;
+            } else if($bestHand1 < $bestHand2){
+                $winsBySeat[2]++;
+            } else {
+                $winsBySeat['tie']++;
+            }
+            $counter++;
+        }
+
+        $winsBySeat['total'] = $counter;
+        return $winsBySeat;
     }
 }

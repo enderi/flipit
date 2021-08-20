@@ -2,6 +2,10 @@
 
 namespace App\Dealers\FourStreetGames;
 
+use App\Lib\DeckLib\Deck;
+use App\Lib\DeckLib\evaluate;
+use App\Models\Hand;
+
 class FourStreetGameStatus
 {
     public static $gameStates = [
@@ -33,16 +37,18 @@ class FourStreetGameStatus
     private $newHandRequested;
     private $cardsInSeatRevealed;
     private $resultSaved = false;
+    private Deck $deck;
 
     public function __construct($game)
     {
         $this->setData($game->players, $game->hand);
     }
 
-    public function setData($players, $currentHand)
+    public function setData($players, Hand $currentHand)
     {
         $this->joinedPlayers = $players;
         $this->currentHand = $currentHand;
+        $this->deck = $currentHand->getDeck();
         $this->actions = $currentHand->actions;
         $this->initializeState();
     }
@@ -93,6 +99,7 @@ class FourStreetGameStatus
             }
             if ($currKey == 'pocket_card') {
                 $this->cardIndex++;
+                $this->deck->draw(1);
                 $seatNo = $data['seat_number'];
                 $cards[$seatNo]->push($data['card']);
 
@@ -104,6 +111,7 @@ class FourStreetGameStatus
             }
             if (in_array($currKey, ['flop_card', 'turn_card', 'river_card'])) {
                 $this->cardIndex++;
+                $this->deck->draw(1);
                 $cards['community']->push($data['card']);
                 $cardsInDealOrder->push([
                     'target' => 'community',
@@ -204,9 +212,9 @@ class FourStreetGameStatus
         return $blockersFound;
     }
 
-    public function isFlopDealtButNotRiver()
+    public function isFlopDealt()
     {
-        return $this->streetsDealt['flop'] && !$this->streetsDealt['river'];
+        return $this->streetsDealt['flop'];
     }
 
     public function readyToDealPocketCards()
@@ -259,6 +267,10 @@ class FourStreetGameStatus
         }
     }
 
+    public function getAllCards() {
+        return $this->cards;
+    }
+
     public function getCards($seatNo)
     {
         if ($this->allCardsRevealed) {
@@ -308,6 +320,9 @@ class FourStreetGameStatus
         return $this->gameStatus;
     }
 
+    public function getDeck() {
+        return $this->deck;
+    }
 
     public function toString()
     {
