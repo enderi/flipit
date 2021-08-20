@@ -4,8 +4,7 @@ namespace App\Dealers;
 
 use App\Events\GameStateChanged;
 use App\Models\Action;
-use App\Models\Game;
-use App\Models\GamePlayerMapping;
+use App\Models\Hand;
 use Ramsey\Uuid\Uuid;
 
 abstract class DealerBase
@@ -14,7 +13,7 @@ abstract class DealerBase
     protected $currentHand;
     public abstract function getGameType(): String;
     public abstract function addUserAction(String $actionKey, String $playerUuid);
-    public abstract function tick(String $playerUuid, $forceBroadcast = false);
+    public abstract function tick(String $playerUuid, $forceBroadcast = false): array;
 
     protected abstract function getStatus($playerUuid): array;
     protected abstract function refreshState();

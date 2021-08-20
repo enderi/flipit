@@ -309,17 +309,65 @@ class Pokerank
         return $this->lookup[$pprod];
     }
 
-    /**
-     * Convert card to corresponding 8 bit integer
-     *
-     * @param $suit Card suit: Club(8), Diamond(4), Heart(2), Spade(1)
-     * @param $rank Card rank: Deuce(0), Trey(1), ..., King(11), Ace(12)
-     *
-     * @return int
-     */
     public function toInt($suit, $rank)
     {
         return $suit << 8 | $this->primeRankValues[$rank];
     }
 
+    public function fromString($string){
+        $rank = 0;
+        $suit = 0;
+        switch($string[0]){
+            case '2':
+                $rank = self::DEUCE;
+                break;
+            case '3':
+                $rank = self::TREY;
+                break;
+            case '4':
+                $rank = self::FOUR;
+                break;
+            case '5':
+                $rank = self::FIVE;
+                break;
+            case '6':
+                $rank = self::SIX;
+                break;
+            case '7':
+                $rank = self::SEVEN;
+                break;
+            case '8':
+                $rank = self::EIGHT;
+                break;
+            case '9':
+                $rank = self::NINE;
+                break;
+            case 'T':
+                $rank = self::TEN;
+                break;
+            case 'J':
+                $rank = self::JACK;
+                break;
+            case 'Q':
+                $rank = self::QUEEN;
+            case 'K':
+                $rank = self::KING;
+                break;
+            case 'A':
+                $rank = self::ACE;
+        }
+        switch ($string[1]){
+            case 'h':
+                $suit = self::HEART;
+                break;
+            case 'd':
+                $suit = self::DIAMOND;
+                break;
+            case 's':
+                $suit = self::SPADE;
+            case 'c':
+                $suit = self::CLUB;
+        }
+        return $this->toInt($suit, $rank);
+    }
 }

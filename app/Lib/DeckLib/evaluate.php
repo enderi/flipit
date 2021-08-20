@@ -321,11 +321,11 @@ class evaluate
 
             if ($bFreq > $aFreq || $aFreq > $bFreq)
             {
-                return $bFreq > $aFreq;
+                return ($bFreq > $aFreq) ? 1: -1;
             }
             else
             {
-                return $a->getRankValue($a->getRank()) < $b->getRankValue($b->getRank());
+                return ($a->getRankValue($a->getRank()) < $b->getRankValue($b->getRank())) ? -1: 1;
             }
         });
 

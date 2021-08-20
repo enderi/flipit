@@ -259,6 +259,10 @@ class FourStreetGameStatus
         }
     }
 
+    public function getAllCards() {
+        return $this->cards;
+    }
+
     public function getCards($seatNo)
     {
         if ($this->allCardsRevealed) {

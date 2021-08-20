@@ -1,27 +1,16 @@
 <template>
     <div>
         <!-- Page Content -->
-        <!--<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <nav class="navbar navbar-dark bg-primary">
             <div class="container">
-
-                <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
-                <span class="navbar-text">
+                <inertia-link class="navbar-brand" :href="route('home')">STACKED</inertia-link>
+                <span class="navbar-text text-lg">
                     {{subHeader}}
                 </span>
             </div>
-        </nav>-->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3 col-xs-6">
-                    <h1>
-                        <inertia-link class="navbar-brand text-center" :href="route('home')">STACKED</inertia-link>
-                    </h1>
-                </div>
-            </div>
-        </div>
-        <hr>
+        </nav>
         <main>
-            <div class="container-fluid">
+            <div class="container-fluid mt-2">
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3 col-xs-6">
                         <slot></slot>

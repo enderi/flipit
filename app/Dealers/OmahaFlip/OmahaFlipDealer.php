@@ -5,6 +5,7 @@ namespace App\Dealers\OmahaFlip;
 use App\Dealers\FourStreetGames\HoldemBaseDealer;
 use App\Dealers\TexasFlip\Combinations;
 use App\Lib\DeckLib\card;
+use App\Lib\DeckLib\Deck;
 use App\Lib\DeckLib\evaluate;
 
 class OmahaFlipDealer extends HoldemBaseDealer
@@ -77,5 +78,9 @@ class OmahaFlipDealer extends HoldemBaseDealer
         }
 
         return $bestHand;
+    }
+
+    protected function getOddsUntilRiver($handCards, Deck $deck) {
+        return [];
     }
 }
