@@ -19278,7 +19278,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       gameStarted: false,
       placeHolders: this.buildPlaceHolders(),
       dealtCardArray: {},
-      dealtCards: []
+      dealtCards: [],
+      odds: null
     };
   },
   mounted: function mounted() {
@@ -19402,6 +19403,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.options = data.options && data.options[this.mySeat];
     this.myHandValue = data.myHandValue;
     this.opponentHandValue = data.opponentHandValue;
+
+    if (data.odds) {
+      this.odds = {
+        1: Math.round(data.odds[1] / data.odds['total'] * 100),
+        2: Math.round(data.odds[2] / data.odds['total'] * 100)
+      };
+    } else {
+      this.odds = null;
+    }
   }), _defineProperty(_methods, "acted", function acted(action) {
     var _this3 = this;
 
@@ -21777,7 +21787,7 @@ var _hoisted_4 = {
   "class": "navbar-text text-lg"
 };
 var _hoisted_5 = {
-  "class": "container-fluid mt-2"
+  "class": "container-fluid mt-3"
 };
 var _hoisted_6 = {
   "class": "row"
@@ -23269,36 +23279,49 @@ var _hoisted_5 = {
 var _hoisted_6 = {
   "class": "col-xs-12"
 };
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Villain", -1
-/* HOISTED */
-);
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_10 = {
-  "class": "mt-4 mb-4"
+var _hoisted_7 = {
+  "class": "text-left"
 };
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Villain ");
+
+var _hoisted_9 = {
+  key: 0,
+  "class": "text-muted"
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Hero", -1
-/* HOISTED */
-);
+var _hoisted_12 = {
+  "class": "mt-4 mb-4"
+};
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
 /* HOISTED */
 );
 
 var _hoisted_14 = {
+  "class": "text-left"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hero ");
+
+var _hoisted_16 = {
+  key: 0,
+  "class": "text-muted"
+};
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_18 = {
   "class": "fixed-bottom text-center",
   style: {
     "min-height": "65px"
@@ -23326,31 +23349,35 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         code: $props.params.invitationCode
       }, null, 8
       /* PROPS */
-      , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("- villain "), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+      , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("- villain "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", _hoisted_7, [_hoisted_8, _ctx.odds !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.odds[_ctx.opponentSeat]) + " %", 1
+      /* TEXT */
+      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
         items: _ctx.placeHolders.target[_ctx.opponentSeat]
       }, null, 8
       /* PROPS */
-      , ["items"]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      , ["items"]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
         "class": {
           bold: _ctx.myHandValue.value > _ctx.opponentHandValue.value
         }
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.opponentHandValue.name || " "), 3
       /* TEXT, CLASS */
-      ), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+      ), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
         items: _ctx.placeHolders.target.community
       }, null, 8
       /* PROPS */
-      , ["items"])]), _hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+      , ["items"])]), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", _hoisted_14, [_hoisted_15, _ctx.odds !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.odds[_ctx.mySeat]) + " %", 1
+      /* TEXT */
+      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
         items: _ctx.placeHolders.target[_ctx.mySeat]
       }, null, 8
       /* PROPS */
-      , ["items"]), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      , ["items"]), _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
         "class": {
           bold: _ctx.myHandValue.value < _ctx.opponentHandValue.value
         }
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.myHandValue.name || " "), 3
       /* TEXT, CLASS */
-      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
+      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
           "class": "me-1 ms-1",
           key: action,
@@ -23361,7 +23388,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         , ["action", "onActionMade"]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<div v-if=\"options && options.length\">\r\n                <span v-for=\"action in options\" v-bind:key=\"action\">\r\n                  <action-button :action=\"action\" v-on:action-made=\"acted\" />\r\n                </span>\r\n              </div>")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<div v-if=\"options && options.length\">\n                <span v-for=\"action in options\" v-bind:key=\"action\">\n                  <action-button :action=\"action\" v-on:action-made=\"acted\" />\n                </span>\n              </div>")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */
@@ -26683,7 +26710,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-navigation[data-v-a856f856] {\r\n  position: absolute;\r\n  bottom: 65px;;\r\n  width: 100%;\n}\r\n\r\n\r\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\r\n    position: absolute;\r\n    left: 50%;\r\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\r\n  align-self: flex-end;\r\n  flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\r\n  font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\r\n  position: absolute;\r\n  bottom: 0;\n}\n.winner[data-v-a856f856] {\r\n  background-image: linear-gradient(\r\n    to right,\r\n    white,\r\n    lightgreen,\r\n    lightgreen,\r\n    lightgray,\r\n    white\r\n  );\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-navigation[data-v-a856f856] {\n  position: absolute;\n  bottom: 65px;;\n  width: 100%;\n}\n\n\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\n    position: absolute;\n    left: 50%;\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\n  align-self: flex-end;\n  flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\n  font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\n  position: absolute;\n  bottom: 0;\n}\n.winner[data-v-a856f856] {\n  background-image: linear-gradient(\n    to right,\n    white,\n    lightgreen,\n    lightgreen,\n    lightgray,\n    white\n  );\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

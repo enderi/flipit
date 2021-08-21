@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 /**
  * Using a lookup table containing the 7462 distinct hand values a
@@ -44,27 +45,27 @@ class Pokerank
     /**
      * Suit values
      */
-    const   SPADE   = 1,
-        HEART   = 2,
+    const   SPADE = 1,
+        HEART = 2,
         DIAMOND = 4,
-        CLUB    = 8;
+        CLUB = 8;
 
     /**
      * Rank values
      */
-    const   DEUCE   = 0,
-        TREY    = 1,
-        FOUR    = 2,
-        FIVE    = 3,
-        SIX     = 4,
-        SEVEN   = 5,
-        EIGHT   = 6,
-        NINE    = 7,
-        TEN     = 8,
-        JACK    = 9,
-        QUEEN   = 10,
-        KING    = 11,
-        ACE     = 12;
+    const   DEUCE = 0,
+        TREY = 1,
+        FOUR = 2,
+        FIVE = 3,
+        SIX = 4,
+        SEVEN = 5,
+        EIGHT = 6,
+        NINE = 7,
+        TEN = 8,
+        JACK = 9,
+        QUEEN = 10,
+        KING = 11,
+        ACE = 12;
 
     /**
      * The number of distinct values a hand can have
@@ -112,8 +113,8 @@ class Pokerank
         $lookup = [];
 
         // Four-of-a-kind
-        for ($four = self::ACE; $four >= self::DEUCE; $four --) {
-            for ($kicker = self::ACE; $kicker >= self::DEUCE; $kicker --) {
+        for ($four = self::ACE; $four >= self::DEUCE; $four--) {
+            for ($kicker = self::ACE; $kicker >= self::DEUCE; $kicker--) {
                 if ($four !== $kicker) {
                     $pprod = $this->primeRankValues[$four] *
                         $this->primeRankValues[$four] *
@@ -121,14 +122,14 @@ class Pokerank
                         $this->primeRankValues[$four] *
                         $this->primeRankValues[$kicker];
                     $lookup[$pprod] = $value;
-                    $value --;
+                    $value--;
                 }
             }
         }
 
         // Fullhouse
-        for ($three = self::ACE; $three >= self::DEUCE; $three --) {
-            for ($two = self::ACE; $two >= self::DEUCE; $two --) {
+        for ($three = self::ACE; $three >= self::DEUCE; $three--) {
+            for ($two = self::ACE; $two >= self::DEUCE; $two--) {
                 if ($three !== $two) {
                     $pprod = $this->primeRankValues[$three] *
                         $this->primeRankValues[$three] *
@@ -136,7 +137,7 @@ class Pokerank
                         $this->primeRankValues[$two] *
                         $this->primeRankValues[$two];
                     $lookup[$pprod] = $value;
-                    $value --;
+                    $value--;
                 }
             }
         }
@@ -145,24 +146,24 @@ class Pokerank
         $value -= 1277;
 
         // Straight
-        for ($high = self::ACE; $high > self::FIVE; $high --) {
+        for ($high = self::ACE; $high > self::FIVE; $high--) {
             $pprod = $this->primeRankValues[$high] *
                 $this->primeRankValues[$high - 1] *
                 $this->primeRankValues[$high - 2] *
                 $this->primeRankValues[$high - 3] *
                 $this->primeRankValues[$high - 4];
             $lookup[$pprod] = $value;
-            $value --;
+            $value--;
         }
 
         // Straight special case: 5-4-3-2-A
         $lookup[$this->primeRankValues[5] * $this->primeRankValues[4] * $this->primeRankValues[3] * $this->primeRankValues[2] * $this->primeRankValues[12]] = $value;
-        $value --;
+        $value--;
 
         // Three-of-a-kind
-        for ($three = self::ACE; $three >= self::DEUCE; $three --) {
-            for ($kicker1 = self::ACE; $kicker1 > $three; $kicker1 --) {
-                for ($kicker2 = $kicker1 - 1; $kicker2 >= self::DEUCE; $kicker2 --) {
+        for ($three = self::ACE; $three >= self::DEUCE; $three--) {
+            for ($kicker1 = self::ACE; $kicker1 > $three; $kicker1--) {
+                for ($kicker2 = $kicker1 - 1; $kicker2 >= self::DEUCE; $kicker2--) {
                     if ($three !== $kicker2) {
                         $pprod = $this->primeRankValues[$three] *
                             $this->primeRankValues[$three] *
@@ -171,12 +172,12 @@ class Pokerank
                             $this->primeRankValues[$kicker2];
 
                         $lookup[$pprod] = $value;
-                        $value --;
+                        $value--;
                     }
                 }
             }
-            for ($kicker1 = $three - 1; $kicker1 > self::DEUCE; $kicker1 --) {
-                for ($kicker2 = $kicker1 - 1; $kicker2 >= self::DEUCE; $kicker2 --) {
+            for ($kicker1 = $three - 1; $kicker1 > self::DEUCE; $kicker1--) {
+                for ($kicker2 = $kicker1 - 1; $kicker2 >= self::DEUCE; $kicker2--) {
                     if ($three !== $kicker2) {
                         $pprod = $this->primeRankValues[$three] *
                             $this->primeRankValues[$three] *
@@ -185,16 +186,16 @@ class Pokerank
                             $this->primeRankValues[$kicker2];
 
                         $lookup[$pprod] = $value;
-                        $value --;
+                        $value--;
                     }
                 }
             }
         }
 
         // Two pair
-        for ($pair1 = self::ACE; $pair1 >= self::DEUCE; $pair1 --) {
-            for ($pair2 = $pair1 - 1; $pair2 >= self::DEUCE; $pair2 --) {
-                for ($kicker = self::ACE; $kicker >= self::DEUCE; $kicker --) {
+        for ($pair1 = self::ACE; $pair1 >= self::DEUCE; $pair1--) {
+            for ($pair2 = $pair1 - 1; $pair2 >= self::DEUCE; $pair2--) {
+                for ($kicker = self::ACE; $kicker >= self::DEUCE; $kicker--) {
                     if ($pair1 !== $kicker && $pair2 !== $kicker) {
                         $pprod = $this->primeRankValues[$pair1] *
                             $this->primeRankValues[$pair1] *
@@ -202,19 +203,19 @@ class Pokerank
                             $this->primeRankValues[$pair2] *
                             $this->primeRankValues[$kicker];
                         $lookup[$pprod] = $value;
-                        $value --;
+                        $value--;
                     }
                 }
             }
         }
 
         // One pair
-        for ($p = self::ACE; $p >= self::DEUCE; $p --) {
-            for ($k1 = self::ACE; $k1 >= self::DEUCE; $k1 --) {
+        for ($p = self::ACE; $p >= self::DEUCE; $p--) {
+            for ($k1 = self::ACE; $k1 >= self::DEUCE; $k1--) {
                 if ($p !== $k1) {
-                    for ($k2 = $k1 - 1; $k2 >= self::DEUCE; $k2 --) {
+                    for ($k2 = $k1 - 1; $k2 >= self::DEUCE; $k2--) {
                         if ($p !== $k2) {
-                            for ($k3 = $k2 - 1; $k3 >= self::DEUCE; $k3 --) {
+                            for ($k3 = $k2 - 1; $k3 >= self::DEUCE; $k3--) {
                                 if ($p !== $k3) {
                                     $pprod = $this->primeRankValues[$p] *
                                         $this->primeRankValues[$p] *
@@ -222,7 +223,7 @@ class Pokerank
                                         $this->primeRankValues[$k2] *
                                         $this->primeRankValues[$k3];
                                     $lookup[$pprod] = $value;
-                                    $value --;
+                                    $value--;
                                 }
                             }
 
@@ -236,11 +237,11 @@ class Pokerank
         }
 
         // Highcard
-        for ($c1 = self::ACE; $c1 > self::SIX; $c1 --) {
-            for ($c2 = $c1 - 1; $c2 >= self::FIVE; $c2 --) {
-                for ($c3 = $c2 - 1; $c3 >= self::FOUR; $c3 --) {
-                    for ($c4 = $c3 - 1; $c4 >= self::TREY; $c4 --) {
-                        for ($c5 = 4 === $c1 - $c4 + 1 ? $c4 - 2 : $c4 - 1; $c5 >= self::DEUCE; $c5 --) {
+        for ($c1 = self::ACE; $c1 > self::SIX; $c1--) {
+            for ($c2 = $c1 - 1; $c2 >= self::FIVE; $c2--) {
+                for ($c3 = $c2 - 1; $c3 >= self::FOUR; $c3--) {
+                    for ($c4 = $c3 - 1; $c4 >= self::TREY; $c4--) {
+                        for ($c5 = 4 === $c1 - $c4 + 1 ? $c4 - 2 : $c4 - 1; $c5 >= self::DEUCE; $c5--) {
                             if ($c1 === self::ACE && 5 === $c2 && 4 === $c3 && 3 === $c4 && 2 === $c5) {
                                 continue;
                             }
@@ -250,7 +251,7 @@ class Pokerank
                                 $this->primeRankValues[$c4] *
                                 $this->primeRankValues[$c5];
                             $lookup[$pprod] = $value;
-                            $value --;
+                            $value--;
                         }
                     }
                 }
@@ -293,15 +294,14 @@ class Pokerank
         // Check if hand is a flush
         if (0xF00 & $card1 & $card2 & $card3 & $card4 & $card5) {
             if ($pprod === 31367009 || $pprod === 14535931 ||
-                $pprod === 6678671  || $pprod === 2800733  ||
-                $pprod === 1062347  || $pprod === 323323   ||
-                $pprod === 85085    || $pprod === 15015    ||
-                $pprod === 2310     || $pprod === 205205) {
+                $pprod === 6678671 || $pprod === 2800733 ||
+                $pprod === 1062347 || $pprod === 323323 ||
+                $pprod === 85085 || $pprod === 15015 ||
+                $pprod === 2310 || $pprod === 205205) {
 
                 // It's a straight flush!
                 return $this->lookup[$pprod] + self::STRAIGHT_FLUSH_BONUS;
             }
-            echo 'its a flush';
             // It's a regular flush
             return $this->lookup[$pprod] + self::HIGHCARD_FLUSH_BONUS;
         }
@@ -314,10 +314,11 @@ class Pokerank
         return $suit << 8 | $this->primeRankValues[$rank];
     }
 
-    public function fromString($string){
-        $rank = 0;
-        $suit = 0;
-        switch($string[0]){
+    public function fromString($string)
+    {
+        $rank = -1;
+        $suit = -1;
+        switch ($string[0]) {
             case '2':
                 $rank = self::DEUCE;
                 break;
@@ -350,13 +351,15 @@ class Pokerank
                 break;
             case 'Q':
                 $rank = self::QUEEN;
+                break;
             case 'K':
                 $rank = self::KING;
                 break;
             case 'A':
                 $rank = self::ACE;
+                break;
         }
-        switch ($string[1]){
+        switch ($string[1]) {
             case 'h':
                 $suit = self::HEART;
                 break;
@@ -365,8 +368,10 @@ class Pokerank
                 break;
             case 's':
                 $suit = self::SPADE;
+                break;
             case 'c':
                 $suit = self::CLUB;
+                break;
         }
         return $this->toInt($suit, $rank);
     }

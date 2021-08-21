@@ -10,7 +10,7 @@
             </div>
         </nav>
         <main>
-            <div class="container-fluid mt-2">
+            <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3 col-xs-6">
                         <slot></slot>

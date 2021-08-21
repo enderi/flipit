@@ -151,11 +151,8 @@ abstract class HoldemBaseDealer extends DealerBase
             'allCardsRevealed' => $this->status->areAllCardsRevealed()
         ];
 
-        if($this->status->isFlopDealtButNotRiver()){
-            $deck = $this->currentHand->getDeck();
-            $deck->draw($this->status->getCardIndex());
-
-            $this->getOddsUntilRiver($this->status->getAllCards(), $deck);
+        if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
+            $deck = $this->status->getDeck();
             $result['odds'] = $this->getOddsUntilRiver($this->status->getAllCards(), $deck);;
         }
         return $result;
@@ -195,6 +192,7 @@ abstract class HoldemBaseDealer extends DealerBase
 
     private function dealPocketCards()
     {
+        $deck = $this->status->getDeck();
         $dealtCards = collect([]);
         $card_index = $this->status->getCardIndex();
 
@@ -203,7 +201,7 @@ abstract class HoldemBaseDealer extends DealerBase
                 $action = [
                     self::KEY => 'pocket_card',
                     'card_index' => $card_index++,
-                    'card' => $this->currentHand->getDeck()->getIndex($card_index)->toString(),
+                    'card' => $deck->draw(1)->toString(),
                     'player_uuid' => $this->game->players[$i]->uuid,
                     'seat_number' => $this->game->players[$i]->seat_number
                 ];
@@ -241,6 +239,7 @@ abstract class HoldemBaseDealer extends DealerBase
     private function dealCommunityCards(string $streetName, int $numberOfCards)
     {
         $actions = collect([]);
+        $deck = $this->status->getDeck();
         $key = $streetName . '_card';
         $card_index = $this->status->getCardIndex();
         for ($i = 0; $i < $numberOfCards; $i++) {
@@ -248,8 +247,8 @@ abstract class HoldemBaseDealer extends DealerBase
                     self::KEY => $key,
                     'community' => true,
                     'card_index' => $card_index++,
-                    'card' => $this->currentHand->getDeck()->getIndex($card_index)->toString()]
-            );
+                    'card' => $deck->draw(1)->toString()
+            ]);
         }
         $actions->push([
             self::KEY => 'new_street_dealt',

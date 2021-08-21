@@ -17,7 +17,7 @@
               <div class="row text-center">
                 <div class="col-xs-12">
                   <!--- villain -->
-                  <h4>Villain</h4>
+                  <h4 class="text-left">Villain <span class="text-muted" v-if="odds !== null">{{odds[opponentSeat]}} %</span></h4>
                   <hand :items="placeHolders.target[opponentSeat]" />
                   <br />
                   <span
@@ -35,7 +35,7 @@
                   </div>
 
                   <hr />
-                  <h4>Hero</h4>
+                  <h4 class="text-left">Hero <span class="text-muted" v-if="odds !== null">{{odds[mySeat]}} %</span></h4>
                   <!-- My -->
                   <hand :items="placeHolders.target[mySeat]" />
                   <br />
@@ -140,6 +140,7 @@ export default {
       placeHolders: this.buildPlaceHolders(),
       dealtCardArray: {},
       dealtCards: [],
+      odds: null,
     };
   },
   mounted() {
@@ -257,7 +258,15 @@ export default {
       this.options = data.options && data.options[this.mySeat];
       this.myHandValue = data.myHandValue;
       this.opponentHandValue = data.opponentHandValue;
-    },
+      if(data.odds) {
+        this.odds = {
+          1: Math.round((data.odds[1] / data.odds['total']) *100),
+          2: Math.round((data.odds[2] / data.odds['total']) *100),
+        }
+      } else {
+        this.odds = null
+      }
+  },
     acted(action) {
       this.disableAllActions();
       axios

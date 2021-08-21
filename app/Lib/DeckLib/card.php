@@ -15,7 +15,7 @@ class card
     private $suitIntValue;
 
     private static $ranks = array(
-        /*'2' => array('value' => 2, 'int' => 0, 'name' => 'Two' ),
+        '2' => array('value' => 2, 'int' => 0, 'name' => 'Two' ),
         '3' => array('value' => 3, 'int' => 1, 'name' => 'Three'),
         '4' => array('value' => 5, 'int' => 2, 'name' => 'Four'),
         '5' => array('value' => 7, 'int' => 3, 'name' => 'Five'),
@@ -27,27 +27,16 @@ class card
         'J' => array('value' => 29, 'int' => 9, 'name' => 'Jack'),
         'Q' => array('value' => 31, 'int' => 10, 'name' => 'Queen'),
         'K' => array('value' => 37, 'int' => 11, 'name' => 'King'),
-        'A' => array('value' => 41, 'int' => 12, 'name' => 'Ace')*/
-        '2' => array('value' => 2, 'int' => 0, 'name' => 'Two'),
-        '3' => array('value' => 3, 'int' => 1, 'name' => 'Three'),
-        '4' => array('value' => 5, 'int' => 2, 'name' => 'Four'),
-        '5' => array('value' => 7, 'int' => 3, 'name' => 'Five'),
-        '6' => array('value' => 9, 'int' => 4, 'name' => 'Six'),
-        '7' => array('value' => 11, 'int' => 5, 'name' => 'Seven'),
-        '8' => array('value' => 13, 'int' => 6, 'name' => 'Eight'),
-        '9' => array('value' => 17, 'int' => 7, 'name' => 'Nine'),
-        'T' => array('value' => 19, 'int' => 8, 'name' => 'Ten'),
-        'J' => array('value' => 23, 'int' => 9, 'name' => 'Jack'),
-        'Q' => array('value' => 29, 'int' => 10, 'name' => 'Queen'),
-        'K' => array('value' => 31, 'int' => 11, 'name' => 'King'),
-        'A' => array('value' => 37, 'int' => 12, 'name' => 'Ace')
+        'A' => array('value' => 41, 'int' => 12, 'name' => 'Ace')
     );
     private static $suits = array(
-        'c' => array('value' => 41, 'int' => 1, 'name' => 'Clubs'),
-        'h' => array('value' => 43, 'int' => 2, 'name' => 'Hearts'),
-        'd' => array('value' => 47, 'int' => 4, 'name' => 'Diamonds'),
-        's' => array('value' => 53, 'int' => 8, 'name' => 'Spades')
+        'c' => array('value' => 43, 'int' => 1, 'intVal' => 32768, 'name' => 'Clubs'),
+        'h' => array('value' => 47, 'int' => 2, 'intVal' => 8192, 'name' => 'Hearts'),
+        'd' => array('value' => 53, 'int' => 4,'intVal' => 16384, 'name' => 'Diamonds'),
+        's' => array('value' => 59, 'int' => 8,'intVal' => 4096, 'name' => 'Spades')
     );
+    private int $binaryValue;
+
 
     public function __construct($rank, $suit)
     {
@@ -60,6 +49,8 @@ class card
         $this->suitValue = self::$suits[$suit]["value"];
         $this->suitIntValue = self::$suits[$suit]["int"];
         $this->suitName = self::$suits[$suit]["name"];
+        $this->buildBinaryValue(self::$ranks[$rank]['int'], self::$ranks[$rank]["value"], self::$suits[$suit]['intVal']);
+
     }
 
     public static function of($strName) {
@@ -119,6 +110,15 @@ class card
     public function getRankIntValue()
     {
         return $this->rankIntValue;
+    }
+
+    public function getBinaryValue(){
+        return $this->binaryValue;
+    }
+
+    private function buildBinaryValue($j, $prime, $suit) {
+        $this->binaryValue = $prime | ($j << 8) | $suit | (1 << (16 + $j));
+        $this->rankVal = $this->binaryValue >> 16;
     }
 }
 
