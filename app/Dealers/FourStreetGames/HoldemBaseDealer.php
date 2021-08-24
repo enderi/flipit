@@ -3,8 +3,10 @@
 namespace App\Dealers\FourStreetGames;
 
 use App\Dealers\DealerBase;
+use App\Lib\DeckLib\card;
 use App\Lib\DeckLib\Deck;
 use App\Models\Hand;
+use App\Services\PokerEvaluator;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 
@@ -148,13 +150,14 @@ abstract class HoldemBaseDealer extends DealerBase
             'opponentHandValue' => $opponentHandValue,
             'handStatus' => $this->status->getGameStatus(),
             'cardsInDealOrder' => $this->status->getCardsInDealOrder($mySeat),
-            'allCardsRevealed' => $this->status->areAllCardsRevealed()
+            'allCardsRevealed' => $this->status->areAllCardsRevealed(),
         ];
 
         if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
             $deck = $this->status->getDeck();
-            $result['odds'] = $this->getOddsUntilRiver($this->status->getAllCards(), $deck);;
+            $result['odds'] = $this->getOddsUntilRiver($this->status->getAllCards(), $deck);
         }
+    
         return $result;
     }
 

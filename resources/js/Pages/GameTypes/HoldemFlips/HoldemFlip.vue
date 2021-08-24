@@ -14,38 +14,27 @@
         <div class="border-success mb-3">
           <div>
             <div class="">
-              <div class="row text-center">
-                <div class="col-xs-12">
-                  <!--- villain -->
-                  <h4 class="text-left">Villain <span class="text-muted" v-if="odds !== null">{{odds[opponentSeat]}} %</span></h4>
-                  <hand :items="placeHolders.target[opponentSeat]" />
-                  <br />
-                  <span
-                    v-bind:class="{
-                      bold: myHandValue.value > opponentHandValue.value,
-                    }"
-                  >
-                    {{ opponentHandValue.name || "&nbsp;" }}
-                  </span>
+              <div class="row">
+                <div class="col-12">
+                  <hand-display style="height: 25vh" name="VILLAIN" 
+                    :hand-value="opponentHandValue" 
+                    :cards="placeHolders.target[opponentSeat]"
+                    :odds="odds && odds[opponentSeat]">
+                  </hand-display>
+                  
                   <hr />
-
                   <!-- Table -->
-                  <div class="mt-4 mb-4">
+                  <div class="mt-3 mb-3 text-center">
                     <hand :items="placeHolders.target.community" />
                   </div>
 
                   <hr />
-                  <h4 class="text-left">Hero <span class="text-muted" v-if="odds !== null">{{odds[mySeat]}} %</span></h4>
                   <!-- My -->
-                  <hand :items="placeHolders.target[mySeat]" />
-                  <br />
-                  <span
-                    v-bind:class="{
-                      bold: myHandValue.value < opponentHandValue.value,
-                    }"
-                  >
-                    {{ myHandValue.name || "&nbsp;" }}
-                  </span>
+                  <hand-display style="height: 25vh" name="HERO" 
+                    :hand-value="myHandValue" 
+                    :cards="placeHolders.target[mySeat]"
+                    :odds="odds && odds[mySeat]">
+                  </hand-display>
                 </div>
               </div>
             </div>
@@ -114,6 +103,8 @@ import CardPlaceHolder from "../../../Components/CardPlaceHolder";
 import Hand from "./Hand";
 import Waiting from "../../../Pages/Waiting";
 
+import HandDisplay from "./HandDisplay";
+
 export default {
   components: {
     AppLayout,
@@ -122,6 +113,7 @@ export default {
     CardPlaceHolder,
     Waiting,
     Hand,
+    HandDisplay,
   },
   props: ["params"],
   data: function () {

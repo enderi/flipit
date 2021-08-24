@@ -22,8 +22,8 @@ class HandController extends Controller
     }
 
     public function postAction(Request $request, DealerService  $dealerService) {
-        $mappingUuid = $request->get('uuid');
-        $mapping = GamePlayerMapping::firstWhere('uuid', $mappingUuid);
+        $uuid = $request->get('uuid');
+        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
         $action = $request->get('action');
         $gameUuid = $mapping->game->uuid;
         $playerUuid = $mapping->player->uuid;
@@ -34,10 +34,11 @@ class HandController extends Controller
 
     public function newHand(Request $request, DealerService $dealerService){
         $playerUuid = $request->get('playerUuid');
-        $dealer = $dealerService->getDealerForUuid($request->get('gameUuid'));
+        $gameUuid = $request->get('gameUuid');
+        $dealer = $dealerService->getDealerForUuid($gameUuid);
         $dealer->requestNewHand($playerUuid);
 
-        $dealer = $dealerService->getDealerForUuid($request->get('gameUuid'));
+        $dealer = $dealerService->getDealerForUuid($gameUuid);
         $dealer->tick($playerUuid);
     }
 }

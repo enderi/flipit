@@ -4,7 +4,7 @@ namespace App\Dealers\TrickGame;
 
 use App\Events\GameStateChanged;
 use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\evaluate;
+use App\Lib\DeckLib\PokerHandEvaluator;
 use App\Models\Action;
 use App\Models\Game;
 use App\Models\GamePlayerMapping;

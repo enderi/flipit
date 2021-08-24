@@ -2,7 +2,7 @@
 
 namespace App\Lib\DeckLib;
 
-class evaluate
+class PokerHandEvaluator
 {
     var $rankings = array();
     var $done = 1;
@@ -272,7 +272,6 @@ class evaluate
         }
         else
         {
-            $count = 0;
             $this->highest = count($this->rankings) + 1;
 
             for ($a = count($cards) - 1; $a >= 0; $a--)
@@ -337,7 +336,7 @@ class evaluate
         return $this->calculateHandName($this->highest, $this->bestHand);
     }
 
-    private function calculateHandName($rank, $cards)
+    private function calculateHandName2($rank, $cards)
     {
         $name = "";
         $cards = self::sortCardsByRanks($cards);
@@ -389,8 +388,62 @@ class evaluate
         {
             $name = $cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName() . ".";
         }
-
+        echo $name;
+        dd($rank);
         return $name;
+    }
+
+    private function calculateHandName($rank, $cards) : HandRank
+    {
+        $cards = self::sortCardsByRanks($cards);
+
+        if (in_array($rank, array(10, 1609))) // When it's A5432, we need to bump the ace to the end of the array.
+        {
+            $card = array_shift($cards);
+            $cards[]=$card;
+        }
+
+        if ($rank == 1)
+        {
+            $handRank = new HandRank('Royal Flush', '');
+        }
+        else if ($rank >= 2 && $rank <= 10)
+        {
+            $handRank = new HandRank("Straight Flush", $cards[0]->getRankName() . " high");
+        }
+        else if ($rank >= 11 && $rank <= 166)
+        {
+            $handRank = new HandRank("Four of a Kind", $cards[0]->getRankName() . "s with a " . $cards[4]->getRankName() . " kicker");
+        }
+        else if ($rank >= 167 && $rank <= 322)
+        {
+            $handRank = new HandRank("Full House", $cards[0]->getRankName() . "s full of " . $cards[4]->getRankName() . "s");
+        }
+        else if ($rank >= 323 && $rank <= 1599)
+        {
+            $handRank = new HandRank("Flush", $cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+        }
+        else if ($rank >= 1600 && $rank <= 1609)
+        {
+            $handRank = new HandRank("Straight", $cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+        }
+        else if ($rank >= 1610 && $rank <= 2467)
+        {
+            $handRank = new HandRank("Three of a Kind", $cards[0]->getRankName() . "s with " . $cards[3]->getRankName() . " and " .  $cards[4]->getRankName() . " kickers");
+        }
+        else if ($rank >= 2468 && $rank <= 3325)
+        {
+            $handRank = new HandRank("Two pair", $cards[0]->getRankName() . "s and " . $cards[2]->getRankName() . "s with a " .  $cards[4]->getRankName() . " kicker");
+        }
+        else if ($rank >= 3326 && $rank <= 6185)
+        {
+            $handRank = new HandRank("One Pair", $cards[0]->getRankName() . "s with " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName() . " kickers");
+        }
+        else if ($rank >= 6186)
+        {
+            $handRank = new HandRank("High Card", $cards[0]->getRankName() . ", ". $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+        }
+        return $handRank;
     }
 }
 

@@ -7,7 +7,7 @@
                     <qrcode-stream v-if="!code" @decode="onDecode" @init="onInit"></qrcode-stream>
                     <label class="form-label">Invite code</label>
                     <input type="text" v-model="code" class="form-control" id="code" placeholder="Code here...">
-                    <button class="mt-1 btn btn-primary" @click="join">Join with code</button>
+                    <button class="mt-2 btn btn-primary" @click="join">Join with code</button>
                     <div v-if="error" class="text-danger">{{ error }}</div>
                 </div>
             </div>

@@ -2,15 +2,14 @@
 
 namespace App\Dealers\TrickGame;
 
-use App\Events\GameStateChanged;
+use App\Dealers\DealerBase;
 use App\Lib\DeckLib\Deck;
-use App\Models\Action;
 use App\Models\GamePlayerMapping;
 use App\Models\Hand;
 use App\Models\Player;
 use Ramsey\Uuid\Uuid;
 
-abstract class TrcikDealer {
+abstract class TrcikDealer extends DealerBase {
     const PLAYER_ACTION = 'player_action';
 
     const KEY = 'key';
@@ -18,16 +17,14 @@ abstract class TrcikDealer {
     const PREFLOP = 'pocket_cards';
     private $status;
 
-    private $currentHand;
-    private $game;
-
     public function initWithGame($game)
     {
         $this->game = $game;
         $this->currentHand = $game->getCurrentHand();
         $this->refreshState();
     }
-    private function refreshState() {
+
+    protected function refreshState() {
         $finished = false;
         $counter = 0;
         $modified = false;
@@ -47,17 +44,7 @@ abstract class TrcikDealer {
         }
     }
 
-    private function broadcastStatus(): void
-    {
-        $this->game->mappings->each(function($mapping) {
-            GameStateChanged::dispatch($mapping, [
-                'action' => 'new-status',
-                'status' => $this->getStatus($mapping->player->uuid)
-            ]);
-        });
-    }
-
-    public abstract function getGameType();
+    public abstract function getGameType(): String;
     public abstract function getCardCount();
 
     public function joinAsPlayer()
@@ -88,13 +75,13 @@ abstract class TrcikDealer {
         $this->refreshState();
     }
 
-    public function tick($playerUuid): array
+    public function tick($playerUuid, $forceBroadcast = false): array
     {
         $this->refreshState();
         return $this->getStatus($playerUuid);
     }
 
-    private function getStatus($playerUuid): array
+    protected function getStatus($playerUuid): array
     {
 
         if($this->status->getGameStatus() == 'waiting_for_opponent') {
@@ -170,17 +157,6 @@ abstract class TrcikDealer {
 
     protected abstract function getHandValues($cs, $communityCardsItems);
     protected abstract function getBestHand($handCards, $communityCards): array;
-
-    private function createAction($data)
-    {
-        $action = [
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $this->game->id,
-            'hand_id' => $this->currentHand->id,
-            'data' => $data
-        ];
-        Action::create($action);
-    }
 
     public function proceedIfPossible(FourStreetGameStatus $status) : bool
     {
@@ -301,16 +277,4 @@ abstract class TrcikDealer {
 
     }
 
-
-    /**
-     * @return mixed
-     */
-    private function getActions()
-    {
-        if($this->currentHand != null) {
-            return $this->currentHand->actions;
-        } else {
-            return collect([]);
-        }
-    }
 }

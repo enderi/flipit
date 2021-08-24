@@ -3,7 +3,7 @@
 namespace App\Dealers\FourStreetGames;
 
 use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\evaluate;
+use App\Lib\DeckLib\PokerHandEvaluator;
 use App\Models\Hand;
 
 class FourStreetGameStatus

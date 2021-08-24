@@ -18,6 +18,11 @@ class Deck
         return $this->cards;
     }
 
+    public function getCardIntValues() {
+        return collect($this->cards)->map(function($c) { 
+            return $c->getBinaryValue(); })->toArray();
+    }
+
     public function getRemainingFromIndex($index) {
         return array_slice($this->cards, $index, (sizeof($this->cards) - $index));
     }

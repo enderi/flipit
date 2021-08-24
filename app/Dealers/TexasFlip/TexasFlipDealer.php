@@ -5,9 +5,10 @@ namespace App\Dealers\TexasFlip;
 use App\Dealers\FourStreetGames\HoldemBaseDealer;
 use App\Lib\DeckLib\card;
 use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\evaluate;
+use App\Lib\DeckLib\PokerHandEvaluator;
 use App\Services\Lookup;
 use App\Services\Pokerank;
+use App\Services\PokerEvaluator;
 
 class TexasFlipDealer extends HoldemBaseDealer
 {
@@ -38,7 +39,7 @@ class TexasFlipDealer extends HoldemBaseDealer
 
     protected function getBestHand($handCards, $communityCards): array
     {
-        $evaluator = new evaluate();
+        $evaluator = new PokerHandEvaluator();
         $playerCardsInUse = [];
         foreach ($communityCards as $c) {
             $playerCardsInUse[] = $c;
@@ -62,7 +63,7 @@ class TexasFlipDealer extends HoldemBaseDealer
                 $bestHand = [
                     'value' => $value,
                     'cards' => $c,
-                    'name' => $name
+                    'info' => $name
                 ];
             }
         }
@@ -70,7 +71,10 @@ class TexasFlipDealer extends HoldemBaseDealer
     }
 
     protected function getOddsUntilRiver($handCards, Deck $deck) {
+        $pokerEvaluator = new PokerEvaluator();
+        $cardsInDeck = $deck->getCardIntValues();
         $cardsLeft = 5 - count($handCards['community']);
+
         $winsBySeat = [
             1=>0,
             2=>0,
@@ -78,39 +82,32 @@ class TexasFlipDealer extends HoldemBaseDealer
             'total'=>0
         ];
         $counter = 0;
-        $pokerank = new Pokerank();
-        $pokerank->setLookup(Lookup::lookup());
+
         $cardCollections = [];
         foreach ($handCards as $key => $c) {
-            $cardCollections[$key] = collect($c)->map(function($c) use ($pokerank){
-                return $pokerank->fromString($c);
-            });
+            $cardCollections[$key] = $this->mapToInts($c);
         }
-        $remainingCards = collect($deck->getCards())->map(function($c) use($pokerank){
-            return $pokerank->fromString($c->toString());
 
-        })->toArray();
-        foreach(new Combinations($remainingCards, $cardsLeft) as $c) {
-            $table = $cardCollections['community']
-                ->merge(collect($c));
+        foreach(new Combinations($cardsInDeck, $cardsLeft) as $c) {
+            $table = array_merge($cardCollections['community'], $c);
 
             $bestHand1 = 0;
             $bestHand2 = 0;
-            foreach(new Combinations($table->merge($cardCollections[1])->toArray(), 5) as $hand){
-                $result = $pokerank->score($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
-                if($bestHand1 < $result){
+            foreach(new Combinations(array_merge($table, $cardCollections[1]), 5) as $hand){
+                $result = $pokerEvaluator->getValueOfFive($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
+                if ($bestHand1 == 0 || $bestHand1 > $result) {
                     $bestHand1 = $result;
                 }
             }
-            foreach(new Combinations($table->merge($cardCollections[2])->toArray(), 5) as $hand){
-                $result = $pokerank->score($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
-                if($bestHand2 < $result){
+            foreach(new Combinations(array_merge($table, $cardCollections[2]), 5) as $hand){
+                $result = $pokerEvaluator->getValueOfFive($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
+                if ($bestHand2 == 0 || $bestHand2 > $result) {
                     $bestHand2 = $result;
                 }
             }
-            if($bestHand1 > $bestHand2){
+            if($bestHand1 < $bestHand2){
                 $winsBySeat[1]++;
-            } else if($bestHand1 < $bestHand2){
+            } else if($bestHand1 > $bestHand2){
                 $winsBySeat[2]++;
             } else {
                 $winsBySeat['tie']++;
@@ -120,5 +117,19 @@ class TexasFlipDealer extends HoldemBaseDealer
 
         $winsBySeat['total'] = $counter;
         return $winsBySeat;
+    }
+
+        /**
+     * @param $hand
+     * @param Pokerank $pokerank
+     * @return \Illuminate\Support\Collection
+     */
+    protected function mapToInts($hand): array
+    {
+        $mapped = collect($hand)->map(function ($card) {
+            $c = Card::of($card);
+            return $c->getBinaryValue();
+        });
+        return $mapped->toArray();
     }
 }

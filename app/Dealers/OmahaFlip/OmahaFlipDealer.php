@@ -6,7 +6,7 @@ use App\Dealers\FourStreetGames\HoldemBaseDealer;
 use App\Dealers\TexasFlip\Combinations;
 use App\Lib\DeckLib\card;
 use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\evaluate;
+use App\Lib\DeckLib\PokerHandEvaluator;
 use App\Services\Lookup;
 use App\Services\Pokerank;
 use App\Services\PokerEvaluator;
@@ -48,7 +48,8 @@ class OmahaFlipDealer extends HoldemBaseDealer
 
     protected function getBestHand($handCards, $communityCards): array
     {
-        $evaluator = new evaluate();
+        $evl = new PokerEvaluator();
+        
         $handCombinations = [];
         $tableCombinations = [];
         foreach (new Combinations($handCards->toArray(), 2) as $c) {
@@ -59,7 +60,6 @@ class OmahaFlipDealer extends HoldemBaseDealer
         foreach (new Combinations($communityCards->toArray(), 3) as $c) {
             $tableCombinations[] = $c;
         }
-
         $bestHand = null;
         for ($i = 0; $i < sizeof($handCombinations); $i++) {
             for ($j = 0; $j < sizeof($tableCombinations); $j++) {
@@ -68,25 +68,24 @@ class OmahaFlipDealer extends HoldemBaseDealer
                 foreach ($hand as $cardForThis) {
                     $cards[] = card::of($cardForThis);
                 }
-                $value = $evaluator->getValue($cards);
-                $name = $evaluator->getHandName();
-                if ($bestHand == null || $bestHand['value'] > $value) {
+                $score = $evl->getValueOfFive($cards[0]->getBinaryValue(), $cards[1]->getBinaryValue(), $cards[2]->getBinaryValue(), $cards[3]->getBinaryValue(), $cards[4]->getBinaryValue());
+                if ($bestHand == null || $bestHand['value'] > $score) { 
                     $bestHand = [
-                        'value' => $value,
+                        'value' => $score,
                         'cards' => $hand,
-                        'name' => $name
+                        'hand'=> $cards 
                     ];
                 }
             }
         }
-
+        $bestHand['info'] = $evl->calculateHandName($bestHand['value'], $bestHand['hand']);
         return $bestHand;
     }
 
     protected function getOddsUntilRiver($handCards, Deck $deck)
     {
-        $cardsInDeck = collect($deck->getCards())->map(function($c) { return $c->toString();})->toArray();
-
+        $pokerEvaluator = new PokerEvaluator();
+        $cardsInDeck = $deck->getCardIntValues();
         $cardsLeft = 5 - count($handCards['community']);
         $winsBySeat = [
             1 => 0,
@@ -95,51 +94,32 @@ class OmahaFlipDealer extends HoldemBaseDealer
             'total' => 0
         ];
         $counter = 0;
-        $pokerank = new Pokerank();
-        $pokerank->setLookup($pokerank->createLookup());
         $cardCollections = [];
         foreach ($handCards as $key => $c) {
-            $cardCollections[$key] = collect($c)->toArray();
+            $cardCollections[$key] = $this->mapToInts($c);
         }
-        $remainingCards = collect($deck->getCards())->map(function ($c) use ($pokerank) {
-            return $pokerank->fromString($c->toString());
-        })->toArray();
-        $pokerEvaluator = new PokerEvaluator();
         foreach (new Combinations($cardsInDeck, $cardsLeft) as $c) {
-            $table = $handCards['community']
-                ->merge(collect($c));
+            $table = array_merge($cardCollections['community'], $c);
             $bestHand1 = 0;
             $bestHand2 = 0;
-            $b1 = null;
-            $b2 = null;
-            foreach (new Combinations($table->toArray(), 3) as $tableCombination) {
-                $mapped1 = $this->mapToInts($tableCombination);
-                foreach (new Combinations($cardCollections[1], 2) as $handCard) {
-                    $mapped2= $this->mapToInts($handCard);
-
-                    $result = $pokerank->score($mapped1[0], $mapped1[1], $mapped1[2], $mapped2[0], $mapped2[1]);
-                    $result2 = $pokerEvaluator->getValueOfFive($mapped1[0], $mapped1[1], $mapped1[2], $mapped2[0], $mapped2[1]);
-                    if ($bestHand1 == 0 || $bestHand1 > $result2) {
-                        $b1 = $handCard;
-                        $bestHand1 = $result2;
+            foreach (new Combinations($table, 3) as $tableCombination) {
+                foreach (new Combinations($cardCollections[1], 2) as $handCards) {
+                    $result = $pokerEvaluator->getValueOfFive($tableCombination[0], $tableCombination[1], $tableCombination[2], $handCards[0], $handCards[1]);
+                
+                    if ($bestHand1 == 0 || $bestHand1 > $result) {
+                        $bestHand1 = $result;
                     }
-                    //echo json_encode($tableCombination) . ', ' . json_encode($handCard) . ' => ' . $result2 . ', ' . json_encode($b1) . '<br>';
                 }
-                foreach (new Combinations($cardCollections[2], 2) as $handCard) {
-                    $mapped2= $this->mapToInts($handCard);
-
-                    $result = $pokerank->score($mapped1[0], $mapped1[1], $mapped1[2], $mapped2[0], $mapped2[1]);
-                    $result2 = $pokerEvaluator->getValueOfFive($mapped1[0], $mapped1[1], $mapped1[2], $mapped2[0], $mapped2[1]);
-                    if ($bestHand2 == 0 || $bestHand2 > $result2) {
-                        $b2 = $handCard;
-                        $bestHand2 = $result2;
+                foreach (new Combinations($cardCollections[2], 2) as $handCards) {
+                    $result = $pokerEvaluator->getValueOfFive($tableCombination[0], $tableCombination[1], $tableCombination[2], $handCards[0], $handCards[1]);
+                    if ($bestHand2 == 0 || $bestHand2 > $result) {
+                        $bestHand2 = $result;
                     }
                 }
             }
             if ($bestHand1 < $bestHand2) {
                 $winsBySeat[1]++;
             } else if ($bestHand1 > $bestHand2) {
-                //echo 'tableCombination 2 win: '. $bestHand1 . ' < ' . $bestHand2 . ' => ' . json_encode($table) . ', ' . json_encode($b1) . ', ' . json_encode($b2) . "<br>";
                 $winsBySeat[2]++;
             } else {
                 $winsBySeat['tie']++;
@@ -157,12 +137,12 @@ class OmahaFlipDealer extends HoldemBaseDealer
      * @param Pokerank $pokerank
      * @return \Illuminate\Support\Collection
      */
-    protected function mapToInts($hand): \Illuminate\Support\Collection
+    protected function mapToInts($hand): array
     {
         $mapped = collect($hand)->map(function ($card) {
             $c = Card::of($card);
             return $c->getBinaryValue();
         });
-        return $mapped;
+        return $mapped->toArray();
     }
 }
