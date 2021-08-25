@@ -4,7 +4,6 @@
             <div class="col-12">
                 Scan a code with app or send <a :href="url" target="_blank">direct link</a><br/>
                 <vue-qr-code style="width: 80%" :value="code"/>
-                <br>
             </div>
         </div>
     </div>
@@ -35,7 +34,6 @@ export default {
     },
     props: ["code", "url"],
     methods: {
-
     },
 };
 </script>

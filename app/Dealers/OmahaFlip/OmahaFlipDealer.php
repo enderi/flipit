@@ -48,7 +48,7 @@ class OmahaFlipDealer extends HoldemBaseDealer
 
     protected function getBestHand($handCards, $communityCards): array
     {
-        $evl = new PokerEvaluator();
+        $evl = $this->getEvaluator();
         
         $handCombinations = [];
         $tableCombinations = [];
@@ -84,7 +84,7 @@ class OmahaFlipDealer extends HoldemBaseDealer
 
     protected function getOddsUntilRiver($handCards, Deck $deck)
     {
-        $pokerEvaluator = new PokerEvaluator();
+        $pokerEvaluator = $this->getEvaluator();
         $cardsInDeck = $deck->getCardIntValues();
         $cardsLeft = 5 - count($handCards['community']);
         $winsBySeat = [
@@ -130,19 +130,5 @@ class OmahaFlipDealer extends HoldemBaseDealer
 
         $winsBySeat['total'] = $counter;
         return $winsBySeat;
-    }
-
-    /**
-     * @param $hand
-     * @param Pokerank $pokerank
-     * @return \Illuminate\Support\Collection
-     */
-    protected function mapToInts($hand): array
-    {
-        $mapped = collect($hand)->map(function ($card) {
-            $c = Card::of($card);
-            return $c->getBinaryValue();
-        });
-        return $mapped->toArray();
     }
 }

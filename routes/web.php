@@ -47,8 +47,6 @@ Route::get('/join/{code}', function (\Illuminate\Http\Request $request, $code) {
     return Inertia::render('Join', ['error'=>$errors, 'code' => $code]);
 })->name('show-join');
 
-
-
 Route::post('/join', [GameController::class, 'join'])->name('join-with-uuid');
 
 Route::post('/flip', [GameController::class, 'create'])->name('game-create');

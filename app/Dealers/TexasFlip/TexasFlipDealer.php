@@ -118,18 +118,4 @@ class TexasFlipDealer extends HoldemBaseDealer
         $winsBySeat['total'] = $counter;
         return $winsBySeat;
     }
-
-        /**
-     * @param $hand
-     * @param Pokerank $pokerank
-     * @return \Illuminate\Support\Collection
-     */
-    protected function mapToInts($hand): array
-    {
-        $mapped = collect($hand)->map(function ($card) {
-            $c = Card::of($card);
-            return $c->getBinaryValue();
-        });
-        return $mapped->toArray();
-    }
 }

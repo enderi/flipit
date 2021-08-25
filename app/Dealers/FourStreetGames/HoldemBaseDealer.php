@@ -18,6 +18,8 @@ abstract class HoldemBaseDealer extends DealerBase
 
     private ?FourStreetGameStatus $status = null;
 
+    private ?PokerEvaluator $pokerEvaluator = null;
+
     public abstract function getCardCount();
 
     protected abstract function getHandValues($cs, $communityCardsItems);
@@ -36,7 +38,8 @@ abstract class HoldemBaseDealer extends DealerBase
     public function tick(string $playerUuid, $forceBroadcast = false): array
     {
         $shouldBroadCast = false;
-        if($this->game->players->count() == 2){
+        $reqPlayerCount = 2;
+        if($this->game->players->count() == $reqPlayerCount){
             if($this->game->hand == null) {
                 $this->createNewHand();
             }
@@ -259,5 +262,26 @@ abstract class HoldemBaseDealer extends DealerBase
         ]);
         return $actions;
 
+    }
+
+            /**
+     * @param $hand
+     * @param Pokerank $pokerank
+     * @return \Illuminate\Support\Collection
+     */
+    protected function mapToInts($hand): array
+    {
+        $mapped = collect($hand)->map(function ($card) {
+            $c = Card::of($card);
+            return $c->getBinaryValue();
+        });
+        return $mapped->toArray();
+    }
+
+    protected function getEvaluator() : PokerEvaluator{
+        if($this->pokerEvaluator == null){
+            $this->pokerEvaluator = new PokerEvaluator();
+        }
+        return $this->pokerEvaluator;
     }
 }

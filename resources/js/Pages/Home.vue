@@ -1,18 +1,11 @@
 <template>
     <app-layout :sub-header="gameCount + ' games played'">
         <div class="container">
-
-            <dl class="row">
-                <dt class="col-xs-12 text-center mt-4 mb-4">Flips</dt>
-                <dd class="col-xs-12 text-center">
-                    <p>
-                        <a @click="requestGame('OMAHA-FLIP')" class="btn btn-link btn-lg">Omaha</a>
-                    </p>
-                    <p>
-                        <a @click="requestGame('TEXAS-FLIP')" class="btn btn-link btn-lg">Texas</a>
-                    </p>
-                </dd>
-            </dl>
+            <h3>Choose game</h3>
+            <ul class="list-group text-center">
+                <a @click="requestGame('OMAHA-FLIP')" class="list-group-item text-primary">Omaha Flip</a>
+                <a @click="requestGame('TEXAS-FLIP')" class="list-group-item text-primary">Texas Flip</a>
+            </ul>
 
             <!--<div class="text-center align-middle mt-4">
                 <a @click="requestGame('LAST-TRICK')" class="btn btn-primary btn-lg">Last Trick Game</a>
@@ -24,18 +17,12 @@
             <div class="text-center">
                 <inertia-link :href="route('join')" class="btn btn-outline-primary btn-lg">Join game</inertia-link>
             </div>
-<!--
-            <div class="card-body">
+            <!--<div class="card-body">
                 <h5 class="card-title">Stats</h5>
                 {{ gameCount }} games played
                 {{ handCount }} hands dealt
             </div>-->
         </div>
-        <footer>
-            <div class="text-center">
-                Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
-            </div>
-        </footer>
     </app-layout>
 </template>
 
