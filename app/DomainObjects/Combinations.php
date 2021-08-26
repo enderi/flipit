@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dealers\TexasFlip;
+namespace App\DomainObjects;
 
 class Combinations implements \Iterator
 {

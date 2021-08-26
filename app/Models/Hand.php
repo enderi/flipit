@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Lib\DeckLib\Deck;
+use App\DomainObjects\Deck;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,8 @@ class Hand extends Model
     protected $casts = [
         'ended' => 'boolean',
         'data' => 'array',
-        'result' => 'array'
+        'result' => 'array',
+        'deck' => DeckMutator::class
     ];
 
     protected $attributes = [
@@ -27,8 +28,8 @@ class Hand extends Model
         return $this->hasMany(Action::class);
     }
 
-    public function getDeck(): Deck
+    public function getDeck():Deck
     {
-        return Deck::of($this->deck);
+        return $this->deck;
     }
 }

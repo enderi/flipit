@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Dealers\CrazyPineapple;
-
-use App\Dealers\FourStreetGames\HoldemBaseDealer;
-use App\Dealers\TexasFlip\Combinations;
-use App\Lib\DeckLib\card;
-use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\PokerHandEvaluator;
-use App\Services\PokerEvaluator;
+namespace App\Dealers\PokerGames\CrazyPineapple;
+use App\Dealers\PokerGames\FourStreetGames\HoldemBaseDealer;
+use App\Dealers\PokerGames\PokerEvaluator;
+use App\DomainObjects\Combinations;
+use App\DomainObjects\Deck;
 
 class CrazyPineappleDealer extends HoldemBaseDealer
 {
@@ -38,7 +35,7 @@ class CrazyPineappleDealer extends HoldemBaseDealer
 
     protected function getBestHand($handCards, $communityCards): array
     {
-        $evaluator = new PokerHandEvaluator();
+        $evaluator = new PokerEvaluator();
         $playerCardsInUse = [];
         foreach ($communityCards as $c) {
             $playerCardsInUse[] = $c;
@@ -54,7 +51,7 @@ class CrazyPineappleDealer extends HoldemBaseDealer
         foreach (new Combinations($playerCardsInUse, min(sizeof($playerCardsInUse), 5)) as $c) {
             $cards = [];
             foreach ($c as $cardForThis) {
-                $cards[] = card::of($cardForThis);
+                $cards[] = Card::of($cardForThis);
             }
             $value = $evaluator->getValue($cards);
             $name = $evaluator->getHandName();

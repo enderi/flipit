@@ -6,6 +6,7 @@ use ActionService;
 use App\Dealers\OmahaFlip\OmahaFlipDealer;
 use App\Dealers\TexasFlip\TexasFlipDealer;
 use App\Dealers\TrickGame\LastTrickDealer;
+use App\DomainObjects\Deck;
 use App\Models\Game;
 use App\Models\GamePlayerMapping;
 use App\Services\DealerService;

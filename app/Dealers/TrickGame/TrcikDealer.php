@@ -3,7 +3,6 @@
 namespace App\Dealers\TrickGame;
 
 use App\Dealers\DealerBase;
-use App\Lib\DeckLib\Deck;
 use App\Models\GamePlayerMapping;
 use App\Models\Hand;
 use App\Models\Player;

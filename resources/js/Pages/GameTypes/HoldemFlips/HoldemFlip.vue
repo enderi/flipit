@@ -3,7 +3,7 @@
     :sub-header="
       params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'
     "
-  >  
+  >
     <div v-if="!initializing">
       <waiting
         v-if="!gameStarted"
@@ -16,12 +16,12 @@
             <div class="">
               <div class="row">
                 <div class="col-12">
-                  <hand-display style="height: 25vh" name="VILLAIN" 
-                    :hand-value="opponentHandValue" 
+                  <hand-display style="height: 25vh" name="VILLAIN"
+                    :hand-value="opponentHandValue"
                     :cards="placeHolders.target[opponentSeat]"
                     :odds="odds && odds[opponentSeat]">
                   </hand-display>
-                  
+
                   <hr />
                   <!-- Table -->
                   <div class="mt-3 mb-3 text-center">
@@ -30,8 +30,8 @@
 
                   <hr />
                   <!-- My -->
-                  <hand-display style="height: 25vh" name="HERO" 
-                    :hand-value="myHandValue" 
+                  <hand-display style="height: 25vh" name="HERO"
+                    :hand-value="myHandValue"
                     :cards="placeHolders.target[mySeat]"
                     :odds="odds && odds[mySeat]">
                   </hand-display>
@@ -136,7 +136,6 @@ export default {
     };
   },
   mounted() {
-    console.log("=====", this.params);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", (e) => {
       if (e.action.action === "new-status") {
         this.vibrate();
@@ -186,7 +185,6 @@ export default {
       }
     },
     getStatus() {
-      console.log("uuid", this.params);
       axios
         .get("/api/hand-status/" + this.params.uuid)
         .then((resp) => this.handleResponse(resp.data));
@@ -211,7 +209,6 @@ export default {
       this.cardsDealt = 0;
     },
     handleResponse(data) {
-      console.log("status", data);
       if (data.handStatus === "WAITING_PLAYERS") {
         this.gameStarted = false;
         this.initializing = false;

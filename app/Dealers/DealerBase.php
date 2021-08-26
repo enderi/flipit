@@ -4,7 +4,6 @@ namespace App\Dealers;
 
 use App\Events\GameStateChanged;
 use App\Models\Action;
-use App\Models\Hand;
 use Ramsey\Uuid\Uuid;
 
 abstract class DealerBase

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Dealers\TexasFlip;
+namespace App\Dealers\PokerGames\TexasFlip;
 
-use App\Dealers\FourStreetGames\HoldemBaseDealer;
-use App\Lib\DeckLib\card;
-use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\PokerHandEvaluator;
-use App\Services\Lookup;
-use App\Services\Pokerank;
-use App\Services\PokerEvaluator;
+use App\Dealers\PokerGames\FourStreetGames\HoldemBaseDealer;
+use App\Dealers\PokerGames\PokerEvaluator;
+use App\DomainObjects\Card;
+use App\DomainObjects\Combinations;
+use App\DomainObjects\Deck;
 
 class TexasFlipDealer extends HoldemBaseDealer
 {
@@ -37,41 +35,30 @@ class TexasFlipDealer extends HoldemBaseDealer
         return $this->getBestHand($handCards, $communityCards);
     }
 
-    protected function getBestHand($handCards, $communityCards): array
+    protected function getBestHand($handCards, $communityCards)
     {
-        $evaluator = new PokerHandEvaluator();
-        $playerCardsInUse = [];
-        foreach ($communityCards as $c) {
-            $playerCardsInUse[] = $c;
-        }
+        $evaluator = $this->getEvaluator();
+        $allCards = array_merge($handCards, $communityCards);
 
-        foreach ($handCards as $c) {
-            $playerCardsInUse[] = $c;
-        }
-        if (sizeof($playerCardsInUse) < 5) {
+        if (sizeof($allCards) < 5) {
             return [];
         }
+
         $bestHand = null;
-        foreach (new Combinations($playerCardsInUse, min(sizeof($playerCardsInUse), 5)) as $c) {
-            $cards = [];
-            foreach ($c as $cardForThis) {
-                $cards[] = card::of($cardForThis);
-            }
+        $cardsForBestHand = null;
+        foreach (new Combinations($allCards, 5) as $c) {
+            $cards = $c;
             $value = $evaluator->getValue($cards);
-            $name = $evaluator->getHandName();
-            if ($bestHand == null || $bestHand['value'] > $value) {
-                $bestHand = [
-                    'value' => $value,
-                    'cards' => $c,
-                    'info' => $name
-                ];
+            if ($bestHand == null || $bestHand > $value) {
+                $bestHand = $value;
+                $cardsForBestHand = $c;
             }
         }
-        return $bestHand;
+        return $evaluator->getHandNameForBinaries($cardsForBestHand);
     }
 
     protected function getOddsUntilRiver($handCards, Deck $deck) {
-        $pokerEvaluator = new PokerEvaluator();
+        $pokerEvaluator = $this->getEvaluator();
         $cardsInDeck = $deck->getCardIntValues();
         $cardsLeft = 5 - count($handCards['community']);
 
@@ -85,7 +72,7 @@ class TexasFlipDealer extends HoldemBaseDealer
 
         $cardCollections = [];
         foreach ($handCards as $key => $c) {
-            $cardCollections[$key] = $this->mapToInts($c);
+            $cardCollections[$key] = $c;
         }
 
         foreach(new Combinations($cardsInDeck, $cardsLeft) as $c) {

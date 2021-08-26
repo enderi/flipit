@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Dealers\FourStreetGames;
+namespace App\Dealers\PokerGames\FourStreetGames;
 
-use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\PokerHandEvaluator;
+use App\DomainObjects\Card;
+use App\DomainObjects\Deck;
 use App\Models\Hand;
 
 class FourStreetGameStatus
@@ -101,7 +101,7 @@ class FourStreetGameStatus
                 $this->cardIndex++;
                 $this->deck->draw(1);
                 $seatNo = $data['seat_number'];
-                $cards[$seatNo]->push($data['card']);
+                $this->pushCardToArray($cards[$seatNo], $data['card']);
 
                 $cardsInDealOrder->push([
                     'target' => $seatNo,
@@ -112,7 +112,7 @@ class FourStreetGameStatus
             if (in_array($currKey, ['flop_card', 'turn_card', 'river_card'])) {
                 $this->cardIndex++;
                 $this->deck->draw(1);
-                $cards['community']->push($data['card']);
+                $this->pushCardToArray($cards['community'], $data['card']);
                 $cardsInDealOrder->push([
                     'target' => 'community',
                     'card' => $data['card'],
@@ -267,7 +267,19 @@ class FourStreetGameStatus
         }
     }
 
-    public function getAllCards() {
+    public function getBinaryCards()
+    {
+        $vals = $this->getAllCards();
+        $new = [];
+        foreach ($vals as $k => $v) {
+            $new[$k] = collect($v)->map(function ($card) {
+                return $card->getBinaryValue();
+            })->toArray();
+        }
+        return $new;
+    }
+
+    private function getAllCards() {
         return $this->cards;
     }
 
@@ -320,7 +332,8 @@ class FourStreetGameStatus
         return $this->gameStatus;
     }
 
-    public function getDeck() {
+    public function getDeck()
+    {
         return $this->deck;
     }
 
@@ -332,5 +345,16 @@ class FourStreetGameStatus
             . ', options: ' . json_encode($this->options)
             . "\n"
         );
+    }
+
+    /**
+     * @param $cards
+     * @param $card
+     * @return mixed
+     */
+    private function pushCardToArray($cards, $card)
+    {
+        $c = Card::of($card);
+        return $cards->push($c);
     }
 }

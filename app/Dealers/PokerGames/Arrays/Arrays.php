@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DomainObjects\Arrays;
+namespace App\Dealers\PokerGames\Arrays;
 
 class Arrays {
     /*

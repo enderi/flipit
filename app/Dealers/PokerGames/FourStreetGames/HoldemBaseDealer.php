@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Dealers\FourStreetGames;
+namespace App\Dealers\PokerGames\FourStreetGames;
 
 use App\Dealers\DealerBase;
-use App\Lib\DeckLib\card;
-use App\Lib\DeckLib\Deck;
+use App\Dealers\PokerGames\PokerEvaluator;
+use App\DomainObjects\Card;
+use App\DomainObjects\Deck;
 use App\Models\Hand;
-use App\Services\PokerEvaluator;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 
@@ -95,11 +95,11 @@ abstract class HoldemBaseDealer extends DealerBase
         ];
         $h1 = $result[1];
         $h2 = $result[2];
-        if($h1['value'] < $h2['value']) {
+        if($h1->value < $h2->value) {
             $resultToSave[1] = 'win';
             $resultToSave[2] = 'lose';
         }
-        if($h1['value'] > $h2['value']) {
+        if($h1->value > $h2->value) {
             $resultToSave[1] = 'lose';
             $resultToSave[2] = 'win';
         }
@@ -108,8 +108,10 @@ abstract class HoldemBaseDealer extends DealerBase
             'results' => $resultToSave
         ];
         $resultToSave['hands'] = $result;
+        $this->currentHand->refresh();
         $this->currentHand['result'] = $resultToSave;
         $this->currentHand->save();
+
         return collect([$action]);
     }
 
@@ -158,18 +160,17 @@ abstract class HoldemBaseDealer extends DealerBase
 
         if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
             $deck = $this->status->getDeck();
-            $result['odds'] = $this->getOddsUntilRiver($this->status->getAllCards(), $deck);
+            $result['odds'] = $this->getOddsUntilRiver($this->status->getBinaryCards($mySeat), $deck);
         }
-    
+
         return $result;
     }
 
     private function getHandValuesForSeats(): array
     {
-        $cards1 = $this->status->getCards('1');
-        $cards2 = $this->status->getCards('2');
-        $seat1 = $this->getHandValues($cards1[1], $cards1['community']);
-        $seat2 = $this->getHandValues($cards2[2], $cards2['community']);
+        $cards = $this->status->getBinaryCards();
+        $seat1 = $this->getHandValues($cards[1], $cards['community']);
+        $seat2 = $this->getHandValues($cards[2], $cards['community']);
         return [
             1 => $seat1,
             2 => $seat2
@@ -188,7 +189,7 @@ abstract class HoldemBaseDealer extends DealerBase
             'data' => [],
             'uuid' => Uuid::uuid4(),
             'ended' => false,
-            'deck' => $deck->toString()
+            'deck' => $deck
         ]);
         $this->game->hand_id = $hand->id;
         $this->game->save();
@@ -264,11 +265,6 @@ abstract class HoldemBaseDealer extends DealerBase
 
     }
 
-            /**
-     * @param $hand
-     * @param Pokerank $pokerank
-     * @return \Illuminate\Support\Collection
-     */
     protected function mapToInts($hand): array
     {
         $mapped = collect($hand)->map(function ($card) {

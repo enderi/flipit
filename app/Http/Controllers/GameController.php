@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Dealers\OmahaFlip\OmahaFlipDealer;
-use App\Dealers\TexasFlip\TexasFlipDealer;
+use App\Dealers\PokerGames\OmahaFlip\OmahaFlipDealer;
+use App\Dealers\PokerGames\TexasFlip\TexasFlipDealer;
 use App\Dealers\TrickGame\LastTrickDealer;
 use App\Events\GameStateChanged;
-use App\Lib\DeckLib\Deck;
 use App\Models\Game;
 use App\Models\GamePlayerMapping;
-use App\Models\Hand;
 use App\Models\Invitation;
 use App\Services\DealerService;
 use App\Services\GameService;
@@ -24,8 +22,8 @@ use Ramsey\Uuid\Uuid;
 class GameController extends Controller
 {
     public function create(
-        Request $request, 
-        GameService $gameService, 
+        Request $request,
+        GameService $gameService,
         PlayerService $playerService,
         DealerService $dealerService)
     {
@@ -63,7 +61,7 @@ class GameController extends Controller
     }
 
     public function join(
-        Request $request, 
+        Request $request,
         DealerService $dealerService,
         PlayerService $playerService) {
         $code = $request->get('code');
@@ -81,7 +79,7 @@ class GameController extends Controller
 
 
     public function joinWithCode(
-        $inviteUuid, 
+        $inviteUuid,
         DealerService $dealerService,
         PlayerService $playerService) {
         try {

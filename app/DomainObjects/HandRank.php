@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Lib\DeckLib;
+namespace App\DomainObjects;
 
 class HandRank
 {
     public $name;
     public $details;
+    public $value;
 
     public function __construct($name, $details)
     {
@@ -18,5 +19,8 @@ class HandRank
 
     public function setDetails($details){
         $this->details = $details;
+    }
+    public function setValue($val) {
+        $this->value = $val;
     }
 }

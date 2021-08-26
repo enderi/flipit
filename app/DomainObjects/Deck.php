@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Lib\DeckLib;
+namespace App\DomainObjects;
 
 class Deck
 {
@@ -19,7 +19,7 @@ class Deck
     }
 
     public function getCardIntValues() {
-        return collect($this->cards)->map(function($c) { 
+        return collect($this->cards)->map(function($c) {
             return $c->getBinaryValue(); })->toArray();
     }
 
@@ -28,15 +28,17 @@ class Deck
     }
 
     public function initialize() {
-        $suits = card::getSuits();
-        $ranks = card::getRanks();
+        $cardCollection = new CardCollection();
+        $suits = Card::getSuits();
+        $ranks = Card::getRanks();
 
         for ($i = 0; $i < count($suits); $i++)
         {
             for ($k = 0; $k < count($ranks); $k++)
             {
-                $card = new card($ranks[$k], $suits[$i]);
+                $card = new Card($ranks[$k], $suits[$i]);
                 $this->cards[]=$card;
+                $cardCollection->addCard($card);
             }
         }
     }
@@ -46,7 +48,7 @@ class Deck
         for($i=0; $i<52; $i++) {
             $rank = substr($deckString, $i*2, 1);
             $suit = substr($deckString, $i*2+1, 1);
-            $card = new card($rank, $suit);
+            $card = new Card($rank, $suit);
             $cards[]=$card;
         }
         $deck = new Deck();

@@ -9,7 +9,7 @@
             <div class="col-4">
                 <h3 class="font-weight-light text-center">
                     {{name}}
-                </h3>  
+                </h3>
             </div>
             <div class="col-4 text-end">
                 <span class="text-muted" v-if="odds !== null">{{ odds }} %</span>
@@ -18,9 +18,9 @@
       <div class="text-center">
         <hand :items="cards" />
       </div>
-      <span v-if="handValue && handValue.info">
-        {{ handValue.info.name || "&nbsp;" }}<br />
-        <span class="text-muted">{{ handValue.info.details }}</span>
+      <span v-if="handValue">
+        {{ handValue.name || "&nbsp;" }}<br />
+        <span class="text-muted">{{ handValue.details }}</span>
       </span>
     </div>
   </div>
@@ -33,9 +33,7 @@ export default {
     Hand,
   },
   props: ["handValue", "cards", "odds", "name"],
-  mounted() {
-      console.log('THIIIIIS', this.odds)
-  },
+
  methods: {},
 };
 </script>

@@ -3,15 +3,10 @@
 namespace App\Dealers\TrickGame;
 
 use App\Events\GameStateChanged;
-use App\Lib\DeckLib\Deck;
-use App\Lib\DeckLib\PokerHandEvaluator;
 use App\Models\Action;
-use App\Models\Game;
 use App\Models\GamePlayerMapping;
 use App\Models\Hand;
-use App\Models\Invitation;
 use App\Models\Player;
-use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 
 class LastTrickDealer

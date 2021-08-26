@@ -20431,9 +20431,6 @@ __webpack_require__.r(__webpack_exports__);
     Hand: _Hand__WEBPACK_IMPORTED_MODULE_0__.default
   },
   props: ["handValue", "cards", "odds", "name"],
-  mounted: function mounted() {
-    console.log('THIIIIIS', this.odds);
-  },
   methods: {}
 });
 
@@ -20501,7 +20498,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this = this;
 
-    console.log("=====", this.params);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", function (e) {
       if (e.action.action === "new-status") {
         _this.vibrate();
@@ -20548,7 +20544,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "getStatus", function getStatus() {
     var _this2 = this;
 
-    console.log("uuid", this.params);
     axios.get("/api/hand-status/" + this.params.uuid).then(function (resp) {
       return _this2.handleResponse(resp.data);
     });
@@ -20570,8 +20565,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.placeHolders = this.buildPlaceHolders();
     this.cardsDealt = 0;
   }), _defineProperty(_methods, "handleResponse", function handleResponse(data) {
-    console.log("status", data);
-
     if (data.handStatus === "WAITING_PLAYERS") {
       this.gameStarted = false;
       this.initializing = false;
@@ -24533,9 +24526,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     items: $props.cards
   }, null, 8
   /* PROPS */
-  , ["items"])]), $props.handValue && $props.handValue.info ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.info.name || " "), 1
+  , ["items"])]), $props.handValue ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.name || " "), 1
   /* TEXT */
-  ), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.info.details), 1
+  ), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.details), 1
   /* TEXT */
   )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
