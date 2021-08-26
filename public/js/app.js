@@ -24475,13 +24475,13 @@ var _hoisted_3 = {
   "class": "row"
 };
 var _hoisted_4 = {
-  "class": "col-6 text-center"
+  "class": "col-7 text-center"
 };
 var _hoisted_5 = {
   "class": "font-weight-light mb-1"
 };
 var _hoisted_6 = {
-  "class": "col-6 text-end"
+  "class": "col-5 text-end"
 };
 var _hoisted_7 = {
   key: 0
