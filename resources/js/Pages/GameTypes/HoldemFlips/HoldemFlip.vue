@@ -12,42 +12,33 @@
       ></waiting>
       <span v-if="gameStarted">
         <div class="border-success mb-3">
-          <div>
-            <div class="">
-              <div class="row">
-                <div class="col-12">
-                  <hand-display style="height: 25vh" name="VILLAIN"
-                    :hand-value="opponentHandValue"
-                    :cards="placeHolders.target[opponentSeat]"
-                    :odds="odds && odds[opponentSeat]">
-                  </hand-display>
+          <div class="row">
+            <div class="col-12">
+              <hand-display style="height: 25vh" name="VILLAIN"
+                :hand-value="opponentHandValue"
+                :cards="placeHolders.target[opponentSeat]"
+                :odds="odds && odds[opponentSeat]">
+              </hand-display>
 
-                  <hr />
-                  <!-- Table -->
-                  <div class="mt-3 mb-3 text-center">
-                    <hand :items="placeHolders.target.community" />
-                  </div>
-
-                  <hr />
-                  <!-- My -->
-                  <hand-display style="height: 25vh" name="HERO"
-                    :hand-value="myHandValue"
-                    :cards="placeHolders.target[mySeat]"
-                    :odds="odds && odds[mySeat]">
-                  </hand-display>
-                </div>
+              <hr />
+              <!-- Table -->
+              <div class="mt-3 mb-3 text-center">
+                <hand :items="placeHolders.target.community" />
               </div>
+
+              <hr />
+              <!-- My -->
+              <hand-display style="height: 25vh" name="HERO"
+                :hand-value="myHandValue"
+                :cards="placeHolders.target[mySeat]"
+                :odds="odds && odds[mySeat]">
+              </hand-display>
             </div>
           </div>
 
-            <div class="fixed-bottom text-center" style="min-height: 65px">
-              <action-button class="me-1 ms-1" v-for="action in options" v-bind:key="action" :action="action" v-on:action-made="acted" />
-              <!--<div v-if="options && options.length">
-                <span v-for="action in options" v-bind:key="action">
-                  <action-button :action="action" v-on:action-made="acted" />
-                </span>
-              </div>-->
-            </div>
+          <div class="fixed-bottom text-end" style=" max-width: 720px; margin-left: auto; margin-right: auto; min-height: 38px">
+            <action-button class="me-1 ms-1" v-for="action in options" v-bind:key="action" :action="action" v-on:action-made="acted" />
+          </div>
         </div>
       </span>
     </div>
