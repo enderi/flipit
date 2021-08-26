@@ -1,4 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 .container-fluid {
     margin-right: auto;
@@ -9,8 +10,8 @@
 
 .playing-card {
     display: inline-block;
-    width: 3.3em;
-    height: 4.6em;
+    width: 6vh;
+    height: 10vh;
     border: 1px solid #666;
     border-radius: .3em;
     -moz-border-radius: .3em;
@@ -19,7 +20,7 @@
     padding: .5em;
     margin: 0 .5em .5em 0;
     text-align: center;
-    font-size: 0.9em;
+    font-size: 2vh;
     /* @change: adjust this value to make bigger or smaller cards */
     font-weight: bolder;
     position: relative;

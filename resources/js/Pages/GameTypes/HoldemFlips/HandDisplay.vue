@@ -5,8 +5,9 @@
 
     <div class="col-8 text-left">
         <div class="row">
-            <div class="col-8">
-                <h3 class="font-weight-light">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h3 class="font-weight-light text-center">
                     {{name}}
                 </h3>  
             </div>

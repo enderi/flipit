@@ -3,7 +3,7 @@
     :sub-header="
       params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'
     "
-  >
+  >  
     <div v-if="!initializing">
       <waiting
         v-if="!gameStarted"

@@ -5,6 +5,7 @@
             <ul class="list-group text-center">
                 <a @click="requestGame('OMAHA-FLIP')" class="list-group-item text-primary">Omaha Flip</a>
                 <a @click="requestGame('TEXAS-FLIP')" class="list-group-item text-primary">Texas Flip</a>
+                <!-- <a @click="requestGame('CRAZY-PINEAPPLE')" class="list-group-item text-primary">Crazy Pineapple Semiflip</a> -->
             </ul>
 
             <!--<div class="text-center align-middle mt-4">

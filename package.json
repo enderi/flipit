@@ -10,24 +10,25 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@inertiajs/inertia": "^0.9.1",
+        "@inertiajs/inertia": "^0.9.4",
         "@inertiajs/inertia-vue3": "^0.4.2",
-        "@inertiajs/progress": "^0.2.5",
-        "@vue/compiler-sfc": "^3.0.5",
+        "@inertiajs/progress": "^0.2.6",
+        "@vue/compiler-sfc": "^3.2.6",
         "axios": "^0.21",
-        "laravel-echo": "^1.11.0",
-        "laravel-mix": "^6.0.6",
+        "laravel-echo": "^1.11.1",
+        "laravel-mix": "^6.0.28",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14",
+        "postcss": "^8.3.6",
         "postcss-import": "^12.0.1",
         "pusher-js": "^7.0.3",
-        "vue": "^3.1.4",
-        "vue-loader": "^16.1.2"
+        "vue": "^3.2.6",
+        "vue-loader": "^16.5.0"
     },
     "dependencies": {
         "@chenfengyuan/vue-qrcode": "^1.0.2",
         "animate.css": "^4.1.1",
-        "bootstrap": "^5.0.2",
+        "bootstrap": "^5.1.0",
+        "bootstrap-icons": "^1.5.0",
         "qrcode-reader-vue3": "^3.1.2",
         "vue3-qrcode": "0.0.2",
         "vue3-toast-single": "^1.0.2"

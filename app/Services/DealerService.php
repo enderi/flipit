@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dealers\CrazyPineapple\CrazyPineappleDealer;
 use App\Dealers\DealerBase;
 use App\Dealers\OmahaFlip\OmahaFlipDealer;
 use App\Dealers\TexasFlip\Combinations;
@@ -15,6 +16,8 @@ class DealerService {
             $dealer = TexasFlipDealer::of($game);
         } else if ($game->game_type == OmahaFlipDealer::OMAHA_FLIP) {
             $dealer = OmahaFlipDealer::of($game);
+        } elseif ($game->game_type == CrazyPineappleDealer::CRAZY_PINEAPPLE) {
+            $dealer = CrazyPineappleDealer::of($game);
         } else if ($game->game_type == LastTrickDealer::LAST_TRICK) {
             $dealer = LastTrickDealer::of($game);
         }
