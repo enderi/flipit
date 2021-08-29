@@ -90,7 +90,7 @@ class GameController extends Controller
         $game = Game::find($invitation->game_id);
         $mapping = $playerService->joinGame($game);
         $dealer = $dealerService->getDealer($game);
-        $dealer->tick($mapping->player->uuid);
+        $dealer->tick($mapping->player->uuid, true);
         $invitation->expires_at = Carbon::now()->addSecond(-1);
         $invitation->update();
 

@@ -151,6 +151,10 @@ class Card
         $this->binaryValue = $prime | ($j << 8) | $suit | (1 << (16 + $j));
         $this->rankVal = $this->binaryValue >> 16;
     }
+
+    public function __toString() {
+        return 'hee';
+    }
 }
 
 ?>

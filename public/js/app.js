@@ -20478,13 +20478,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ["params"],
   data: function data() {
     return {
+      actions: null,
       options: null,
       gameStatus: null,
       initializing: true,
       mySeat: this.params.seatNumber,
       opponentSeat: +this.params.seatNumber === 1 ? 2 : 1,
-      myHandValue: {},
-      opponentHandValue: {},
+      handValues: null,
       results: {},
       cardsDealt: 0,
       communityCards: [],
@@ -20498,6 +20498,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this = this;
 
+    console.log('ppppp', this.opponentSeat);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", function (e) {
       if (e.action.action === "new-status") {
         _this.vibrate();
@@ -20549,7 +20550,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   }), _defineProperty(_methods, "dealNextCard", function dealNextCard(item) {
     this.addCardToFirstFreeSlot(this.placeHolders.target[item.target], item);
-    this.dealtCardArray[item.index] = item;
+    this.dealtCardArray[item.card_index] = item;
     this.$forceUpdate();
   }), _defineProperty(_methods, "addCardToFirstFreeSlot", function addCardToFirstFreeSlot(items, item) {
     for (var i = 0; i < items.length; i++) {
@@ -20565,6 +20566,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.placeHolders = this.buildPlaceHolders();
     this.cardsDealt = 0;
   }), _defineProperty(_methods, "handleResponse", function handleResponse(data) {
+    console.log('NEW DATA: ', this.cardsDealt, data);
+
     if (data.handStatus === "WAITING_PLAYERS") {
       this.gameStarted = false;
       this.initializing = false;
@@ -20585,17 +20588,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var source = data.cardsInDealOrder[i];
 
         var curr = _.find(this.placeHolders.target[source.target], function (ii) {
-          return !ii.placeHolder && ii.item.index === source.index;
+          return !ii.placeHolder && ii.item.card_index === source.card_index;
         });
 
         if (curr && curr.item.card !== source.card) {
           curr.item.card = source.card;
         }
 
-        var curr = this.dealtCardArray[source.index];
+        curr = this.dealtCardArray[source.card_index];
 
         if (curr && curr.card !== source.card) {
-          this.dealtCardArray[source.index] = source;
+          this.dealtCardArray[source.card_index] = source;
         }
       }
 
@@ -20609,9 +20612,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
 
-    this.options = data.options && data.options[this.mySeat];
-    this.myHandValue = data.myHandValue;
-    this.opponentHandValue = data.opponentHandValue;
+    this.actions = data.actions && this.mapOptions(data.actions[this.mySeat]);
+    this.options = data.options && this.mapOptions(data.options[this.mySeat]);
+    this.handValues = data.handValues;
 
     if (data.odds) {
       this.odds = {
@@ -20621,15 +20624,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     } else {
       this.odds = null;
     }
-  }), _defineProperty(_methods, "acted", function acted(action) {
+  }), _defineProperty(_methods, "mapOptions", function mapOptions(optionKeys) {
+    var labels = {
+      'confirm': 'Continue',
+      'show_cards': 'Show cards',
+      'new_hand': 'New hand'
+    };
+    return _.map(optionKeys, function (key) {
+      return {
+        text: labels[key],
+        key: key
+      };
+    });
+  }), _defineProperty(_methods, "optionSelected", function optionSelected(option) {
     var _this3 = this;
+
+    console.log('option', option);
+    this.disableAllActions();
+    axios.post("/api/hand-status/option", {
+      uuid: this.params.uuid,
+      option: option.key
+    }).then(function (resp) {
+      return _this3.handleResponse(resp.data);
+    })["finally"](this.enableAllActions);
+  }), _defineProperty(_methods, "acted", function acted(action) {
+    var _this4 = this;
 
     this.disableAllActions();
     axios.post("/api/hand-status/action", {
       uuid: this.params.uuid,
       action: action.key
     }).then(function (resp) {
-      return _this3.handleResponse(resp.data);
+      return _this4.handleResponse(resp.data);
     })["finally"](this.enableAllActions);
   }), _defineProperty(_methods, "disableAllActions", function disableAllActions() {
     this.disableAll = true;
@@ -20647,10 +20673,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       playerUuid: this.params.playerUuid
     });
   }), _defineProperty(_methods, "getGameStats", function getGameStats() {
-    var _this4 = this;
+    var _this5 = this;
 
     axios.get("/api/game/stats/" + this.params.game.uuid).then(function (resp) {
-      _this4.stats = resp.data.winsBySeat;
+      _this5.stats = resp.data.winsBySeat;
     });
   }), _defineProperty(_methods, "buildPlaceHolders", function buildPlaceHolders() {
     var cardCount = this.params.game.game_type === "OMAHA-FLIP" ? 4 : 2;
@@ -22937,7 +22963,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mini ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: _ctx.route('home'),
-    "class": "btn btn-sm btn-link text-secondary px-1"
+    "class": "btn btn-link text-secondary px-1"
   }, _hoisted_11, 8
   /* PROPS */
   , _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.subHeader), 1
@@ -24393,35 +24419,38 @@ var _hoisted_3 = {
   "class": "row"
 };
 var _hoisted_4 = {
-  "class": "col-7 text-center"
+  "class": "col-6"
 };
 var _hoisted_5 = {
   "class": "font-weight-light mb-1"
 };
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
-  "class": "font-weight-light text-secondary",
+var _hoisted_6 = {
+  key: 0,
   style: {
     "font-size": "0.8rem"
   }
 };
-var _hoisted_8 = {
-  "class": "col-5 text-end"
-};
-var _hoisted_9 = {
-  key: 0
-};
-var _hoisted_10 = {
-  "class": "text-primary font-weight-bold"
-};
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
+
+var _hoisted_8 = {
+  key: 0,
+  "class": "font-weight-light text-secondary"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  key: 1,
+  "class": "mt-2 text-primary font-weight-bold"
+};
+var _hoisted_11 = {
+  "class": "col-6 text-center"
+};
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
@@ -24430,19 +24459,19 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+  ), $props.handValue ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.name || " "), 1
+  /* TEXT */
+  ), _hoisted_7, $props.handValue.cards ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.cards.join(', ')) + ")", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_9, $props.odds !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.odds) + " %", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
     items: $props.cards
   }, null, 8
   /* PROPS */
-  , ["items"]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.details), 1
-  /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$props.odds !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.odds) + " %", 1
-  /* TEXT */
-  ), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.name || " "), 1
-  /* TEXT */
-  ), _hoisted_12])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+  , ["items"]), _hoisted_12])])])]);
 }
 
 /***/ }),
@@ -24527,10 +24556,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* PROPS */
       , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
         style: {
-          "height": "25vh"
+          "height": "22vh"
         },
         name: "VILLAIN",
-        "hand-value": _ctx.opponentHandValue,
+        "hand-value": _ctx.handValues[_ctx.opponentSeat],
         cards: _ctx.placeHolders.target[_ctx.opponentSeat],
         odds: _ctx.odds && _ctx.odds[_ctx.opponentSeat]
       }, null, 8
@@ -24541,15 +24570,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* PROPS */
       , ["items"])]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
         style: {
-          "height": "25vh"
+          "height": "22vh"
         },
         name: "HERO",
-        "hand-value": _ctx.myHandValue,
+        "hand-value": _ctx.handValues[_ctx.mySeat],
         cards: _ctx.placeHolders.target[_ctx.mySeat],
         odds: _ctx.odds && _ctx.odds[_ctx.mySeat]
       }, null, 8
       /* PROPS */
       , ["hand-value", "cards", "odds"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
+          "class": "me-1 ms-1",
+          key: action,
+          action: action,
+          onActionMade: $options.optionSelected
+        }, null, 8
+        /* PROPS */
+        , ["action", "onActionMade"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.actions, function (action) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
           "class": "me-1 ms-1",
           key: action,
@@ -27707,7 +27747,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-navigation[data-v-a856f856] {\n  position: absolute;\n  bottom: 65px;;\n  width: 100%;\n}\n\n\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\n    position: absolute;\n    left: 50%;\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\n  align-self: flex-end;\n  flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\n  font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\n  position: absolute;\n  bottom: 0;\n}\n.winner[data-v-a856f856] {\n  background-image: linear-gradient(\n    to right,\n    white,\n    lightgreen,\n    lightgreen,\n    lightgray,\n    white\n  );\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-navigation[data-v-a856f856] {\n    position: absolute;\n    bottom: 65px;;\n    width: 100%;\n}\n\n\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\n    position: absolute;\n    left: 50%;\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\n    align-self: flex-end;\n    flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\n    font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\n    position: absolute;\n    bottom: 0;\n}\n.winner[data-v-a856f856] {\n    background-image: linear-gradient(\n        to right,\n        white,\n        lightgreen,\n        lightgreen,\n        lightgray,\n        white\n    );\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -364,7 +364,9 @@ class PokerEvaluator
     public function calculateHandName($rank, $cards) : HandRank
     {
         $cards = self::sortCardsByRanks($cards);
-
+        $cardArray = collect($cards)->map(function($c){
+            return $c->toString();
+        });
         if (in_array($rank, array(10, 1609))) // When it's A5432, we need to bump the ace to the end of the array.
         {
             $card = array_shift($cards);
@@ -373,43 +375,43 @@ class PokerEvaluator
 
         if ($rank == 1)
         {
-            return new HandRank('Royal Flush', '');
+            return new HandRank('Royal Flush', '', $cardArray);
         }
         else if ($rank >= 2 && $rank <= 10)
         {
-            return new HandRank("Straight Flush",$cards[0]->getRankName() . " high");
+            return new HandRank("Straight Flush",$cards[0]->getRankName() . " high", $cardArray);
         }
         else if ($rank >= 11 && $rank <= 166)
         {
-            return new HandRank("Four of a Kind",$cards[0]->getRankName() . "s with a " . $cards[4]->getRankName() . " kicker");
+            return new HandRank("Four of a Kind",$cards[0]->getRankName() . "s with a " . $cards[4]->getRankName() . " kicker", $cardArray);
         }
         else if ($rank >= 167 && $rank <= 322)
         {
-            return new HandRank("Full House",$cards[0]->getRankName() . "s full of " . $cards[4]->getRankName() . "s");
+            return new HandRank("Full House",$cards[0]->getRankName() . "s full of " . $cards[4]->getRankName() . "s", $cardArray);
         }
         else if ($rank >= 323 && $rank <= 1599)
         {
-            return new HandRank("Flush",$cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+            return new HandRank("Flush",$cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName(), $cardArray);
         }
         else if ($rank >= 1600 && $rank <= 1609)
         {
-            return new HandRank("Straight",$cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+            return new HandRank("Straight",$cards[0]->getRankName() . " high - " . $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName(), $cardArray);
         }
         else if ($rank >= 1610 && $rank <= 2467)
         {
-            return new HandRank("Three of a Kind",$cards[0]->getRankName() . "s with " . $cards[3]->getRankName() . " and " .  $cards[4]->getRankName() . " kickers");
+            return new HandRank("Three of a Kind",$cards[0]->getRankName() . "s with " . $cards[3]->getRankName() . " and " .  $cards[4]->getRankName() . " kickers", $cardArray);
         }
         else if ($rank >= 2468 && $rank <= 3325)
         {
-            return new HandRank("Two pair",$cards[0]->getRankName() . "s and " . $cards[2]->getRankName() . "s with a " .  $cards[4]->getRankName() . " kicker");
+            return new HandRank("Two pair",$cards[0]->getRankName() . "s and " . $cards[2]->getRankName() . "s with a " .  $cards[4]->getRankName() . " kicker", $cardArray);
         }
         else if ($rank >= 3326 && $rank <= 6185)
         {
-            return new HandRank("One Pair",$cards[0]->getRankName() . "s with " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName() . " kickers");
+            return new HandRank("One Pair",$cards[0]->getRankName() . "s with " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName() . " kickers", $cardArray);
         }
         else if ($rank >= 6186)
         {
-            return new HandRank("High Card", $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName());
+            return new HandRank("High Card", $cards[0]->getRankName() . ", " . $cards[1]->getRankName() . ", " . $cards[2]->getRankName() . ", " . $cards[3]->getRankName() . ", " . $cards[4]->getRankName(), $cardArray);
         }
         throw new \Exception("Invalid hand range");
     }

@@ -62,47 +62,6 @@ class LastTrickDealer
         $this->currentHand = $game->hands()->where('ended', false)->first();
     }
 
-    /*public function newGame()
-    {
-        $this->game = Game::create([
-            'uuid' => Uuid::uuid4(),
-            'game_type' => self::LAST_TRICK,
-            'min_seats' => self::MIN_SEATS,
-            'max_seats' => self::MAX_SEATS,
-            'information' => array()]);
-        $this->createNewHand();
-        $invitation = new Invitation([
-            'code' => Uuid::uuid4(),
-            'expires_at' => Carbon::now()->addHour()
-        ]);
-        $this->game->invitation()->save($invitation);
-        return $this->game;
-    }*/
-
-    public function joinAsPlayer()
-    {
-        $player = Player::create([
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $this->game['id'],
-            'seat_number' => $this->game->players->count() + 1
-        ]);
-
-        $this->createAction([
-            'hand_id' => $this->currentHand->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                'player_uuid' => $player->uuid,
-                self::KEY => 'player_joined'
-            ]
-        ]);
-        $this->broadcastMessage();
-        return GamePlayerMapping::create(
-            [
-                'uuid' => Uuid::uuid4(),
-                'game_id' => $this->game->id,
-                'player_id' => $player->id
-            ]);
-    }
 
     public function addUserAction($actionKey, $playerUuid)
     {

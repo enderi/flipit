@@ -12,7 +12,7 @@
         <div class="container" v-if="mini">
             <div class="row">
                 <div class="col-4">
-                    <a :href="route('home')" class="btn btn-sm btn-link text-secondary px-1">
+                    <a :href="route('home')" class="btn btn-link text-secondary px-1">
                         <i class="bi bi-arrow-left-square"></i> Back
                     </a>
                 </div>

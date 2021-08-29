@@ -33,6 +33,17 @@ class HandController extends Controller
         return $dealer->tick($playerUuid, true);
     }
 
+    public function postOption(Request $request, DealerService  $dealerService) {
+        $uuid = $request->get('uuid');
+        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
+        $action = $request->get('option');
+        $gameUuid = $mapping->game->uuid;
+        $playerUuid = $mapping->player->uuid;
+        $dealer = $dealerService->getDealerForUuid($gameUuid);
+        $dealer->addUserOption($action, $playerUuid);
+        return $dealer->tick($playerUuid, true);
+    }
+
     public function newHand(Request $request, DealerService $dealerService){
         $playerUuid = $request->get('playerUuid');
         $gameUuid = $request->get('gameUuid');

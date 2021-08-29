@@ -3,6 +3,7 @@
 namespace App\Dealers\PokerGames\FourStreetGames;
 
 use App\Dealers\DealerBase;
+use App\Dealers\DealerUtils\ActionHandler;
 use App\Dealers\PokerGames\PokerEvaluator;
 use App\DomainObjects\Card;
 use App\DomainObjects\Deck;
@@ -13,12 +14,17 @@ use Ramsey\Uuid\Uuid;
 abstract class HoldemBaseDealer extends DealerBase
 {
     const PLAYER_ACTION = 'player_action';
+    const PLAYER_OPTION = 'player_option';
     const KEY = 'key';
     const PREFLOP = 'pocket_cards';
 
     private ?FourStreetGameStatus $status = null;
 
     private ?PokerEvaluator $pokerEvaluator = null;
+
+    private ActionHandler $blockingActions;
+    private ActionHandler $nonBlockingActions;
+    private $shouldBroadcast = false;
 
     public abstract function getCardCount();
 
@@ -35,37 +41,110 @@ abstract class HoldemBaseDealer extends DealerBase
         ]);
     }
 
+    public function addUserOption($optionKey, $playerUuid)
+    {
+        $this->createAction([
+            self::KEY => self::PLAYER_OPTION,
+            'player_uuid' => $playerUuid,
+            'option' => $optionKey
+        ]);
+    }
+
     public function tick(string $playerUuid, $forceBroadcast = false): array
     {
-        $shouldBroadCast = false;
         $reqPlayerCount = 2;
         if($this->game->players->count() == $reqPlayerCount){
-            if($this->game->hand == null) {
+            if($this->game->hand == null || $this->isNewHandRequested()) {
                 $this->createNewHand();
+                $this->shouldBroadcast = true;
             }
-            $shouldBroadCast = $this->refreshState();
+        } else {
+            return [
+                'handStatus' => 'WAITING_PLAYERS'
+            ];
         }
-        if($shouldBroadCast || $forceBroadcast){
+        $modifiedState = true;
+        $counter = 0;
+        while($modifiedState && $counter < 10) {
+            $modifiedState =  $this->refreshState();
+            $counter++;
+        }
+
+        if($this->shouldBroadcast || $forceBroadcast){
             $this->broadcastStatus();
         }
 
         return $this->getStatus($playerUuid);
     }
 
+    protected function refreshState():bool
+    {
+        $this->currentHand->refresh();
+        $this->status = new FourStreetGameStatus($this->currentHand->getDeck());
+
+        $this->blockingActions = new ActionHandler([1,2]);
+        $this->nonBlockingActions = new ActionHandler([1,2]);
+        foreach($this->currentHand->actions as $action){
+            $data = $action['data'];
+            $currKey = $data['key'];
+            if ($currKey == 'pocket_card') {
+                $this->status->dealCard($data['seat_number']);
+            }
+            if (in_array($currKey, ['flop_card', 'turn_card', 'river_card'])) {
+                $this->status->dealCard('community');
+            }
+            if ($currKey == 'new_street_dealt') {
+                $this->status->setStatus($data['value']);
+                if($data['value'] == 'pocket_cards') {
+                    $this->nonBlockingActions->addOptionForAll('show_cards');
+                }
+                if(in_array($data['value'], ['pocket_cards', 'flop', 'turn'])) {
+                    $this->blockingActions->addOptionForAll('confirm');
+                } else {
+                    $this->nonBlockingActions->addOptionForAll('new_hand');
+                }
+            }
+            if($currKey == 'player_action') {
+                $pUuid = $data['player_uuid'];
+                $player = $this->findPlayerByUuid($pUuid);
+                $this->blockingActions->playerActed($player['seat_number'], $data['action']);
+            }
+            if($currKey == 'player_option') {
+                $pUuid = $data['player_uuid'];
+                $player = $this->findPlayerByUuid($pUuid);
+                $key = $data['option'];
+                $this->nonBlockingActions->playerActed($player['seat_number'], $data['option']);
+                if($key == 'show_cards') {
+                    $this->status->playerCardRevealed($player->seat_number);
+                }
+            }
+        }
+
+        if($this->blockingActions->isBlocked()){
+            $this->shouldBroadcast = false;
+            return false;
+        }
+
+        $stateModified = $this->proceedIfPossible();
+        if($stateModified) {
+            $this->shouldBroadcast = true;
+        }
+        return $stateModified;
+    }
+
+    private function isNewHandRequested() : bool {
+        $requests = $this->currentHand->actions->filter(function($d){
+            return $d['data']['key'] == 'player_option' && $d['data']['option'] == 'new_hand';
+        })->map(function($item) {
+            $pUuid = $item['data']['player_uuid'];
+            return $this->findPlayerByUuid($pUuid)->seat_number;
+        });
+        $result = $requests->contains(1) && $requests->contains(2);
+        return $result;
+    }
+
     private function proceedIfPossible(): bool
     {
-        if ($this->status->readyForNewHand()) {
-            $this->createNewHand();
-            return true;
-        }
-
-        if($this->status->isWaitingForUserActions()){
-            return false;
-        }
-
-        if ($this->game->hand == null) {
-            return false;
-        }
         $actions = null;
         if ($this->status->readyToDealPocketCards()) {
             $actions = $this->dealPocketCards();
@@ -75,8 +154,7 @@ abstract class HoldemBaseDealer extends DealerBase
             $actions = $this->dealTurn();
         } else if ($this->status->readyToDealRiver()) {
             $actions = $this->dealRiver();
-        } else if($this->status->handEnded()){
-            $actions = $this->saveResult();
+            $actions = $actions->merge($this->saveResult());
         }
         if ($actions != null) {
             $actions->each(function ($action) {
@@ -115,20 +193,6 @@ abstract class HoldemBaseDealer extends DealerBase
         return collect([$action]);
     }
 
-    protected function refreshState():bool
-    {
-        $this->status = new FourStreetGameStatus($this->game);
-        $modified = false;
-        $counter = 0;
-        while($this->proceedIfPossible() && $counter <10){
-            $this->game->refresh();
-            $this->status = new FourStreetGameStatus($this->game);
-            $modified = true;
-            $counter++;
-        }
-        return $modified;
-    }
-
     protected function getStatus($playerUuid): array
     {
         if ($this->status == null || $this->status->getGameStatus() == 'WAITING_PLAYERS') {
@@ -136,31 +200,31 @@ abstract class HoldemBaseDealer extends DealerBase
                 'handStatus' => 'WAITING_PLAYERS'
             ];
         }
-        $mySeat = $this->status->getSeatForPlayerUuid($playerUuid);
+        $myPlayer = $this->findPlayerByUuid($playerUuid);
+        $mySeat = $myPlayer->seat_number;
         $opponentSeat = $mySeat == 1 ? 2 : 1;
-        $values = $this->getHandValuesForSeats();
-        $myHandValue = $values[$mySeat];
-        if ($this->status->areAllCardsRevealed()) {
-            $opponentHandValue = $values[$opponentSeat];
-        } else {
-            $opponentHandValue = [];
-        }
 
         $result = [
-            'gameId' => $this->game->id,
             'mySeat' => $mySeat,
-            'options' => $this->status->getOptions(),
+            'actions' => $this->blockingActions->getOptions(),
+            'options' => $this->nonBlockingActions->getOptions(),
             'myPlayerUuid' => $playerUuid,
-            'myHandValue' => $myHandValue,
-            'opponentHandValue' => $opponentHandValue,
             'handStatus' => $this->status->getGameStatus(),
             'cardsInDealOrder' => $this->status->getCardsInDealOrder($mySeat),
-            'allCardsRevealed' => $this->status->areAllCardsRevealed(),
+            'result' => $this->game->hand->result,
+            'handValues' => []
         ];
 
+        if($this->status->isFlopDealt()) {
+            $values = $this->getHandValuesForSeats();
+            if (!$this->status->isCardsInSeatRevealed($opponentSeat)) {
+                $values[$opponentSeat] = [];
+            }
+            $result['handValues'] = $values;
+        }
         if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
             $deck = $this->status->getDeck();
-            $result['odds'] = $this->getOddsUntilRiver($this->status->getBinaryCards($mySeat), $deck);
+            $result['odds'] = $this->getOddsUntilRiver($this->status->getBinaryCards(), $deck);
         }
 
         return $result;
@@ -169,6 +233,9 @@ abstract class HoldemBaseDealer extends DealerBase
     private function getHandValuesForSeats(): array
     {
         $cards = $this->status->getBinaryCards();
+        if(!array_key_exists('community', $cards)) {
+            return [];
+        }
         $seat1 = $this->getHandValues($cards[1], $cards['community']);
         $seat2 = $this->getHandValues($cards[2], $cards['community']);
         return [
@@ -195,21 +262,18 @@ abstract class HoldemBaseDealer extends DealerBase
         $this->game->save();
         $this->game->refresh();
         $this->currentHand = $this->game->hand;
+        $this->shouldBroadcast = true;
     }
 
     private function dealPocketCards()
     {
-        $deck = $this->status->getDeck();
         $dealtCards = collect([]);
-        $card_index = $this->status->getCardIndex();
-
         for ($cc = 0; $cc < $this->getCardCount(); $cc++) {
             for ($i = 0; $i < $this->game->players->count(); $i++) {
+                $result = $this->status->dealCard($this->game->players[$i]->seat_number);
                 $action = [
                     self::KEY => 'pocket_card',
-                    'card_index' => $card_index++,
-                    'card' => $deck->draw(1)->toString(),
-                    'player_uuid' => $this->game->players[$i]->uuid,
+                    'card' => $result,
                     'seat_number' => $this->game->players[$i]->seat_number
                 ];
                 $dealtCards->push($action);
@@ -248,19 +312,20 @@ abstract class HoldemBaseDealer extends DealerBase
         $actions = collect([]);
         $deck = $this->status->getDeck();
         $key = $streetName . '_card';
-        $card_index = $this->status->getCardIndex();
+        $card_index = $deck->getCardCount();
         for ($i = 0; $i < $numberOfCards; $i++) {
             $actions->push([
                     self::KEY => $key,
                     'community' => true,
                     'card_index' => $card_index++,
-                    'card' => $deck->draw(1)->toString()
+                    'card' => $deck->drawOne()->toString()
             ]);
         }
         $actions->push([
             self::KEY => 'new_street_dealt',
             'value' => $streetName
         ]);
+
         return $actions;
 
     }
@@ -279,5 +344,15 @@ abstract class HoldemBaseDealer extends DealerBase
             $this->pokerEvaluator = new PokerEvaluator();
         }
         return $this->pokerEvaluator;
+    }
+
+    /**
+     * @param $pUuid
+     * @return mixed
+     */
+    protected function findPlayerByUuid($pUuid)
+    {
+        $player = $this->game->players->firstWhere('uuid', $pUuid);
+        return $player;
     }
 }

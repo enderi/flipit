@@ -2,16 +2,21 @@
 
 namespace App\Dealers;
 
-use App\Events\GameStateChanged;
+use App\Dealers\PokerGames\Traits\BroadcastStatus;
+use App\Dealers\PokerGames\Traits\CreateAction;
 use App\Models\Action;
 use Ramsey\Uuid\Uuid;
 
 abstract class DealerBase
 {
+    use CreateAction;
+    use BroadcastStatus;
+
     protected $game;
     protected $currentHand;
     public abstract function getGameType(): String;
     public abstract function addUserAction(String $actionKey, String $playerUuid);
+    public abstract function addUserOption(String $actionKey, String $playerUuid);
     public abstract function tick(String $playerUuid, $forceBroadcast = false): array;
 
     protected abstract function getStatus($playerUuid): array;
@@ -32,16 +37,6 @@ abstract class DealerBase
                 'playerUuid' => $playerUuid
             ]
         ]);
-    }
-
-    protected function broadcastStatus(): void
-    {
-        $this->game->mappings->each(function ($mapping) {
-            GameStateChanged::dispatch($mapping, [
-                'action' => 'new-status',
-                'status' => $this->getStatus($mapping->player->uuid)
-            ]);
-        });
     }
 
     protected function createAction($data)

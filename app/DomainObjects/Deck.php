@@ -2,9 +2,12 @@
 
 namespace App\DomainObjects;
 
+use http\Exception\InvalidArgumentException;
+
 class Deck
 {
     private $cards = array();
+    private $cursor;
 
     public function __construct()
     {
@@ -12,6 +15,7 @@ class Deck
 
     private function setCards($cards) {
         $this->cards = $cards;
+        $this->cursor = 0;
     }
 
     public function getCards() {
@@ -21,10 +25,6 @@ class Deck
     public function getCardIntValues() {
         return collect($this->cards)->map(function($c) {
             return $c->getBinaryValue(); })->toArray();
-    }
-
-    public function getRemainingFromIndex($index) {
-        return array_slice($this->cards, $index, (sizeof($this->cards) - $index));
     }
 
     public function initialize() {
@@ -41,6 +41,7 @@ class Deck
                 $cardCollection->addCard($card);
             }
         }
+        $this->cursor = 0;
     }
 
     public static function of($deckString) {
@@ -68,33 +69,42 @@ class Deck
         }
     }
 
-    public function draw($count=1)
+    public function draw($count = 1) {
+
+    }
+
+    public function drawOne() {
+        if($this->cursor == 52) {
+            throw new InvalidArgumentException("No more cards");
+        }
+        $card = $this->cards[$this->cursor];
+        $this->cursor++;
+        return $card;
+    }
+
+    public function drawMany($count=1)
     {
-        if (count($this->cards) >= $count && $count > 0)
+        if($count == 0 || $this->cursor + $count > 52) {
+            throw new InvalidArgumentException("Stupid argument");
+        }
+        if ($count == 1)
         {
-            if ($count == 1)
-            {
-                $card = $this->cards[0];
-                array_splice($this->cards, 0, 1);
-                return $card;
-            }
-            else
-            {
-                $cards = array();
-
-                for ($i = 0; $i < $count; $i++)
-                {
-                    $card = $this->cards[0];
-                    array_splice($this->cards, 0, 1);
-                    $cards[]=$card;
-                }
-
-                return $cards;
-            }
+            $this->cursor++;
+            $cards = array_splice($this->cards, $this->cursor, $count);
+            return $cards;
         }
         else
         {
-            return false;
+            $cards = array();
+
+            for ($i = 0; $i < $count; $i++)
+            {
+                $card = $this->cards[0];
+                array_splice($this->cards, 0, 1);
+                $cards[]=$card;
+            }
+
+            return $cards;
         }
     }
 
@@ -117,6 +127,10 @@ class Deck
 
     public function getIndex($index) {
         return $this->cards[$index];
+    }
+
+    public function getCardCount() {
+        return $this->cursor;
     }
 
     public function contains($card)

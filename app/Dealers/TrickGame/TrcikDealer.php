@@ -46,24 +46,6 @@ abstract class TrcikDealer extends DealerBase {
     public abstract function getGameType(): String;
     public abstract function getCardCount();
 
-    public function joinAsPlayer()
-    {
-        $player = Player::create([
-            'uuid' => Uuid::uuid4(),
-            'game_id' => $this->game['id'],
-            'seat_number' => $this->game->players->count() + 1,
-            'ready' => 1
-        ]);
-
-        $mapping = GamePlayerMapping::create(
-            [
-                'uuid' => Uuid::uuid4(),
-                'game_id' => $this->game->id,
-                'player_id' => $player->id
-            ]);
-        return $mapping;
-    }
-
     public function addUserAction($actionKey, $playerUuid)
     {
         $this->createAction([
