@@ -1404,8 +1404,8 @@ url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?94eeade15e6b7fbed95b18ff3
 
 .playing-card {
     display: inline-block;
-    width: 6vh;
-    height: 10vh;
+    width: 5vh;
+    height: 9vh;
     border: 1px solid #666;
     border-radius: .3em;
     -moz-border-radius: .3em;

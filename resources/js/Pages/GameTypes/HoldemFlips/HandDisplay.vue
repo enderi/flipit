@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12 offset-sm-2 col-sm-8 text-left">
         <div class="row">
-            <div class="col-6">
+            <div class="col-5">
               
                 <h4 class="font-weight-light mb-1">
                     {{name}}
@@ -14,7 +14,7 @@
                   <h5 v-if="odds !== null" class="mt-2 text-primary font-weight-bold">{{ odds }} %</h5>
                 </span>
             </div>
-            <div class="col-6 text-center">
+            <div class="col-7 text-center">
               <hand :items="cards" /><br>               
             </div>
         </div>

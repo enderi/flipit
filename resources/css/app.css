@@ -10,8 +10,8 @@
 
 .playing-card {
     display: inline-block;
-    width: 6vh;
-    height: 10vh;
+    width: 5vh;
+    height: 9vh;
     border: 1px solid #666;
     border-radius: .3em;
     -moz-border-radius: .3em;

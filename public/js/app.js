@@ -24419,7 +24419,7 @@ var _hoisted_3 = {
   "class": "row"
 };
 var _hoisted_4 = {
-  "class": "col-6"
+  "class": "col-5"
 };
 var _hoisted_5 = {
   "class": "font-weight-light mb-1"
@@ -24449,7 +24449,7 @@ var _hoisted_10 = {
   "class": "mt-2 text-primary font-weight-bold"
 };
 var _hoisted_11 = {
-  "class": "col-6 text-center"
+  "class": "col-7 text-center"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
