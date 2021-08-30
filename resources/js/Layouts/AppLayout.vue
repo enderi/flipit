@@ -12,8 +12,10 @@
         <div class="container" v-if="mini">
             <div class="row">
                 <div class="col-4">
-                    <a :href="route('home')" class="btn btn-link text-secondary px-1">
-                        <i class="bi bi-arrow-left-square"></i> Back
+                    <a :href="route('home')" class="btn btn-outline-primary mt-1 mb-1 px-1">
+                        <!-- <i fill="currentColor"
+                         class="bi bi-arrow-left-circle"></i> -->
+                         Home
                     </a>
                 </div>
                 <div class="col-8 text-primary text-end">

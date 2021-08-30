@@ -37,7 +37,7 @@
             </div>
           </div>
 
-          <div class="fixed-bottom text-end"
+          <div class="fixed-bottom text-end pb-2"
                style=" max-width: 720px; margin-left: auto; margin-right: auto; min-height: 38px">
             <action-button class="me-1 ms-1" v-for="action in options" v-bind:key="action" :action="action"
                            v-on:action-made="optionSelected"/>
@@ -51,11 +51,6 @@
 </template>
 
 <style scoped>
-.bottom-navigation {
-    position: absolute;
-    bottom: 65px;;
-    width: 100%;
-}
 
 
 /****/
