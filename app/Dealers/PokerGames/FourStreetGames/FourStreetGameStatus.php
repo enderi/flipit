@@ -18,7 +18,7 @@ class FourStreetGameStatus
     private DealtCards $dealtCards;
 
     private Deck $deck;
-    private array $revealedCards = [];
+    private array $seatSeesCards = [];
 
     public function __construct(Deck $deck)
     {
@@ -34,7 +34,7 @@ class FourStreetGameStatus
 
     public function playerCardRevealed($seatNumber)
     {
-        $this->revealedCards[$seatNumber] = true;
+        $this->seatSeesCards[$seatNumber] = true;
     }
 
     private function initializeState()
@@ -91,7 +91,7 @@ class FourStreetGameStatus
 
     public function getCardsInDealOrder($seat)
     {
-        $revealed = A::create($this->revealedCards);
+        $seatSeesCardsArr = A::create($this->seatSeesCards);
         $cardsToReturn = [];
         $index = 0;
         foreach($this->dealtCards->getCardsInDealOrder() as $c) {
@@ -100,7 +100,7 @@ class FourStreetGameStatus
                 'target' => $c['target'],
                 'card_index' => $index++
             ];
-            if($t == 'community' || $seat == $t || ($revealed->containsKey($t) && $revealed[$t] == true )){
+            if($t == 'community' || $seat == $t || ($seatSeesCardsArr->containsKey($seat) && $seatSeesCardsArr[$seat] == true )){
                 $card['card'] = $c['card']->toString();
             } else {
                 $card['card'] = '??';
@@ -128,16 +128,12 @@ class FourStreetGameStatus
         return $this->options;
     }
 
-    public function isCardsInSeatRevealed($seat) {
-        if(array_key_exists($seat, $this->revealedCards)){
-            return $this->revealedCards[$seat];
+    public function seatSeesAllCards($seatNumber) : bool
+    {
+        if(array_key_exists($seatNumber, $this->seatSeesCards)){
+            return $this->seatSeesCards[$seatNumber];
         }
         return false;
-    }
-
-    public function areAllCardsRevealed()
-    {
-        return $this->isCardsInSeatRevealed(1) && $this->isCardsInSeatRevealed(2);
     }
 
     public function getGameStatus()

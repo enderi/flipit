@@ -217,12 +217,12 @@ abstract class HoldemBaseDealer extends DealerBase
 
         if($this->status->isFlopDealt()) {
             $values = $this->getHandValuesForSeats();
-            if (!$this->status->isCardsInSeatRevealed($opponentSeat)) {
+            if(!$this->status->seatSeesAllCards($mySeat)){
                 $values[$opponentSeat] = [];
             }
             $result['handValues'] = $values;
         }
-        if($this->status->areAllCardsRevealed() && $this->status->isFlopDealt()){
+        if($this->status->seatSeesAllCards($mySeat) && $this->status->isFlopDealt()){
             $deck = $this->status->getDeck();
             $result['odds'] = $this->getOddsUntilRiver($this->status->getBinaryCards(), $deck);
         }

@@ -20627,7 +20627,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "mapOptions", function mapOptions(optionKeys) {
     var labels = {
       'confirm': 'Continue',
-      'show_cards': 'Show your cards',
+      'show_cards': 'Show cards',
       'new_hand': 'New hand'
     };
     return _.map(optionKeys, function (key) {
@@ -24406,7 +24406,7 @@ var _hoisted_1 = {
   "class": "row"
 };
 var _hoisted_2 = {
-  "class": "col-xs-12 offset-sm-2 col-sm-8 text-left"
+  "class": "col-xs-12 offset-sm-1 col-sm-10 text-left"
 };
 var _hoisted_3 = {
   "class": "row"

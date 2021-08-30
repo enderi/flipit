@@ -252,7 +252,7 @@ export default {
         mapOptions(optionKeys) {
           var labels = {
             'confirm': 'Continue',
-            'show_cards': 'Show your cards',
+            'show_cards': 'Show cards',
               'new_hand': 'New hand'
           }
           return _.map(optionKeys, (key) => {

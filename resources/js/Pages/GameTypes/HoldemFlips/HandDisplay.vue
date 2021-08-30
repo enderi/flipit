@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-xs-12 offset-sm-2 col-sm-8 text-left">
+    <div class="col-xs-12 offset-sm-1 col-sm-10 text-left">
         <div class="row">
             <div class="col-5">
-              
+
                 <h4 class="font-weight-light mb-1">
                     {{name}}
                 </h4>
-            
+
                 <span v-if="handValue" style="font-size: 0.8rem">
                   {{ handValue.name || "&nbsp;" }}<br>
                   <span v-if="handValue.cards" class="font-weight-light text-secondary">({{ handValue.cards.join(', ') }})</span><br>
@@ -15,7 +15,7 @@
                 </span>
             </div>
             <div class="col-7 text-center">
-              <hand :items="cards" /><br>               
+              <hand :items="cards" /><br>
             </div>
         </div>
     </div>
