@@ -15,7 +15,9 @@ class CreateActionsTable extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid');
             $table->json('data');
+            $table->foreignId('game_id')->constrained();
             $table->foreignId('hand_id')->nullable()->constrained();
             $table->timestamps();
         });
