@@ -4,7 +4,7 @@ namespace App\DomainObjects;
 
 use App\Dealers\PokerGames\CrazyPineapple\CrazyPineappleDealer;
 use App\Dealers\PokerGames\OmahaFlip\OmahaFlipDealer;
-use App\Dealers\PokerGames\FourStreetGames\TexasFlipDealer;
+use App\Dealers\PokerGames\TexasFlip\TexasFlipDealer;
 
 class Defaults {
     public static $gameInfo = [
