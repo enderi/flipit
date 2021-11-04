@@ -22,7 +22,7 @@ class FourStreetGameStatus
     public function __construct($game)
     {
         $this->game = $game;
-        $this->currentHand = $game->getCurrentHand();
+        $this->currentHand = $game->hand;
         $this->actions = $this->currentHand != null ? $this->currentHand->actions : collect([]);
         $this->joinedPlayers = collect([]);
         $this->options = collect([]);

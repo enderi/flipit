@@ -12,20 +12,19 @@ class ActionHandler
     public function __construct($seats) {
         $this->actionsBySeat = [];
         foreach($seats as $seat) {
-            $this->actionsBySeat[$seat] = [];
+            $this->actionsBySeat[$seat] = collect();
         }
     }
 
     public function addOption($seat, $key) {
         if(!array_key_exists($seat, $this->actionsBySeat)){
-            throw new InvalidActionException("Seat was not expected");
+            throw new InvalidActionException("Seat " . $seat . " was not expected");
         }
         $optionList = $this->actionsBySeat[$seat];
-        if(in_array($key, $optionList)){
-            throw new InvalidActionException("Option already exists");
+        if($optionList->contains($key)){
+            throw new InvalidActionException("Option '" . $key . "' already exists");
         }
-        $optionList[] = $key;
-        $this->actionsBySeat[$seat] = $optionList;
+        $this->actionsBySeat[$seat]->push($key);
     }
 
     public function addOptionForAll($key) {
@@ -35,11 +34,10 @@ class ActionHandler
     }
 
     public function playerActed($seat, $action) {
-        if(!array_key_exists($seat, $this->actionsBySeat) || !in_array($action, $this->actionsBySeat[$seat])){
-            throw new InvalidActionException("Seat or key not found");
+        if(!array_key_exists($seat, $this->actionsBySeat) || !$this->actionsBySeat[$seat]->contains($action)){
+            throw new InvalidActionException("Seat ". $seat . " or key '".$action."' not found");
         }
-        $pos = array_search($action, $this->actionsBySeat[$seat]);
-        unset($this->actionsBySeat[$seat][$pos]);
+        $this->actionsBySeat[$seat] = $this->actionsBySeat[$seat]->reject($action);
     }
 
     public function getOptions() {

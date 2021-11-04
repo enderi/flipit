@@ -19270,6 +19270,71 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['card', 'highlight', 'downlightOthers', 'selected'],
+  methods: {
+    isdownlightOthersed: function isdownlightOthersed() {
+      if (this.downlightOthers && !this.highlight) {
+        return 'grayed';
+      }
+    },
+    getColor: function getColor() {
+      var suit = this.card[1];
+
+      if (suit === 'h') {
+        return 'red';
+      }
+
+      if (suit === 'c') {
+        return 'green';
+      }
+
+      if (suit === 'd') {
+        return 'blue';
+      }
+
+      return 'black';
+    },
+    getRank: function getRank() {
+      return this.card[0] || '?';
+    },
+    getSuit: function getSuit() {
+      var suit = this.card[1];
+
+      if (suit === 'h') {
+        return '&hearts;'; //'&#9829;'
+      }
+
+      if (suit === 'd') {
+        return '&diams;';
+      }
+
+      if (suit === 's') {
+        return '&spades;';
+      }
+
+      if (suit === 'c') {
+        return '&clubs;';
+      }
+
+      return '?';
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ActionMessage.vue?vue&type=script&lang=js":
 /*!******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Jetstream/ActionMessage.vue?vue&type=script&lang=js ***!
@@ -20387,59 +20452,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js":
-/*!***************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js ***!
-  \***************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Components_Card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Components/Card */ "./resources/js/Components/Card.vue");
-/* harmony import */ var _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Components/CardPlaceHolder */ "./resources/js/Components/CardPlaceHolder.vue");
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    Card: _Components_Card__WEBPACK_IMPORTED_MODULE_0__.default,
-    CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__.default
-  },
-  props: ['items'],
-  methods: {}
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue?vue&type=script&lang=js":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue?vue&type=script&lang=js ***!
-  \**********************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Hand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Hand */ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue");
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    Hand: _Hand__WEBPACK_IMPORTED_MODULE_0__.default
-  },
-  props: ["handValue", "cards", "odds", "name"],
-  methods: {}
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -20454,9 +20470,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Hand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Hand */ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue");
 /* harmony import */ var _Pages_Waiting__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../Pages/Waiting */ "./resources/js/Pages/Waiting.vue");
 /* harmony import */ var _HandDisplay__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./HandDisplay */ "./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue");
+/* harmony import */ var _SelectableHandDisplay__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SelectableHandDisplay */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue");
 var _methods;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -20473,7 +20491,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_3__.default,
     Waiting: _Pages_Waiting__WEBPACK_IMPORTED_MODULE_5__.default,
     Hand: _Hand__WEBPACK_IMPORTED_MODULE_4__.default,
-    HandDisplay: _HandDisplay__WEBPACK_IMPORTED_MODULE_6__.default
+    HandDisplay: _HandDisplay__WEBPACK_IMPORTED_MODULE_6__.default,
+    SelectableHandDisplay: _SelectableHandDisplay__WEBPACK_IMPORTED_MODULE_7__.default
   },
   props: ["params"],
   data: function data() {
@@ -20498,7 +20517,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this = this;
 
-    console.log('ppppp', this.opponentSeat);
     Echo.channel("game." + this.params.uuid).listen("GameStateChanged", function (e) {
       if (e.action.action === "new-status") {
         _this.vibrate();
@@ -20558,6 +20576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (curr.placeHolder) {
         curr.placeHolder = false;
+        curr.selected = false;
         curr.item = item;
         break;
       }
@@ -20607,7 +20626,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _.delay(this.dealNextCard, delay, currCard);
 
-        delay = delay + 150;
+        delay = delay + 100;
         this.cardsDealt++;
       }
     }
@@ -20666,12 +20685,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.$inertia.post(this.route("exit-game"), {
       gameUuid: this.params.game.uuid
     });
-  }), _defineProperty(_methods, "newHand", function newHand() {
-    this.disableAllActions();
-    axios.post("/api/hand-status/new", {
-      gameUuid: this.params.game.uuid,
-      playerUuid: this.params.playerUuid
-    });
   }), _defineProperty(_methods, "getGameStats", function getGameStats() {
     var _this5 = this;
 
@@ -20679,7 +20692,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this5.stats = resp.data.winsBySeat;
     });
   }), _defineProperty(_methods, "buildPlaceHolders", function buildPlaceHolders() {
-    var cardCount = this.params.game.game_type === "OMAHA-FLIP" ? 4 : 2;
+    var cardCount = 3;
     var placeHolders = {
       target: {
         1: [],
@@ -20709,6 +20722,408 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.dealtCardArray = {};
     return placeHolders;
   }), _methods)
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Components_Card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Components/Card */ "./resources/js/Components/Card.vue");
+/* harmony import */ var _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Components/CardPlaceHolder */ "./resources/js/Components/CardPlaceHolder.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Card: _Components_Card__WEBPACK_IMPORTED_MODULE_0__.default,
+    CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  props: ['items'],
+  methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Hand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Hand */ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Hand: _Hand__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ["handValue", "cards", "odds", "name", "position"],
+  methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Components_ActionButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Components/ActionButton */ "./resources/js/Components/ActionButton.vue");
+/* harmony import */ var _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Components/CardPlaceHolder */ "./resources/js/Components/CardPlaceHolder.vue");
+/* harmony import */ var _OddsPanel_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OddsPanel.vue */ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue");
+/* harmony import */ var _Hand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Hand */ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue");
+/* harmony import */ var _HandDisplay__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./HandDisplay */ "./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default,
+    ActionButton: _Components_ActionButton__WEBPACK_IMPORTED_MODULE_1__.default,
+    CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_2__.default,
+    Hand: _Hand__WEBPACK_IMPORTED_MODULE_4__.default,
+    HandDisplay: _HandDisplay__WEBPACK_IMPORTED_MODULE_5__.default,
+    OddsPanel: _OddsPanel_vue__WEBPACK_IMPORTED_MODULE_3__.default
+  },
+  props: ["gameUuid", "playerUuid", "gameType"],
+  data: function data() {
+    return {
+      actions: null,
+      options: null,
+      opponentActions: null,
+      gameStatus: null,
+      initializing: true,
+      mySeat: null,
+      opponentSeat: null,
+      handValues: null,
+      results: {},
+      cardsDealt: 0,
+      communityCards: [],
+      gameStarted: false,
+      placeHolders: this.buildPlaceHolders(),
+      dealtCardArray: {},
+      dealtCards: [],
+      odds: null,
+      waitingOpponent: false
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    Echo.channel("game.player." + this.playerUuid).listen("GameStateChanged", function (e) {
+      if (e.action.action === "new-status") {
+        _this.vibrate();
+
+        _this.handleResponse(e.action.status);
+      } else if (e.action === "opponent-left") {
+        _this.vibrate();
+
+        confirm("Your opponent has left, I'll guide you home");
+
+        _this.quit();
+      } else if (e.action === "info") {
+        _this.$wkToast(e.action.status);
+      }
+    });
+    this.getStatus();
+  },
+  unmounted: function unmounted() {
+    this.unSubscribeEcho();
+  },
+  methods: {
+    getStatus: function getStatus() {
+      var _this2 = this;
+
+      axios.get("/api/hand-status/" + this.playerUuid).then(function (resp) {
+        return _this2.handleResponse(resp.data);
+      })["finally"](function () {
+        return _this2.initializing = false;
+      });
+    },
+    handleResponse: function handleResponse(data) {
+      this.mySeat = data.mySeat;
+      this.opponentSeat = data.mySeat === 1 ? 2 : 1;
+      var delay = 0;
+
+      if (this.cardsDealt > data.cardsInDealOrder.length) {
+        this.initialize();
+      }
+
+      if (this.cardsDealt <= data.cardsInDealOrder.length) {
+        for (var i = 0; i < this.cardsDealt; i++) {
+          var source = data.cardsInDealOrder[i];
+
+          var curr = _.find(this.placeHolders.target[source.target], function (ii) {
+            return !ii.placeHolder && ii.item.card_index === source.card_index;
+          });
+
+          if (curr && curr.item.card !== source.card) {
+            curr.item.card = source.card;
+          }
+
+          curr = this.dealtCardArray[source.card_index];
+
+          if (curr && curr.card !== source.card) {
+            this.dealtCardArray[source.card_index] = source;
+          }
+        }
+
+        while (this.cardsDealt < data.cardsInDealOrder.length) {
+          var currCard = data.cardsInDealOrder[this.cardsDealt];
+
+          _.delay(this.dealNextCard, delay, currCard);
+
+          delay = delay + 100;
+          this.cardsDealt++;
+        }
+      }
+
+      this.waitingOpponent = data.actions && data.actions[this.opponentSeat].length > 0;
+      this.actions = data.actions && this.mapOptions(data.actions[this.mySeat]);
+      this.options = data.options && this.mapOptions(data.options[this.mySeat]);
+      this.opponentActions = data.actions && this.mapOptions(data.actions[this.opponentSeat]);
+      this.handValues = data.handValues;
+
+      if (data.odds) {
+        this.odds = {
+          1: Math.round(data.odds[1] / data.odds["total"] * 100),
+          2: Math.round(data.odds[2] / data.odds["total"] * 100)
+        };
+      } else {
+        this.odds = null;
+      }
+    },
+    unSubscribeEcho: function unSubscribeEcho() {
+      Echo.leave("game.player." + this.playerUuid);
+    },
+    vibrate: function vibrate() {
+      if ("vibrate" in navigator) {
+        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+        if (navigator.vibrate) {
+          navigator.vibrate(100);
+        }
+      }
+    },
+    dealNextCard: function dealNextCard(item) {
+      this.addCardToFirstFreeSlot(this.placeHolders.target[item.target], item);
+      this.dealtCardArray[item.card_index] = item;
+      this.$forceUpdate();
+    },
+    addCardToFirstFreeSlot: function addCardToFirstFreeSlot(items, item) {
+      for (var i = 0; i < items.length; i++) {
+        var curr = items[i];
+
+        if (curr.placeHolder) {
+          curr.placeHolder = false;
+          curr.item = item;
+          break;
+        }
+      }
+    },
+    initialize: function initialize() {
+      this.placeHolders = this.buildPlaceHolders();
+      this.cardsDealt = 0;
+    },
+    mapOptions: function mapOptions(optionKeys) {
+      var labels = {
+        confirm: "Continue",
+        show_cards: "Show cards",
+        new_hand: "New hand"
+      };
+      return _.map(optionKeys, function (key) {
+        return {
+          text: labels[key],
+          key: key
+        };
+      });
+    },
+    optionSelected: function optionSelected(option) {
+      var _this3 = this;
+
+      this.disableAllActions();
+      axios.post("/api/hand-status/option", {
+        playerUuid: this.playerUuid,
+        option: option.key
+      }).then(function (resp) {
+        return _this3.handleResponse(resp.data);
+      })["finally"](this.enableAllActions);
+    },
+    acted: function acted(action) {
+      var _this4 = this;
+
+      this.disableAllActions();
+      axios.post("/api/hand-status/action", {
+        playerUuid: this.playerUuid,
+        action: action.key
+      }).then(function (resp) {
+        return _this4.handleResponse(resp.data);
+      })["finally"](this.enableAllActions);
+    },
+    disableAllActions: function disableAllActions() {
+      this.disableAll = true;
+    },
+    enableAllActions: function enableAllActions() {
+      this.disableAll = false;
+    },
+    quit: function quit() {
+      this.unSubscribeEcho();
+      this.$inertia.post(this.route("exit-game"), {
+        playerUuid: this.playerUuid
+      });
+    },
+    getGameStats: function getGameStats() {
+      var _this5 = this;
+
+      axios.get("/api/game/stats/" + this.playerUuid).then(function (resp) {
+        _this5.stats = resp.data.winsBySeat;
+      });
+    },
+    buildPlaceHolders: function buildPlaceHolders() {
+      var cardCount = this.gameType === "OMAHA-FLIP" ? 4 : 2;
+      var placeHolders = {
+        target: {
+          1: [],
+          2: [],
+          community: []
+        }
+      };
+
+      for (var i = 0; i < 5; i++) {
+        placeHolders.target.community.push({
+          placeHolder: true,
+          item: null
+        });
+      }
+
+      for (var i = 0; i < cardCount; i++) {
+        placeHolders.target[1].push({
+          placeHolder: true,
+          item: null
+        });
+        placeHolders.target[2].push({
+          placeHolder: true,
+          item: null
+        });
+      }
+
+      this.dealtCardArray = {};
+      return placeHolders;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['odds']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Components_SelectableCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Components/SelectableCard */ "./resources/js/Components/SelectableCard.vue");
+/* harmony import */ var _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Components/CardPlaceHolder */ "./resources/js/Components/CardPlaceHolder.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    SelectableCard: _Components_SelectableCard__WEBPACK_IMPORTED_MODULE_0__.default,
+    CardPlaceHolder: _Components_CardPlaceHolder__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  props: ['items'],
+  methods: {
+    clicked: function clicked(c) {
+      console.log('clicked', c);
+      this.$emit('card-clicked', c);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SelectableHand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectableHand */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    SelectableHand: _SelectableHand__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ["handValue", "cards", "odds", "name", "maxSelections"],
+  methods: {
+    cardClicked: function cardClicked(item) {
+      var nowSelected = _.filter(this.cards, function (c) {
+        return c.selected;
+      }).length;
+
+      if (item.selected) {
+        item.selected = false;
+      } else {
+        if (this.maxSelections === 1) {
+          _.each(this.cards, function (c) {
+            c.selected = false;
+          });
+
+          item.selected = true;
+        } else if (nowSelected < this.maxSelections) {
+          item.selected = true;
+        }
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -20783,15 +21198,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   props: ['error', 'code'],
   methods: {
-    join: function join() {
-      this.$inertia.post('/join', {
-        code: this.code
-      });
+    join: function join(code) {
+      this.$inertia.post('/join/' + code);
     },
     onDecode: function onDecode(decodeString) {
-      this.$inertia.post('/join', {
-        code: decodeString
-      });
+      this.join(decodeString);
     },
     onInit: function onInit(promise) {
       var _this = this;
@@ -20957,13 +21368,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     quit: function quit() {
       this.$inertia.get('/');
-    },
-    newHand: function newHand() {
-      this.disableAllActions();
-      axios.post('/api/hand-status/new', {
-        gameUuid: this.params.game.uuid,
-        playerUuid: this.params.playerUuid
-      });
     }
   }
 });
@@ -21828,8 +22232,74 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     VueQrCode: vue3_qrcode__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  props: ["code", "url"],
-  methods: {}
+  props: ["uuid", "url"],
+  methods: {},
+  mounted: function mounted() {
+    console.log('gii', this.url, this.uuid);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var vue3_qrcode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue3-qrcode */ "./node_modules/vue3-qrcode/lib/index.js");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default,
+    VueQrCode: vue3_qrcode__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  data: function data() {
+    return {
+      sharing: true
+    };
+  },
+  props: ["gameUuid", "playerUuid", "invitationUrl"],
+  mounted: function mounted() {
+    var _this = this;
+
+    Echo.channel("game." + this.gameUuid).listen("PlayerJoined", function (e) {
+      console.log('msg', e.message);
+
+      if (e && e.message === 'ALL_JOINED') {
+        console.log('this.plaeyr', _this.playerUuid);
+
+        _this.$inertia.get('/game/' + _this.gameUuid + '/player/' + _this.playerUuid);
+      }
+
+      if (e && e.message === 'IN_THE_LOBBY') {
+        console.log('this.plaeyr', _this.playerUuid);
+
+        _this.$wkToast('Player in the lobby..', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        });
+
+        _this.sharing = false;
+      }
+    });
+  },
+  unmounted: function unmounted() {
+    Echo.leave('/game/' + this.gameUuid + '/player/' + this.playerUuid);
+  },
+  methods: {
+    initialize: function initialize() {
+      this.placeHolders = this.buildPlaceHolders();
+      this.cardsDealt = 0;
+    }
+  }
 });
 
 /***/ }),
@@ -21982,6 +22452,65 @@ var _hoisted_2 = [_hoisted_1];
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, _hoisted_2);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-bcb82ede");
+
+var _hoisted_1 = {
+  key: 0,
+  "class": "playing-card back"
+};
+var _hoisted_2 = {
+  key: 1,
+  "class": "playing-card empty"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, " ", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, " ", -1
+/* HOISTED */
+);
+
+var _hoisted_5 = [_hoisted_3, _hoisted_4];
+var _hoisted_6 = ["innerHTML"];
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [!$props.card ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.card && $props.card === 'empty' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, _hoisted_5)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.card && $props.card !== 'empty' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+    key: 2,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["playing-card", [$options.getColor(), {
+      'selected': $props.selected,
+      'best-hand': $props.highlight,
+      'grayed': $props.downlightOthers && !$props.highlight
+    }]])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getRank()), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    innerHTML: $options.getSuit()
+  }, null, 8
+  /* PROPS */
+  , _hoisted_6)], 2
+  /* CLASS */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -22908,7 +23437,7 @@ var _hoisted_4 = {
 };
 var _hoisted_5 = {
   key: 1,
-  "class": "container"
+  "class": "navi-row mb-2 container"
 };
 var _hoisted_6 = {
   "class": "row"
@@ -22923,18 +23452,13 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 var _hoisted_10 = {
   "class": "col-8 text-primary text-end"
 };
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_12 = {
+var _hoisted_11 = {
   "class": "container-fluid"
 };
-var _hoisted_13 = {
+var _hoisted_12 = {
   "class": "row"
 };
-var _hoisted_14 = {
+var _hoisted_13 = {
   "class": "col-12"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -22956,12 +23480,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.mini ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: _ctx.route('home'),
-    "class": "btn btn-outline-primary mt-1 mb-1 px-1"
+    "class": "btn btn-link mt-1 mb-1 px-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i fill=\"currentColor\"\n                         class=\"bi bi-arrow-left-circle\"></i> "), _hoisted_9], 8
   /* PROPS */
   , _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.subHeader), 1
   /* TEXT */
-  ), _hoisted_11])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")])])])])]);
+  )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")])])])])]);
 }
 
 /***/ }),
@@ -24352,6 +24876,143 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-59cffcf2");
+
+var _hoisted_1 = {
+  key: 0
+};
+var _hoisted_2 = {
+  key: 1
+};
+var _hoisted_3 = {
+  "class": "border-success mb-3"
+};
+var _hoisted_4 = {
+  "class": "row"
+};
+var _hoisted_5 = {
+  "class": "col-12"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = {
+  "class": "mt-3 mb-3 text-center"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
+  "class": "fixed-bottom text-end pb-2",
+  style: {
+    "max-width": "720px",
+    "margin-left": "auto",
+    "margin-right": "auto",
+    "min-height": "38px"
+  }
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_waiting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("waiting");
+
+  var _component_hand_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand-display");
+
+  var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
+
+  var _component_selectable_hand_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("selectable-hand-display");
+
+  var _component_action_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("action-button");
+
+  var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_app_layout, {
+    mini: true,
+    "sub-header": 'Crazy Pineapple Semiflip'
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [!_ctx.initializing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [!_ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_waiting, {
+        key: 0,
+        url: $props.params.invitationUrl,
+        code: $props.params.invitationCode
+      }, null, 8
+      /* PROPS */
+      , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
+        style: {
+          "height": "22vh"
+        },
+        name: "VILLAIN",
+        "hand-value": _ctx.handValues[_ctx.opponentSeat],
+        cards: _ctx.placeHolders.target[_ctx.opponentSeat],
+        odds: _ctx.odds && _ctx.odds[_ctx.opponentSeat]
+      }, null, 8
+      /* PROPS */
+      , ["hand-value", "cards", "odds"]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+        items: _ctx.placeHolders.target.community
+      }, null, 8
+      /* PROPS */
+      , ["items"])]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_selectable_hand_display, {
+        style: {
+          "height": "22vh"
+        },
+        name: "HERO",
+        "hand-value": _ctx.handValues[_ctx.mySeat],
+        cards: _ctx.placeHolders.target[_ctx.mySeat],
+        odds: _ctx.odds && _ctx.odds[_ctx.mySeat],
+        "max-selections": 1
+      }, null, 8
+      /* PROPS */
+      , ["hand-value", "cards", "odds"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
+          "class": "me-1 ms-1",
+          key: action,
+          action: action,
+          onActionMade: $options.optionSelected
+        }, null, 8
+        /* PROPS */
+        , ["action", "onActionMade"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.actions, function (action) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
+          "class": "me-1 ms-1",
+          key: action,
+          action: action,
+          onActionMade: $options.acted
+        }, null, 8
+        /* PROPS */
+        , ["action", "onActionMade"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }),
+    _: 1
+    /* STABLE */
+
+  });
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=template&id=5d2d9a60":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=template&id=5d2d9a60 ***!
@@ -24409,6 +25070,343 @@ var _hoisted_2 = {
   "class": "col-xs-12 offset-sm-1 col-sm-10 text-left"
 };
 var _hoisted_3 = {
+  "class": "row text-center"
+};
+var _hoisted_4 = {
+  "class": "col-12"
+};
+var _hoisted_5 = {
+  key: 0,
+  style: {
+    "font-size": "0.8rem"
+  }
+};
+var _hoisted_6 = {
+  style: {
+    "margin-bottom": "1px"
+  }
+};
+var _hoisted_7 = {
+  key: 0,
+  "class": "font-weight-light text-secondary"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "row-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "font-weight-light mb-1"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "col-12 text-center"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$props.handValue ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.name || " "), 1
+  /* TEXT */
+  ), $props.handValue.cards ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.handValue.cards.join(', ')) + ")", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_8])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+    items: $props.cards
+  }, null, 8
+  /* PROPS */
+  , ["items"]), _hoisted_11])])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-a856f856");
+
+var _hoisted_1 = {
+  key: 0
+};
+var _hoisted_2 = {
+  "class": "border-success mb-3"
+};
+var _hoisted_3 = {
+  "class": "row"
+};
+var _hoisted_4 = {
+  "class": "col-12"
+};
+var _hoisted_5 = {
+  "class": "aligned-container"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "aligned-left"
+}, "Villain", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = {
+  key: 0,
+  "class": "dot-elastic aligned-center"
+};
+var _hoisted_8 = {
+  "class": "aligned-right"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  style: {
+    "margin-bottom": "0",
+    "margin-top": "0"
+  }
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "row"
+};
+var _hoisted_11 = {
+  "class": "col-12"
+};
+var _hoisted_12 = {
+  "class": "mt-3 mb-3 text-center"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  style: {
+    "margin-top": "0",
+    "margin-bottom": "0"
+  }
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_14 = {
+  "class": "aligned-container"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "aligned-left"
+}, "Hero", -1
+/* HOISTED */
+);
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "aligned-center"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_17 = {
+  "class": "aligned-right"
+};
+var _hoisted_18 = {
+  "class": "fixed-bottom text-end pb-2",
+  style: {
+    "max-width": "720px",
+    "margin-left": "auto",
+    "margin-right": "auto",
+    "min-height": "38px"
+  }
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_hand_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand-display");
+
+  var _component_odds_panel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("odds-panel");
+
+  var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
+
+  var _component_action_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("action-button");
+
+  var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_app_layout, {
+    mini: true
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(":sub-header=\"params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'\""), !_ctx.initializing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
+        style: {
+          "height": "22vh"
+        },
+        "hand-value": _ctx.handValues[_ctx.opponentSeat],
+        cards: _ctx.placeHolders.target[_ctx.opponentSeat],
+        odds: _ctx.odds && _ctx.odds[_ctx.opponentSeat]
+      }, null, 8
+      /* PROPS */
+      , ["hand-value", "cards", "odds"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, _ctx.waitingOpponent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_ctx.odds ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_odds_panel, {
+        key: 0,
+        "class": "text-right",
+        odds: _ctx.odds[_ctx.opponentSeat]
+      }, null, 8
+      /* PROPS */
+      , ["odds"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
+        items: _ctx.placeHolders.target.community
+      }, null, 8
+      /* PROPS */
+      , ["items"])])])]), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_ctx.odds ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_odds_panel, {
+        key: 0,
+        "class": "text-right",
+        odds: _ctx.odds[_ctx.mySeat]
+      }, null, 8
+      /* PROPS */
+      , ["odds"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
+        style: {
+          "height": "22vh"
+        },
+        "hand-value": _ctx.handValues[_ctx.mySeat],
+        cards: _ctx.placeHolders.target[_ctx.mySeat],
+        odds: _ctx.odds && _ctx.odds[_ctx.mySeat]
+      }, null, 8
+      /* PROPS */
+      , ["hand-value", "cards", "odds"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
+          "class": "me-1 ms-1",
+          key: action,
+          action: action,
+          onActionMade: $options.optionSelected
+        }, null, 8
+        /* PROPS */
+        , ["action", "onActionMade"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.actions, function (action) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
+          "class": "me-1 ms-1",
+          key: action,
+          action: action,
+          onActionMade: $options.acted
+        }, null, 8
+        /* PROPS */
+        , ["action", "onActionMade"]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }),
+    _: 1
+    /* STABLE */
+
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  key: 0,
+  "class": "text-right text-primary font-weight-bold"
+};
+var _hoisted_2 = {
+  key: 1,
+  "class": "text-right text-primary font-weight-bold"
+};
+var _hoisted_3 = {
+  key: 2,
+  "class": "text-right text-primary font-weight-bold"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [$props.odds !== null && $props.odds !== 100 && $props.odds !== 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.odds) + " %", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.odds !== null && $props.odds === 100 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, "Winner")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.odds !== null && $props.odds === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "Loser")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  key: 0
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_card_place_holder = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("card-place-holder");
+
+  var _component_selectable_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("selectable-card");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.items, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: item.item && item.item.card
+    }, [item.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_card_place_holder)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !item.placeHolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_selectable_card, {
+      key: 1,
+      onClick: function onClick($event) {
+        return $options.clicked(item);
+      },
+      card: item.item.card,
+      selected: item.selected
+    }, null, 8
+    /* PROPS */
+    , ["onClick", "card", "selected"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "row"
+};
+var _hoisted_2 = {
+  "class": "col-xs-12 offset-sm-1 col-sm-10 text-left"
+};
+var _hoisted_3 = {
   "class": "row"
 };
 var _hoisted_4 = {
@@ -24450,7 +25448,7 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
+  var _component_selectable_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("selectable-hand");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.name), 1
   /* TEXT */
@@ -24460,147 +25458,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_9, $props.odds !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.odds) + " %", 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
-    items: $props.cards
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_selectable_hand, {
+    items: $props.cards,
+    onCardClicked: $options.cardClicked
   }, null, 8
   /* PROPS */
-  , ["items"]), _hoisted_12])])])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-a856f856");
-
-var _hoisted_1 = {
-  key: 0
-};
-var _hoisted_2 = {
-  key: 1
-};
-var _hoisted_3 = {
-  "class": "border-success mb-3"
-};
-var _hoisted_4 = {
-  "class": "row"
-};
-var _hoisted_5 = {
-  "class": "col-12"
-};
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
-  "class": "mt-3 mb-3 text-center"
-};
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_9 = {
-  "class": "fixed-bottom text-end pb-2",
-  style: {
-    "max-width": "720px",
-    "margin-left": "auto",
-    "margin-right": "auto",
-    "min-height": "38px"
-  }
-};
-
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_waiting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("waiting");
-
-  var _component_hand_display = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand-display");
-
-  var _component_hand = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("hand");
-
-  var _component_action_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("action-button");
-
-  var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_app_layout, {
-    mini: true,
-    "sub-header": $props.params.game.game_type === 'OMAHA-FLIP' ? 'Omaha Flip' : 'Texas Flip'
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [!_ctx.initializing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [!_ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_waiting, {
-        key: 0,
-        url: $props.params.invitationUrl,
-        code: $props.params.invitationCode
-      }, null, 8
-      /* PROPS */
-      , ["url", "code"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.gameStarted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
-        style: {
-          "height": "22vh"
-        },
-        name: "VILLAIN",
-        "hand-value": _ctx.handValues[_ctx.opponentSeat],
-        cards: _ctx.placeHolders.target[_ctx.opponentSeat],
-        odds: _ctx.odds && _ctx.odds[_ctx.opponentSeat]
-      }, null, 8
-      /* PROPS */
-      , ["hand-value", "cards", "odds"]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Table "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand, {
-        items: _ctx.placeHolders.target.community
-      }, null, 8
-      /* PROPS */
-      , ["items"])]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_hand_display, {
-        style: {
-          "height": "22vh"
-        },
-        name: "HERO",
-        "hand-value": _ctx.handValues[_ctx.mySeat],
-        cards: _ctx.placeHolders.target[_ctx.mySeat],
-        odds: _ctx.odds && _ctx.odds[_ctx.mySeat]
-      }, null, 8
-      /* PROPS */
-      , ["hand-value", "cards", "odds"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.options, function (action) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
-          "class": "me-1 ms-1",
-          key: action,
-          action: action,
-          onActionMade: $options.optionSelected
-        }, null, 8
-        /* PROPS */
-        , ["action", "onActionMade"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.actions, function (action) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_action_button, {
-          "class": "me-1 ms-1",
-          key: action,
-          action: action,
-          onActionMade: $options.acted
-        }, null, 8
-        /* PROPS */
-        , ["action", "onActionMade"]);
-      }), 128
-      /* KEYED_FRAGMENT */
-      ))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
-    }),
-    _: 1
-    /* STABLE */
-
-  }, 8
-  /* PROPS */
-  , ["sub-header"]);
+  , ["items", "onCardClicked"]), _hoisted_12])])])]);
 }
 
 /***/ }),
@@ -24746,8 +25609,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.code]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "mt-2 btn btn-primary",
-        onClick: _cache[1] || (_cache[1] = function () {
-          return $options.join && $options.join.apply($options, arguments);
+        onClick: _cache[1] || (_cache[1] = function ($event) {
+          return $options.join($props.code);
         })
       }, "Join with code"), $props.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.error), 1
       /* TEXT */
@@ -24914,7 +25777,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, "Exit"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-outline-primary btn-lg",
         onClick: _cache[1] || (_cache[1] = function () {
-          return $options.newHand && $options.newHand.apply($options, arguments);
+          return _ctx.newHand && _ctx.newHand.apply(_ctx, arguments);
         })
       }, "Next hand")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
@@ -27096,9 +27959,64 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034":
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" > ");
+
+var _hoisted_3 = {
+  "class": "row text-center"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "col-12"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Scan a code with app or send ");
+
+var _hoisted_6 = ["href"];
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_vue_qr_code = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-qr-code");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_ctx.cpde ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: $props.url,
+    target: "_blank"
+  }, "direct link", 8
+  /* PROPS */
+  , _hoisted_6), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_qr_code, {
+    style: {
+      "width": "80%"
+    },
+    value: $props.uuid
+  }, null, 8
+  /* PROPS */
+  , ["value"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266":
 /*!************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266 ***!
   \************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -27109,45 +28027,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-03ae0034");
-
 var _hoisted_1 = {
-  "class": "container"
-};
-var _hoisted_2 = {
   "class": "row text-center"
 };
-var _hoisted_3 = {
+var _hoisted_2 = {
   "class": "col-12"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Scan a code with app or send ");
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Scan the code with the app ");
 
-var _hoisted_5 = ["href"];
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("or send ");
+
+var _hoisted_6 = ["href"];
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_vue_qr_code = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-qr-code");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: $props.url,
-    target: "_blank"
-  }, "direct link", 8
-  /* PROPS */
-  , _hoisted_5), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_qr_code, {
-    style: {
-      "width": "80%"
-    },
-    value: $props.code
-  }, null, 8
-  /* PROPS */
-  , ["value"])])])]);
+  var _component_app_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("app-layout");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_app_layout, {
+    mini: true
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, _hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        href: $props.invitationUrl,
+        target: "_blank"
+      }, "direct link", 8
+      /* PROPS */
+      , _hoisted_6), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_vue_qr_code, {
+        style: {
+          "max-width": "300px",
+          "width": "90%"
+        },
+        value: $props.gameUuid
+      }, null, 8
+      /* PROPS */
+      , ["value"])])])];
+    }),
+    _: 1
+    /* STABLE */
+
+  });
 }
 
 /***/ }),
@@ -27723,6 +28651,54 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.empty[data-v-4a67c368] {\r\n    tex
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.selected[data-v-bcb82ede] {\r\n    border: 3px solid darkorange;\n}\n.back[data-v-bcb82ede] {\r\n    text-indent: -4000px;\r\n    background-color: green;\n}\n.empty[data-v-bcb82ede] {\r\n    text-indent: -4000px;\r\n    border: 1px dashed #111;\r\n    background-color: lightgray;\r\n    box-shadow: none;\n}\n.best-hand[data-v-bcb82ede] {\r\n    border: 3px solid orange;\n}\n.grayed[data-v-bcb82ede] {\r\n    background-color: lightgray;\n}\r\n\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n/****/\n.navbar-nav.navbar-center[data-v-59cffcf2] {\n    position: absolute;\n    left: 50%;\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-59cffcf2] {\n    align-self: flex-end;\n    flex: 1 1 auto;\n}\n.bold[data-v-59cffcf2] {\n    font-weight: bold;\n}\n.bottom-row[data-v-59cffcf2] {\n    position: absolute;\n    bottom: 0;\n}\n.winner[data-v-59cffcf2] {\n    background-image: linear-gradient(\n        to right,\n        white,\n        lightgreen,\n        lightgreen,\n        lightgray,\n        white\n    );\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css ***!
@@ -27740,7 +28716,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\n    position: absolute;\n    left: 50%;\n    transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\n    align-self: flex-end;\n    flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\n    font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\n    position: absolute;\n    bottom: 0;\n}\n.winner[data-v-a856f856] {\n    background-image: linear-gradient(\n        to right,\n        white,\n        lightgreen,\n        lightgreen,\n        lightgray,\n        white\n    );\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/****/\n.navbar-nav.navbar-center[data-v-a856f856] {\n  position: absolute;\n  left: 50%;\n  transform: translatex(-50%);\n}\n.card.card-footer[data-v-a856f856] {\n  align-self: flex-end;\n  flex: 1 1 auto;\n}\n.bold[data-v-a856f856] {\n  font-weight: bold;\n}\n.bottom-row[data-v-a856f856] {\n  position: absolute;\n  bottom: 0;\n}\n.winner[data-v-a856f856] {\n  background-image: linear-gradient(\n    to right,\n    white,\n    lightgreen,\n    lightgreen,\n    lightgray,\n    white\n  );\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -27764,31 +28740,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-row[data-v-ca3336f8] {\r\n    position: absolute;\r\n    bottom: 0;\n}\r\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-row[data-v-03ae0034] {\n    position: absolute;\n    bottom: 0;\n}\n.table[data-v-03ae0034] {\n    background-color: darkgreen;\n}\n.winner[data-v-03ae0034] {\n    background-image: linear-gradient(to right, white, lightgreen, lightgreen, lightgray, white);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bottom-row[data-v-ca3336f8] {\n    position: absolute;\n    bottom: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -80817,6 +81769,66 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_style_index_0_id_bcb82ede_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_style_index_0_id_bcb82ede_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_style_index_0_id_bcb82ede_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_style_index_0_id_59cffcf2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_style_index_0_id_59cffcf2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_style_index_0_id_59cffcf2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css ***!
@@ -80874,36 +81886,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LastTrick_vue_vue_type_style_index_0_id_ca3336f8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_style_index_0_id_03ae0034_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_style_index_0_id_03ae0034_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_style_index_0_id_03ae0034_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -81468,6 +82450,36 @@ if (false) {}
 _CardPlaceHolder_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Components/CardPlaceHolder.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_CardPlaceHolder_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Components/SelectableCard.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/Components/SelectableCard.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SelectableCard_vue_vue_type_template_id_bcb82ede_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true */ "./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true");
+/* harmony import */ var _SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectableCard.vue?vue&type=script&lang=js */ "./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js");
+/* harmony import */ var _SelectableCard_vue_vue_type_style_index_0_id_bcb82ede_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css */ "./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css");
+
+
+
+
+;
+_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _SelectableCard_vue_vue_type_template_id_bcb82ede_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-bcb82ede"
+/* hot reload */
+if (false) {}
+
+_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Components/SelectableCard.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -82293,6 +83305,36 @@ _Dashboard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__fi
 
 /***/ }),
 
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CrazyPineappleFlip_vue_vue_type_template_id_59cffcf2_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true */ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true");
+/* harmony import */ var _CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CrazyPineappleFlip.vue?vue&type=script&lang=js */ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js");
+/* harmony import */ var _CrazyPineappleFlip_vue_vue_type_style_index_0_id_59cffcf2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css */ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css");
+
+
+
+
+;
+_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _CrazyPineappleFlip_vue_vue_type_template_id_59cffcf2_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-59cffcf2"
+/* hot reload */
+if (false) {}
+
+_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue ***!
@@ -82372,6 +83414,84 @@ if (false) {}
 _HoldemFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HoldemFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _OddsPanel_vue_vue_type_template_id_38d9e02f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OddsPanel.vue?vue&type=template&id=38d9e02f */ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f");
+/* harmony import */ var _OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OddsPanel.vue?vue&type=script&lang=js */ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js");
+
+
+
+_OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _OddsPanel_vue_vue_type_template_id_38d9e02f__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SelectableHand_vue_vue_type_template_id_1c91f3f4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectableHand.vue?vue&type=template&id=1c91f3f4 */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4");
+/* harmony import */ var _SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectableHand.vue?vue&type=script&lang=js */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js");
+
+
+
+_SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _SelectableHand_vue_vue_type_template_id_1c91f3f4__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SelectableHandDisplay_vue_vue_type_template_id_6834d70c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectableHandDisplay.vue?vue&type=template&id=6834d70c */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c");
+/* harmony import */ var _SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectableHandDisplay.vue?vue&type=script&lang=js */ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js");
+
+
+
+_SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _SelectableHandDisplay_vue_vue_type_template_id_6834d70c__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -82832,20 +83952,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Waiting_vue_vue_type_template_id_03ae0034_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Waiting.vue?vue&type=template&id=03ae0034&scoped=true */ "./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true");
+/* harmony import */ var _Waiting_vue_vue_type_template_id_03ae0034__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Waiting.vue?vue&type=template&id=03ae0034 */ "./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034");
 /* harmony import */ var _Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Waiting.vue?vue&type=script&lang=js */ "./resources/js/Pages/Waiting.vue?vue&type=script&lang=js");
-/* harmony import */ var _Waiting_vue_vue_type_style_index_0_id_03ae0034_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css */ "./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css");
 
 
 
-
-;
-_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _Waiting_vue_vue_type_template_id_03ae0034_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
-_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-03ae0034"
+_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _Waiting_vue_vue_type_template_id_03ae0034__WEBPACK_IMPORTED_MODULE_0__.render
 /* hot reload */
 if (false) {}
 
 _Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/Waiting.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/WaitingRoom/Waiting.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/Pages/WaitingRoom/Waiting.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Waiting_vue_vue_type_template_id_92451266__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Waiting.vue?vue&type=template&id=92451266 */ "./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266");
+/* harmony import */ var _Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Waiting.vue?vue&type=script&lang=js */ "./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js");
+
+
+
+_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _Waiting_vue_vue_type_template_id_92451266__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Pages/WaitingRoom/Waiting.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
@@ -82941,6 +84083,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CardPlaceHolder_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CardPlaceHolder_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CardPlaceHolder.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CardPlaceHolder.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableCard.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -83377,6 +84535,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CrazyPineappleFlip.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js":
 /*!***********************************************************************************!*\
   !*** ./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=script&lang=js ***!
@@ -83421,6 +84595,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HoldemFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HoldemFlip_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HoldemFlip.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_OddsPanel_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./OddsPanel.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHand_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableHand.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHandDisplay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableHandDisplay.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -83713,6 +84935,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Welcome.vue?vue&type=script&lang=js":
 /*!****************************************************************!*\
   !*** ./resources/js/Pages/Welcome.vue?vue&type=script&lang=js ***!
@@ -83789,6 +85027,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CardPlaceHolder_vue_vue_type_template_id_4a67c368_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CardPlaceHolder_vue_vue_type_template_id_4a67c368_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CardPlaceHolder.vue?vue&type=template&id=4a67c368&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/CardPlaceHolder.vue?vue&type=template&id=4a67c368&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_template_id_bcb82ede_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_template_id_bcb82ede_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=template&id=bcb82ede&scoped=true");
 
 
 /***/ }),
@@ -84305,6 +85559,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_template_id_59cffcf2_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_template_id_59cffcf2_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=template&id=59cffcf2&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=template&id=5d2d9a60":
 /*!*****************************************************************************************!*\
   !*** ./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue?vue&type=template&id=5d2d9a60 ***!
@@ -84349,6 +85619,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HoldemFlip_vue_vue_type_template_id_a856f856_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HoldemFlip_vue_vue_type_template_id_a856f856_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=template&id=a856f856&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_OddsPanel_vue_vue_type_template_id_38d9e02f__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_OddsPanel_vue_vue_type_template_id_38d9e02f__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./OddsPanel.vue?vue&type=template&id=38d9e02f */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue?vue&type=template&id=38d9e02f");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4 ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHand_vue_vue_type_template_id_1c91f3f4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHand_vue_vue_type_template_id_1c91f3f4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableHand.vue?vue&type=template&id=1c91f3f4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue?vue&type=template&id=1c91f3f4");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHandDisplay_vue_vue_type_template_id_6834d70c__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableHandDisplay_vue_vue_type_template_id_6834d70c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableHandDisplay.vue?vue&type=template&id=6834d70c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue?vue&type=template&id=6834d70c");
 
 
 /***/ }),
@@ -84625,18 +85943,34 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true":
+/***/ "./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034 ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_03ae0034__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_03ae0034__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=template&id=03ae0034 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266":
 /*!**********************************************************************************!*\
-  !*** ./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true ***!
+  !*** ./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266 ***!
   \**********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_03ae0034_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_92451266__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_03ae0034_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=template&id=03ae0034&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=template&id=03ae0034&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_template_id_92451266__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=template&id=92451266 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/WaitingRoom/Waiting.vue?vue&type=template&id=92451266");
 
 
 /***/ }),
@@ -84709,6 +86043,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SelectableCard_vue_vue_type_style_index_0_id_bcb82ede_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/SelectableCard.vue?vue&type=style&index=0&id=bcb82ede&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css":
+/*!*********************************************************************************************************************************!*\
+  !*** ./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_CrazyPineappleFlip_vue_vue_type_style_index_0_id_59cffcf2_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue?vue&type=style&index=0&id=59cffcf2&scoped=true&lang=css");
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css":
 /*!*************************************************************************************************************************!*\
   !*** ./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue?vue&type=style&index=0&id=a856f856&scoped=true&lang=css ***!
@@ -84731,19 +86091,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_LastTrick_vue_vue_type_style_index_0_id_ca3336f8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./LastTrick.vue?vue&type=style&index=0&id=ca3336f8&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/LastTrick.vue?vue&type=style&index=0&id=ca3336f8&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css ***!
-  \************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Waiting_vue_vue_type_style_index_0_id_03ae0034_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Waiting.vue?vue&type=style&index=0&id=03ae0034&scoped=true&lang=css");
 
 
 /***/ }),
@@ -85109,12 +86456,20 @@ var map = {
 	"./Auth/VerifyEmail.vue": "./resources/js/Pages/Auth/VerifyEmail.vue",
 	"./Dashboard": "./resources/js/Pages/Dashboard.vue",
 	"./Dashboard.vue": "./resources/js/Pages/Dashboard.vue",
+	"./GameTypes/HoldemFlips/CrazyPineappleFlip": "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue",
+	"./GameTypes/HoldemFlips/CrazyPineappleFlip.vue": "./resources/js/Pages/GameTypes/HoldemFlips/CrazyPineappleFlip.vue",
 	"./GameTypes/HoldemFlips/Hand": "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue",
 	"./GameTypes/HoldemFlips/Hand.vue": "./resources/js/Pages/GameTypes/HoldemFlips/Hand.vue",
 	"./GameTypes/HoldemFlips/HandDisplay": "./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue",
 	"./GameTypes/HoldemFlips/HandDisplay.vue": "./resources/js/Pages/GameTypes/HoldemFlips/HandDisplay.vue",
 	"./GameTypes/HoldemFlips/HoldemFlip": "./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue",
 	"./GameTypes/HoldemFlips/HoldemFlip.vue": "./resources/js/Pages/GameTypes/HoldemFlips/HoldemFlip.vue",
+	"./GameTypes/HoldemFlips/OddsPanel": "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue",
+	"./GameTypes/HoldemFlips/OddsPanel.vue": "./resources/js/Pages/GameTypes/HoldemFlips/OddsPanel.vue",
+	"./GameTypes/HoldemFlips/SelectableHand": "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue",
+	"./GameTypes/HoldemFlips/SelectableHand.vue": "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHand.vue",
+	"./GameTypes/HoldemFlips/SelectableHandDisplay": "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue",
+	"./GameTypes/HoldemFlips/SelectableHandDisplay.vue": "./resources/js/Pages/GameTypes/HoldemFlips/SelectableHandDisplay.vue",
 	"./Home": "./resources/js/Pages/Home.vue",
 	"./Home.vue": "./resources/js/Pages/Home.vue",
 	"./Join": "./resources/js/Pages/Join.vue",
@@ -85151,6 +86506,8 @@ var map = {
 	"./TermsOfService.vue": "./resources/js/Pages/TermsOfService.vue",
 	"./Waiting": "./resources/js/Pages/Waiting.vue",
 	"./Waiting.vue": "./resources/js/Pages/Waiting.vue",
+	"./WaitingRoom/Waiting": "./resources/js/Pages/WaitingRoom/Waiting.vue",
+	"./WaitingRoom/Waiting.vue": "./resources/js/Pages/WaitingRoom/Waiting.vue",
 	"./Welcome": "./resources/js/Pages/Welcome.vue",
 	"./Welcome.vue": "./resources/js/Pages/Welcome.vue"
 };

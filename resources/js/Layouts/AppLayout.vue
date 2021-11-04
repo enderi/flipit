@@ -9,10 +9,10 @@
                 </span>
             </div>
         </nav>
-        <div class="container" v-if="mini">
+        <div class="navi-row mb-2 container" v-if="mini">
             <div class="row">
                 <div class="col-4">
-                    <a :href="route('home')" class="btn btn-outline-primary mt-1 mb-1 px-1">
+                    <a :href="route('home')" class="btn btn-link mt-1 mb-1 px-1">
                         <!-- <i fill="currentColor"
                          class="bi bi-arrow-left-circle"></i> -->
                          Home
@@ -21,7 +21,6 @@
                 <div class="col-8 text-primary text-end">
                     {{subHeader}}
                 </div>
-                <hr>
             </div>
         </div>
         <main>

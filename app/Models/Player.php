@@ -11,4 +11,8 @@ class Player extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $hidden = ['id', 'created_at', 'updated_at'];
+
+    public function game() {
+        return $this->belongsTo(Game::class);
+    }
 }

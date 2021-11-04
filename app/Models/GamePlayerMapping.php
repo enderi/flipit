@@ -19,4 +19,12 @@ class GamePlayerMapping extends Model
     public function player() {
         return $this->belongsTo(Player::class);
     }
+
+    public function getPlayerUuid() {
+        return $this->player->uuid;
+    }
+
+    public function getGameUuid() {
+        return $this->game->uuid;
+    }
 }

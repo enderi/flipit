@@ -20,13 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/hand-status/{uuid}', [HandController::class, 'getStatusByUuid']);
+Route::get('/hand-status/{playerUuid}', [HandController::class, 'getStatusByUuid']);
 
 Route::post('/hand-status/revealed', [HandController::class, 'getRevealedCards']);
 
 Route::post('/hand-status/action', [HandController::class, 'postAction']);
 Route::post('/hand-status/option', [HandController::class, 'postOption']);
-
-Route::post('/hand-status/new', [HandController::class, 'newHand']);
 
 Route::get('/game/stats/{gameUuid}', [GameController::class, 'getStats'])->name('stats');

@@ -5,7 +5,6 @@ namespace App\Events;
 use App\Models\Action;
 use App\Models\Game;
 use App\Models\GamePlayerMapping;
-use App\Models\Player;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,22 +14,22 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 
-class GameStateChanged implements ShouldBroadcastNow
+class PlayerJoined implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Player $player;
-    public $action;
+    private $uuid;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Player $player, $action)
+    public function __construct($uuid, $message)
     {
-        $this->player = $player;
-        $this->action = $action;
+        $this->uuid = $uuid;
+        $this->message = $message;
     }
 
     /**
@@ -40,6 +39,6 @@ class GameStateChanged implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('game.player.' . $this->player->uuid);
+        return new Channel('game.' . $this->uuid);
     }
 }

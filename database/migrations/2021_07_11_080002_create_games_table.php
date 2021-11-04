@@ -16,9 +16,8 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
-            $table->string('game_type'); // todo: maybe dealer show have this info
-            $table->integer('max_seats');
-            $table->integer('min_seats');
+            $table->string('game_type');
+            $table->integer('seats');
             $table->json('information');
 
             $table->timestamps();

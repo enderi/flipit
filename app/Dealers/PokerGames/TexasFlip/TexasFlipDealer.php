@@ -2,107 +2,26 @@
 
 namespace App\Dealers\PokerGames\TexasFlip;
 
-use App\Dealers\PokerGames\FourStreetGames\HoldemBaseDealer;
-use App\Dealers\PokerGames\PokerEvaluator;
-use App\DomainObjects\Card;
-use App\DomainObjects\Combinations;
-use App\DomainObjects\Deck;
+use App\Dealers\PokerGames\FourStreetGames\HoldemDealer;
+use App\Dealers\PokerGames\FourStreetGames\HoldemOddsSolver;
 
-class TexasFlipDealer extends HoldemBaseDealer
+class TexasFlipDealer extends HoldemDealer
 {
-    const TEXAS_FLIP = 'TEXAS-FLIP';
-    const POCKET_CARD_COUNT = 2;
 
-    public function getGameType(): string
-    {
-        return self::TEXAS_FLIP;
+    private HoldemOddsSolver $oddsSolver;
+
+    public function __construct() {
+        parent::__construct();
+        $this->oddsSolver = new TexasHoldemOddsSolver();
     }
 
-    public function getCardCount()
+    protected function getHandCardCount(): int
     {
-        return self::POCKET_CARD_COUNT;
+        return 2;
     }
 
-    public static function of($game): TexasFlipDealer
+    protected function getOddsSolver() : HoldemOddsSolver
     {
-        $result = new TexasFlipDealer();
-        $result->initWithGame($game);
-        return $result;
-    }
-
-    protected function getHandValues($handCards, $communityCards)
-    {
-        return $this->getBestHand($handCards, $communityCards);
-    }
-
-    protected function getBestHand($handCards, $communityCards)
-    {
-        $evaluator = $this->getEvaluator();
-        $allCards = array_merge($handCards, $communityCards);
-
-        if (sizeof($allCards) < 5) {
-            return [];
-        }
-
-        $bestHand = null;
-        $cardsForBestHand = null;
-        foreach (new Combinations($allCards, 5) as $c) {
-            $cards = $c;
-            $value = $evaluator->getValue($cards);
-            if ($bestHand == null || $bestHand > $value) {
-                $bestHand = $value;
-                $cardsForBestHand = $c;
-            }
-        }
-        return $evaluator->getHandNameForBinaries($cardsForBestHand);
-    }
-
-    protected function getOddsUntilRiver($handCards, Deck $deck) {
-        $pokerEvaluator = $this->getEvaluator();
-        $cardsInDeck = $deck->getCardIntValues();
-        $cardsLeft = 5 - count($handCards['community']);
-
-        $winsBySeat = [
-            1=>0,
-            2=>0,
-            'tie'=>0,
-            'total'=>0
-        ];
-        $counter = 0;
-
-        $cardCollections = [];
-        foreach ($handCards as $key => $c) {
-            $cardCollections[$key] = $c;
-        }
-
-        foreach(new Combinations($cardsInDeck, $cardsLeft) as $c) {
-            $table = array_merge($cardCollections['community'], $c);
-
-            $bestHand1 = 0;
-            $bestHand2 = 0;
-            foreach(new Combinations(array_merge($table, $cardCollections[1]), 5) as $hand){
-                $result = $pokerEvaluator->getValueOfFive($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
-                if ($bestHand1 == 0 || $bestHand1 > $result) {
-                    $bestHand1 = $result;
-                }
-            }
-            foreach(new Combinations(array_merge($table, $cardCollections[2]), 5) as $hand){
-                $result = $pokerEvaluator->getValueOfFive($hand[0],$hand[1],$hand[2],$hand[3],$hand[4]);
-                if ($bestHand2 == 0 || $bestHand2 > $result) {
-                    $bestHand2 = $result;
-                }
-            }
-            if($bestHand1 < $bestHand2){
-                $winsBySeat[1]++;
-            } else if($bestHand1 > $bestHand2){
-                $winsBySeat[2]++;
-            } else {
-                $winsBySeat['tie']++;
-            }
-            $counter++;
-        }
-
-        $winsBySeat['total'] = $counter;
-        return $winsBySeat;
+        return $this->oddsSolver;
     }
 }

@@ -13,4 +13,8 @@ class Action extends Model
     protected $casts = [
         'data' => 'array'
     ];
+
+    public static function buildActionDataObject() {
+
+    }
 }

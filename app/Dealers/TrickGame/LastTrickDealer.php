@@ -12,32 +12,25 @@ use Ramsey\Uuid\Uuid;
 class LastTrickDealer
 {
     const LAST_TRICK = 'LAST-TRICK';
-    const MIN_SEATS = 2;
-    const MAX_SEATS = 2;
     const POCKET_CARD_COUNT = 5;
     const CONFIRM_REQUIRED = 'confirm_required';
     const PLAYER_ACTION = 'player_action';
     const ACTION_UUID = 'actionUuid';
     const KEY = 'key';
-    const ALL_CARDS_REVEALED = 'ALL_CARDS_REVEALED';
     const WAITING_PLAYERS_TO_ACT = 'WAITING_PLAYERS_TO_ACT';
     const WAITING_PLAYERS = 'WAITING_PLAYERS';
-    const HAND_ENDED = 'HAND_ENDED';
     const CARDS_DEALT = 'CARDS_DEALT';
     const READY_TO_START = 'READY_TO_START';
 
-    const REQUEST_NEW_HAND = 'REQUEST_NEW_HAND';
 
     private $currentHand;
     private $game;
     private $players;
 
-    private $card_index;
     private $handPhase;
 
     private $pendingActions;
     private $allCardsRevealed;
-    private $handStatus;
 
     public function __construct() {
     }
@@ -48,7 +41,6 @@ class LastTrickDealer
         $this->pendingActions = [];
         $this->allCardsRevealed = false;
         $this->playersJoined = collect([]);
-        //$this->parseStatus();
     }
     public static function of($game): LastTrickDealer
     {
@@ -79,17 +71,6 @@ class LastTrickDealer
     {
         $this->proceedIfPossible();
         return $this->getStatus($playerUuid);
-    }
-
-    public function requestNewHand($playerUuid)
-    {
-        $this->createAction(['hand_id' => $this->currentHand->id,
-            'uuid' => Uuid::uuid4(),
-            'data' => [
-                self::KEY => self::REQUEST_NEW_HAND,
-                'playerUuid' => $playerUuid
-            ]
-        ]);
     }
 
     private function getStatus($playerUuid): array
@@ -148,22 +129,6 @@ class LastTrickDealer
 
             'handPhase' => $this->handPhase
         ];
-    }
-
-    private function createNewHand()
-    {
-        Hand::where('game_id', $this->game->id)
-            ->update(['ended' => true]);
-        $deck = new Deck();
-        $deck->initialize();
-        $deck->shuffle();
-        $this->currentHand = Hand::create([
-            'game_id' => $this->game->id,
-            'data' => [],
-            'uuid' => Uuid::uuid4(),
-            'ended' => false,
-            'deck' => $deck->toString()
-        ]);
     }
 
     private function getHandValues($cardsPerSeat, $communityCards)

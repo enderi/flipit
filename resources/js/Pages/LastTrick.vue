@@ -14,7 +14,7 @@
                           <card :card="revealedCards[pCard.card_uuid]" :highlight="pCard && bestHand[pCard.card_uuid]" :downlightOthers="handResult"></card>
                         </span>
                     </div>
-                    
+
                     <div class="col-12 text-center">
                         <div class="row mb-4">
                             <div class="col">
@@ -24,7 +24,7 @@
                         <div class="row mt-4">
                             <div class="col">
                                 <card :card="'empty'"></card>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 text-center">
@@ -153,13 +153,6 @@ export default {
         },
         quit() {
             this.$inertia.get('/')
-        },
-        newHand() {
-            this.disableAllActions()
-            axios.post('/api/hand-status/new', {
-                gameUuid: this.params.game.uuid,
-                playerUuid: this.params.playerUuid,
-            });
         }
     },
 };

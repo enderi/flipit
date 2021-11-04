@@ -6,51 +6,19 @@
           <div>&nbsp;</div>
           <div>&nbsp;</div>
       </span>
-    <span v-if="card && card !== 'empty'" class="playing-card" v-bind:class="[getColor(), {'best-hand': highlight, 'grayed': (downlightOthers && !highlight)}]">
+    <span v-if="card && card !== 'empty'" 
+        class="playing-card" 
+        v-bind:class="[getColor(), {'selected': selected, 'best-hand': highlight, 'grayed': (downlightOthers && !highlight)}]">
       <div>{{getRank()}}</div>
       <div v-html="getSuit()"></div>
     </span>
   </span>
 </template>
 <style scoped>
-.playing-card {
-    font-weight: bold;
-    display: inline-block;
-    width: 3.3em;
-    height: 4.6em;
-    border: 1px solid #666;
-    border-radius: .3em;
-    -moz-border-radius: .3em;
-    -webkit-border-radius: .3em;
-    -khtml-border-radius: .3em;
-    padding: .25em;
-    margin: 0 .5em .5em 0;
-    text-align: center;
-    font-size: 0.9em; /* @change: adjust this value to make bigger or smaller cards */
-    font-weight: normal;
-    font-family: Arial, sans-serif;
-    position: relative;
-    background-color: #fff;
-    -moz-box-shadow: .1em .1em .3em #333;
-    -webkit-box-shadow: .1em .1em .3em #333;
-    box-shadow: .1em .1em .3em #333;
+.selected {
+    border: 3px solid darkorange;
 }
 
-.red {
-    color: red
-}
-
-.blue {
-    color: blue;
-}
-
-.green {
-    color: green;
-}
-
-.black {
-    color: black;
-}
 
 .back {
     text-indent: -4000px;
@@ -77,7 +45,7 @@
 </style>
 <script>
 export default {
-    props: ['card', 'highlight', 'downlightOthers'],
+    props: ['card', 'highlight', 'downlightOthers', 'selected'],
     methods: {
         isdownlightOthersed() {
             if(this.downlightOthers && !this.highlight){

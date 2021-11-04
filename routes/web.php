@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\PlayerJoined;
+use App\Http\Controllers\BrushController;
 use App\Http\Controllers\GameController;
 use App\Models\Game;
 use App\Models\Hand;
@@ -28,6 +30,10 @@ Route::get('/', function () {
         'gameCount' => Game::get()->count(),
     ]);
 })->name('home');
+Route::post('/game', [BrushController::class, 'create'])->name('game-create');
+Route::get('/game/waiting/{gameUuid}/{playerUuid}', [BrushController::class, 'waiting'])->name('waiting');
+
+Route::get('/game/{gameUuid}/player/{playerUuid}', [GameController::class, 'show'])->name('game-show');
 
 Route::get('/join', function (\Illuminate\Http\Request $request) {
     $errors = $request->get('error');
@@ -36,17 +42,19 @@ Route::get('/join', function (\Illuminate\Http\Request $request) {
 
 
 Route::get('/join/{code}', function (\Illuminate\Http\Request $request, $code) {
+    PlayerJoined::dispatch($code, 'IN_THE_LOBBY');
     $errors = $request->get('error');
     return Inertia::render('Join', ['error'=>$errors, 'code' => $code]);
 })->name('show-join');
 
-Route::post('/join', [GameController::class, 'join'])->name('join-with-uuid');
+Route::post('/join/{gameUuid}', [BrushController::class, 'join'])->name('join-with-uuid');
 
-Route::post('/flip', [GameController::class, 'create'])->name('game-create');
 
-Route::get('/flip/{uuid}', [GameController::class, 'show'])->name('game-show');
+Route::get('/game/{gameUuid}/{playerUuid}', [GameController::class, 'show'])->name('game-show');
 
+Route::get('/flip/{gameUuid}/{playerUuid}', [GameController::class, 'show'])->name('game-show');
 Route::post('/flip/exit', [GameController::class, 'exitGame'])->name('exit-game');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -153,7 +153,7 @@ class Card
     }
 
     public function __toString() {
-        return 'hee';
+        return $this->toString();
     }
 }
 

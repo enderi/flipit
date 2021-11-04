@@ -33,40 +33,30 @@ class CrazyPineappleDealer extends HoldemBaseDealer
         return $this->getBestHand($handCards, $communityCards);
     }
 
-    protected function getBestHand($handCards, $communityCards): array
+    protected function getBestHand($handCards, $communityCards)
     {
-        $evaluator = new PokerEvaluator();
-        $playerCardsInUse = [];
-        foreach ($communityCards as $c) {
-            $playerCardsInUse[] = $c;
-        }
+        $evaluator = $this->getEvaluator();
+        $allCards = array_merge($handCards, $communityCards);
 
-        foreach ($handCards as $c) {
-            $playerCardsInUse[] = $c;
-        }
-        if (sizeof($playerCardsInUse) < 5) {
+        if (sizeof($allCards) < 5) {
             return [];
         }
+
         $bestHand = null;
-        foreach (new Combinations($playerCardsInUse, min(sizeof($playerCardsInUse), 5)) as $c) {
-            $cards = [];
-            foreach ($c as $cardForThis) {
-                $cards[] = Card::of($cardForThis);
-            }
+        $cardsForBestHand = null;
+        foreach (new Combinations($allCards, 5) as $c) {
+            $cards = $c;
             $value = $evaluator->getValue($cards);
-            $name = $evaluator->getHandName();
-            if ($bestHand == null || $bestHand['value'] > $value) {
-                $bestHand = [
-                    'value' => $value,
-                    'cards' => $c,
-                    'info' => $name
-                ];
+            if ($bestHand == null || $bestHand > $value) {
+                $bestHand = $value;
+                $cardsForBestHand = $c;
             }
         }
-        return $bestHand;
+        return $evaluator->getHandNameForBinaries($cardsForBestHand);
     }
 
     protected function getOddsUntilRiver($handCards, Deck $deck) {
+        return [];
         $pokerEvaluator = new PokerEvaluator();
         $cardsInDeck = $deck->getCardIntValues();
         $cardsLeft = 5 - count($handCards['community']);

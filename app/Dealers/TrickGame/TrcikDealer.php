@@ -3,9 +3,7 @@
 namespace App\Dealers\TrickGame;
 
 use App\Dealers\DealerBase;
-use App\Models\GamePlayerMapping;
 use App\Models\Hand;
-use App\Models\Player;
 use Ramsey\Uuid\Uuid;
 
 abstract class TrcikDealer extends DealerBase {
@@ -19,7 +17,7 @@ abstract class TrcikDealer extends DealerBase {
     public function initWithGame($game)
     {
         $this->game = $game;
-        $this->currentHand = $game->getCurrentHand();
+        $this->currentHand = $game->hand;
         $this->refreshState();
     }
 

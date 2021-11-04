@@ -2,55 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use ActionService;
-use App\Dealers\OmahaFlip\OmahaFlipDealer;
-use App\Dealers\TexasFlip\TexasFlipDealer;
-use App\Dealers\TrickGame\LastTrickDealer;
-use App\DomainObjects\Deck;
-use App\Models\Game;
-use App\Models\GamePlayerMapping;
+use App\Dealers\BaseDealer;
+use App\Models\Player;
 use App\Services\DealerService;
+use App\Services\GameMappingService;
+use App\Services\GameService;
+use App\Services\PlayerService;
 use Illuminate\Http\Request;
 
 class HandController extends Controller
 {
-    public function getStatusByUuid($uuid, DealerService $dealerService) {
-        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
-        $gameUuid = $mapping->game->uuid;
-        $playerUuid = $mapping->player->uuid;
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        return $dealer->tick($playerUuid);
+    private DealerService $dealerService;
+
+    public function __construct(DealerService $dealerService) {
+        $this->dealerService = $dealerService;
     }
 
-    public function postAction(Request $request, DealerService  $dealerService) {
-        $uuid = $request->get('uuid');
-        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
-        $action = $request->get('action');
-        $gameUuid = $mapping->game->uuid;
-        $playerUuid = $mapping->player->uuid;
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        $dealer->addUserAction($action, $playerUuid);
-        return $dealer->tick($playerUuid, true);
+    public function getStatusByUuid($playerUuid, $forceBroadcast = false) {
+        $dealer = $this->getDealerByPlayerUuid($playerUuid, $forceBroadcast);
+        return $dealer->getStatus($playerUuid);
     }
 
-    public function postOption(Request $request, DealerService  $dealerService) {
-        $uuid = $request->get('uuid');
-        $mapping = GamePlayerMapping::firstWhere('uuid', $uuid);
-        $action = $request->get('option');
-        $gameUuid = $mapping->game->uuid;
-        $playerUuid = $mapping->player->uuid;
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        $dealer->addUserOption($action, $playerUuid);
-        return $dealer->tick($playerUuid, true);
+    private function getDealerByPlayerUuid($playerUuid, $forceBroadcast = false) : BaseDealer {
+        $player = Player::with('game')->firstWhere(['uuid' => $playerUuid]);
+        $result = $this->dealerService->buildDealer($player->game, $forceBroadcast);
+
+        return $result;
     }
 
-    public function newHand(Request $request, DealerService $dealerService){
+    public function postAction(Request $request) {
         $playerUuid = $request->get('playerUuid');
-        $gameUuid = $request->get('gameUuid');
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        $dealer->requestNewHand($playerUuid);
+        $action = $request->get('action');
+        $player = Player::with('game')->firstWhere(['uuid' => $playerUuid]);
+        $hand = $player->game->hand;
+        $this->dealerService->storeAction($player->game->id, $hand->id, [
+            'key' => 'action',
+            'action' => $action,
+            'player_uuid' => $playerUuid
+        ]);
+        return $this->getStatusByUuid($playerUuid, true);
+    }
 
-        $dealer = $dealerService->getDealerForUuid($gameUuid);
-        $dealer->tick($playerUuid);
+    public function postOption(Request $request) {
+        $playerUuid = $request->get('playerUuid');
+        $option = $request->get('option');
+        $player = Player::with('game')->firstWhere(['uuid' => $playerUuid]);
+        $hand = $player->game->hand;
+        $this->dealerService->storeAction($player->game->id, $hand->id, [
+            'key' => 'option',
+            'option' => $option,
+            'player_uuid' => $playerUuid
+        ]);
+        return $this->getStatusByUuid($playerUuid, true);
     }
 }

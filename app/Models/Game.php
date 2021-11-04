@@ -32,8 +32,4 @@ class Game extends Model
     public function hand() {
         return $this->belongsTo(Hand::class);
     }
-
-    public function getCurrentHand() {
-        return $this->hands()->where('ended', false)->first();
-    }
 }

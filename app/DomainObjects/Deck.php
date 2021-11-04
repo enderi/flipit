@@ -69,10 +69,6 @@ class Deck
         }
     }
 
-    public function draw($count = 1) {
-
-    }
-
     public function drawOne() {
         if($this->cursor == 52) {
             throw new InvalidArgumentException("No more cards");

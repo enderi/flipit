@@ -32,4 +32,8 @@ class Hand extends Model
     {
         return $this->deck;
     }
+
+    public function game() {
+        return $this->belongsTo(Game::class);
+    }
 }
