@@ -13,7 +13,7 @@ class TexasHoldemOddsSolver extends HoldemOddsSolver
         $cardsInDeck = $deck->getCardIntValues();
         $handCards = $this->getHandCards($dealtCards);
         if(!key_exists('community', $handCards)) {
-            return [];
+            return null;
         }
         $cardsLeft = 5 - count($handCards['community']);
 

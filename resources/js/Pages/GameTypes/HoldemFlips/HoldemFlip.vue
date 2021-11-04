@@ -14,14 +14,12 @@
                 </hand-display>
             </div>
         </div>
-        <div class="aligned-container">
-            <div class="aligned-left">Villain</div>
-            <div v-if="waitingOpponent" class="dot-elastic aligned-center"></div>
-            <div class="aligned-right">
-                <odds-panel class="text-right" v-if="odds" :odds="odds[opponentSeat]"></odds-panel>
-            </div>
+        <div class="row">
+            <div class="col-4">Villain <span v-if="waitingOpponent" class="spinner-grow spinner-grow-sm text-secondary"></span></div>
+            <div class="col-4 text-center"></div>
+            <div class="col-4 text-end"><odds-panel class="" v-if="odds" :odds="odds[opponentSeat]"></odds-panel></div>
         </div>
-            <hr style="margin-bottom: 0; margin-top: 0" />
+        <hr style="margin-bottom: 0; margin-top: 0" />
         <div class="row">
           <div class="col-12">
             <div class="mt-3 mb-3 text-center">
@@ -30,12 +28,10 @@
           </div>
         </div>
         <hr style="margin-top: 0; margin-bottom: 0" />
-        <div class="aligned-container">
-            <div class="aligned-left">Hero</div>
-            <div class="aligned-center"></div>
-            <div class="aligned-right">
-                <odds-panel class="text-right" v-if="odds" :odds="odds[mySeat]"></odds-panel>
-            </div>
+        <div class="row">
+            <div class="col-4">Hero</div>
+            <div class="col-4"></div>
+            <div class="col-4 text-end"><odds-panel class="" v-if="odds" :odds="odds[mySeat]"></odds-panel></div>
         </div>
         <hand-display
             style="height: 22vh"
