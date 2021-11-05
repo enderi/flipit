@@ -52,6 +52,21 @@ class BrushController extends Controller
         ]);
     }
 
+    public function playAlone(
+        $gameUuid,
+        $playerUuid,
+        GameService $gameService) {
+        try {
+            $game = $gameService->playAlone($gameUuid);
+        } catch (ModelNotFoundException $exception) {
+            return Redirect::route('join', ['error' => 'Not found']);
+        }
+        return Redirect::route('game-show', [
+            'gameUuid' => $gameUuid,
+            'playerUuid' => $playerUuid
+        ]);
+    }
+
     public function show($uuid, GameService $gameService)
     {
         dd('hep');

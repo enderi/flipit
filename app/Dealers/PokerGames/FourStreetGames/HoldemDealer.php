@@ -77,7 +77,7 @@ abstract class HoldemDealer extends BaseDealer
             }
             if(in_array($street, ['preflop', 'flop', 'turn'])) {
                 $this->state = self::WAITING_FOR_CONFIRMATIONS;
-                $this->blockingActions->addOptionForAll(self::CONFIRM);
+                $this->addBlockingAction(self::CONFIRM);
             } else {
                 $this->gamePhase = self::SHOWDOWN;
                 $this->state = self::HAND_ENDED;
@@ -164,7 +164,7 @@ abstract class HoldemDealer extends BaseDealer
         $base = parent::getStatus($playerUuid);
 
         $base['handValues'] = $this->getOddsSolver()->getHandValues($base['cardsInDealOrder']);
-        if(!in_array($mySeat, $this->revealCardsForSeat)) {
+        if(!in_array($mySeat, $this->revealCardsForSeat) && $this->gamePhase != self::SHOWDOWN) {
             foreach(array_keys($base['handValues']) as $key) {
                 if($key != $mySeat){
                     unset($base['handValues'][$key]);
@@ -186,5 +186,11 @@ abstract class HoldemDealer extends BaseDealer
             }
         }
         return $base;
+    }
+
+    private function addBlockingAction(string $key)
+    {
+        $this->blockingActions->addOptionForAll($key);
+
     }
 }

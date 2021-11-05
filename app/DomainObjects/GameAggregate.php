@@ -68,6 +68,19 @@ class GameAggregate
         }
     }
 
+    public function playAlone()
+    {
+        $playerUuid = Uuid::uuid4();
+        $this->players->push([
+            'uuid' => $playerUuid,
+            'seat_number' => $this->players->count() + 1,
+            'data' => ['computer' => true]
+        ]);
+        if($this->areSeatsFilled()) {
+            $this->initializeGame();
+        }
+    }
+
     public function getPlayers(): Collection
     {
         return $this->players;
@@ -96,12 +109,12 @@ class GameAggregate
     {
         return new Defaults::$gameInfo[$this->gameType]['dealer'];
     }
-
     public function initializeGame()
     {
         $dealer = $this->getDealer();
         $this->initialHand = $dealer->initializeHand();
     }
+
     public function getInitialHand() {
         return $this->initialHand;
     }

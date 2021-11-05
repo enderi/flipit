@@ -58,8 +58,8 @@ abstract class BaseDealer
     public function initWithHand($players, $actions, Deck $deck)
     {
         $this->table = new Table($players);
-        $this->blockingActions = new ActionHandler($this->getSeatNumbers());
-        $this->nonBlockingActions = new ActionHandler($this->getSeatNumbers());
+        $this->blockingActions = new ActionHandler($this->getNonComputerControlledSeats());
+        $this->nonBlockingActions = new ActionHandler($this->getNonComputerControlledSeats());
         $this->deck = $deck;
 
         foreach ($actions as $action) {
@@ -112,6 +112,10 @@ abstract class BaseDealer
     public function getPlayerCount()
     {
         return $this->table->getPlayerCount();
+    }
+
+    public function getNonComputerControlledSeats() {
+        return $this->table->getNonBotSeats();
     }
 
     public function getStatus($playerUuid): array

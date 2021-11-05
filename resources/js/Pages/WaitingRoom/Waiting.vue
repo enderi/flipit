@@ -3,7 +3,8 @@
         :mini="true">
         <div class="row text-center">
             <div class="col-12">
-                Scan the code with the app <br>or send <a :href="invitationUrl" target="_blank">direct link</a><br/>
+                Scan the code with this app <br>or send <a :href="invitationUrl" target="_blank">direct link</a><br/>
+                <button @click="alone" class="btn btn-link">Or play alone..</button><br/>
                 <vue-qr-code style="max-width: 300px; width: 90%" :value="gameUuid"/>
             </div>
         </div>
@@ -26,15 +27,13 @@ export default {
     },
     props: ["gameUuid", "playerUuid", "invitationUrl"],
     mounted() {
+        console.log(this.invitationUrl)
         Echo.channel("game." + this.gameUuid)
             .listen("PlayerJoined", (e) => {
-                console.log('msg', e.message)
                 if(e && e.message === 'ALL_JOINED'){
-                    console.log('this.plaeyr', this.playerUuid)
                     this.$inertia.get('/game/' + this.gameUuid + '/player/' + this.playerUuid)
                 }
                 if(e && e.message === 'IN_THE_LOBBY') {
-                    console.log('this.plaeyr', this.playerUuid)
                     this.$wkToast('Player in the lobby..', {
                         horizontalPosition: 'center',
                         verticalPosition: 'bottom'
@@ -50,6 +49,9 @@ export default {
         initialize() {
             this.placeHolders = this.buildPlaceHolders();
             this.cardsDealt = 0;
+        },
+        alone() {
+            this.$inertia.post('/game/' + this.gameUuid + '/player/' + this.playerUuid + '/play-alone');
         }
     }
 };

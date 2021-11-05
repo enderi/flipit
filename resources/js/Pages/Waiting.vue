@@ -2,7 +2,8 @@
     <div class="container">
 >        <div class="row text-center">
             <div class="col-12" v-if="cpde">
-                Scan a code with app or send <a :href="url" target="_blank">direct link</a><br/>
+                {{url}}
+                Scan the below code with app or send <a :href="url" target="_blank">direct link</a><br/>
                 <vue-qr-code style="width: 80%" :value="uuid"/>
             </div>
         </div>

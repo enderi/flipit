@@ -49,6 +49,20 @@ class GameService {
         return $g;
     }
 
+    public function playAlone($gameUuid)
+    {
+        $g = $this->buildExistingGameAggregate($gameUuid, null);
+        if($g->areSeatsFilled()) {
+            throw new Exception('Seats already taken');
+        }
+        $g->playAlone();
+        $this->gameRepository->persistGameAggregate($g);
+        if($g->areSeatsFilled()) {
+            PlayerJoined::dispatch($g->getUuid(), 'ALL_JOINED');
+        }
+        return $g;
+    }
+
     public function buildGameHandlerForUuid($uuid){
         return $this->dealerService->getDealerForUuid($uuid);
     }

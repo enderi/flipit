@@ -127,7 +127,6 @@ export default {
     return {
       actions: null,
       options: null,
-      opponentActions: null,
       gameStatus: null,
       initializing: true,
       mySeat: null,
@@ -202,11 +201,9 @@ export default {
         }
       }
       this.waitingOpponent =
-        data.actions && data.actions[this.opponentSeat].length > 0;
+        data.actions && data.actions[this.opponentSeat] && data.actions[this.opponentSeat].length > 0;
       this.actions = data.actions && this.mapOptions(data.actions[this.mySeat]);
       this.options = data.options && this.mapOptions(data.options[this.mySeat]);
-      this.opponentActions =
-        data.actions && this.mapOptions(data.actions[this.opponentSeat]);
       this.handValues = data.handValues;
       if (data.odds) {
         this.odds = {

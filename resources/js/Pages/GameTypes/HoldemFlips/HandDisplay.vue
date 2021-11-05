@@ -2,6 +2,9 @@
   <div class="row">
     <div class="col-xs-12 offset-sm-1 col-sm-10 text-left">
         <div class="row text-center"> 
+          <div class="col-12 text-center">
+            <hand :items="cards" /><br>
+          </div>
           <div class="col-12">
               <span v-if="handValue" style="font-size: 0.8rem">
                 <h5 style="margin-bottom: 1px;">{{ handValue.name || "&nbsp;" }}</h5>
@@ -11,9 +14,6 @@
           <div class="row-12">
             <div class="font-weight-light mb-1">
             </div>
-          </div>
-          <div class="col-12 text-center">
-            <hand :items="cards" /><br>
           </div>
         </div>
     </div>

@@ -35,6 +35,8 @@ Route::get('/game/waiting/{gameUuid}/{playerUuid}', [BrushController::class, 'wa
 
 Route::get('/game/{gameUuid}/player/{playerUuid}', [GameController::class, 'show'])->name('game-show');
 
+Route::post('/game/{gameUuid}/player/{playerUuid}/play-alone', [BrushController::class, 'playAlone'])->name('join-alone');
+
 Route::get('/join', function (\Illuminate\Http\Request $request) {
     $errors = $request->get('error');
     return Inertia::render('Join', ['error'=>$errors]);
