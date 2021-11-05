@@ -268,6 +268,9 @@ class PokerEvaluator
             return $s;
         }
         $q = ($c1 & 0xff) * ($c2 & 0xff) * ($c3 & 0xff) * ($c4 & 0xff) * ($c5 & 0xff);
+        if(!array_key_exists($q, $this->prodVals)) {
+            echo $c1 . ', ' . $c2 . ', '. $c3. ', '. $c4. ', '. $c5;
+        }
         return $this->prodVals[$q];
     }
 
