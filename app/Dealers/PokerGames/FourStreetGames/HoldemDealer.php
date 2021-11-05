@@ -179,7 +179,11 @@ abstract class HoldemDealer extends BaseDealer
             }
             $base['cardsInDealOrder'] = $newCards;
         } else {
-            $base['odds'] = $this->getOddsSolver()->evaluate($base['cardsInDealOrder'], $this->deck);
+            try {
+                $base['odds'] = $this->getOddsSolver()->evaluate($base['cardsInDealOrder'], $this->deck);
+            }catch (\Exception $e) {
+                // just let it go
+            }
         }
         return $base;
     }
