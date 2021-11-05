@@ -14,7 +14,7 @@ class ModifyPlayerTable extends Migration
     public function up()
     {
         Schema::table('players', function(Blueprint $table) {
-            $table->json('data')->default('{}');
+            $table->json('data')->nullable();
         });
     }
 
