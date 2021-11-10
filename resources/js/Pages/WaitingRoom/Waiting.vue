@@ -5,7 +5,7 @@
             <div class="col-12">
                 Scan the code with this app <br>or send <a :href="invitationUrl" target="_blank">direct link</a><br/>
                 <button @click="alone" class="btn btn-link">Or play alone..</button><br/>
-                <vue-qr-code style="max-width: 300px; width: 90%" :value="gameUuid"/>
+                <vue-qr-code style="max-width: 300px; width: 90%" :value="invitationUrl"/>
             </div>
         </div>
     </app-layout>

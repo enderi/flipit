@@ -31,7 +31,7 @@ export default {
     props: ['error', 'code'],
     methods: {
         join(code) {
-            this.$inertia.post('/join/' + code)
+            window.location.href = code;
         },
         onDecode(decodeString) {
             this.join(decodeString)

@@ -21197,7 +21197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['error', 'code'],
   methods: {
     join: function join(code) {
-      this.$inertia.post('/join/' + code);
+      window.location.href = code;
     },
     onDecode: function onDecode(decodeString) {
       this.join(decodeString);
@@ -28069,7 +28069,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "max-width": "300px",
           "width": "90%"
         },
-        value: $props.gameUuid
+        value: $props.invitationUrl
       }, null, 8
       /* PROPS */
       , ["value"])])])];
