@@ -31,10 +31,10 @@ export default {
     props: ['error', 'code'],
     methods: {
         join(code) {
-            window.location.href = code;
+            this.$inertia.post('/join/' + code)
         },
         onDecode(decodeString) {
-            this.join(decodeString)
+            this.$inertia.post(decodeString)
         },
         async onInit(promise) {
             try {

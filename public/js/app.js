@@ -21197,10 +21197,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: ['error', 'code'],
   methods: {
     join: function join(code) {
-      window.location.href = code;
+      this.$inertia.post('/join/' + code);
     },
     onDecode: function onDecode(decodeString) {
-      this.join(decodeString);
+      this.$inertia.post(decodeString);
     },
     onInit: function onInit(promise) {
       var _this = this;
